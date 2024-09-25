@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/user_screen.dart';
 
 /// Displays detailed information about a SampleItem.
 class SampleItemDetailsView extends StatelessWidget {
@@ -12,8 +13,21 @@ class SampleItemDetailsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Item Details'),
       ),
-      body: const Center(
-        child: Text('More Information Here'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('More Information Here'),
+            const SizedBox(height: 20), // Adds some spacing
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to the UserScreen when the button is pressed
+                Navigator.pushNamed(context, UserScreen.routeName);
+              },
+              child: const Text('Go to User Screen'),
+            ),
+          ],
+        ),
       ),
     );
   }
