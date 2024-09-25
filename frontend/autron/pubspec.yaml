@@ -10,8 +10,10 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  auth0_flutter: ^1.7.2
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.1.0
   flutter_localizations:
     sdk: flutter
 
