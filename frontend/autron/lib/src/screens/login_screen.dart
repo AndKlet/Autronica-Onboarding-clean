@@ -30,16 +30,23 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 25),
 
               // Username text field
-              InputTextField(controller: usernameController, hintText: 'Username'),
+              InputTextField(
+                  controller: usernameController, hintText: 'Username'),
 
               const SizedBox(height: 10),
 
               // Password text field
-              InputTextField(controller: passwordController, hintText: 'Password', obscureText: true),
+              InputTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true),
 
               const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: _authService.login,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/home');
+                  _authService.login;
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF005E1D),
                   padding:
