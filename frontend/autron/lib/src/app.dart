@@ -1,95 +1,90 @@
+import 'package:autron/src/screens/RequestScreen.dart';
+import 'package:autron/src/screens/home.dart';
+import 'package:autron/src/screens/login_screen.dart';
+import 'package:autron/src/screens/user_screen.dart';
+import 'package:autron/src/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'screens/RequestScreen.dart';
-
-import 'screens/user_screen.dart';
-import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
-import 'screens/login_screen.dart';
-import 'settings/settings_controller.dart';
-import 'settings/settings_view.dart';
 
 /// The Widget that configures your application.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({
     super.key,
-    required this.settingsController,
   });
 
-  final SettingsController settingsController;
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var _selectedIndex = 0;
+  final _screens = [
+    const HomeScreen(),
+    const HomeScreen(),
+    const RequestScreen(),
+    const UserScreen(),
+  ];
+
+  _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Glue the SettingsController to the MaterialApp.
-    //
-    // The ListenableBuilder Widget listens to the SettingsController for changes.
-    // Whenever the user updates their settings, the MaterialApp is rebuilt.
-    return ListenableBuilder(
-      listenable: settingsController,
-      builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
-          // Providing a restorationScopeId allows the Navigator built by the
-          // MaterialApp to restore the navigation stack when a user leaves and
-          // returns to the app after it has been killed while running in the
-          // background.
-          restorationScopeId: 'app',
-          home: const LoginPage(),
-
-          // Provide the generated AppLocalizations to the MaterialApp. This
-          // allows descendant Widgets to display the correct translations
-          // depending on the user's locale.
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', ''), // English, no country code
-          ],
-
-          // Use AppLocalizations to configure the correct application title
-          // depending on the user's locale.
-          //
-          // The appTitle is defined in .arb files found in the localization
-          // directory.
-          onGenerateTitle: (BuildContext context) =>
-              AppLocalizations.of(context)!.appTitle,
-
-          // Define a light and dark color theme. Then, read the user's
-          // preferred ThemeMode (light, dark, or system default) from the
-          // SettingsController to display the correct theme.
-          theme: ThemeData(),
-          darkTheme: ThemeData.dark(),
-          themeMode: settingsController.themeMode,
-
-
-
-          // Define a function to handle named routes in order to support
-          // Flutter web url navigation and deep linking.
-          onGenerateRoute: (RouteSettings routeSettings) {
-            return MaterialPageRoute<void>(
-              settings: routeSettings,
-              builder: (BuildContext context) {
-                switch (routeSettings.name) {
-                  case SettingsView.routeName:
-                    return SettingsView(controller: settingsController);
-                  case SampleItemDetailsView.routeName:
-                    return const SampleItemDetailsView();
-
-                  case UserScreen.routeName:
-                    return const UserScreen();
-
-                  case SampleItemListView.routeName:
-                  default:
-                    return const SampleItemListView();
-                }
-              },
-            );
-          },
-        );
+    return MaterialApp(
+      routes: 
+      {
+        '/home': (context) => const MyApp(),
+        '/login': (context) => const LoginPage(),
       },
+
+      debugShowCheckedModeBanner: false,
+
+      // Navigation bar theme
+      theme: ThemeData(
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: const Color(0xFFF9F9F9),
+          indicatorColor: const Color.fromARGB(90, 0, 0, 0),
+          indicatorShape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero, // Removes rounded corners to make it rectangular
+          ),
+          labelTextStyle: WidgetStateProperty.all(
+            const TextStyle(color: Color(0xFF005E1D)),
+          ),
+          iconTheme: WidgetStateProperty.all(
+            const IconThemeData(color: Color(0xFF005E1D)),
+          ),
+        ),
+      ),
+      home: Scaffold(
+        body: _screens[_selectedIndex],
+        bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: _onItemTapped,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        backgroundColor: const Color(0xFFF9F9F9),
+        indicatorColor: const Color.fromARGB(90, 0, 0, 0),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home, color: Color(0xFF005E1D)),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.add_circle_outline, color: Color(0xFF005E1D)),
+            label: 'Software',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.assignment, color: Color(0xFF005E1D)),
+            label: 'Requests',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.account_circle, color: Color(0xFF005E1D)),
+            label: 'User',
+          ),
+        ],
+      ),
+      )
     );
   }
 }
