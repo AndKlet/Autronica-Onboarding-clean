@@ -1,4 +1,5 @@
 import 'package:autron/src/services/auth_service.dart';
+import 'package:autron/src/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,6 +11,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final AuthService _authService = AuthService();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,13 +21,23 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 200),
+              const SizedBox(height: 100),
               // Logo
               Image.asset(
                 'assets/images/autronica-logo.png',
                 scale: 2,
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 25),
+
+              // Username text field
+              InputTextField(controller: usernameController, hintText: 'Username'),
+
+              const SizedBox(height: 10),
+
+              // Password text field
+              InputTextField(controller: passwordController, hintText: 'Password', obscureText: true),
+
+              const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: _authService.login,
                 style: ElevatedButton.styleFrom(
