@@ -7,6 +7,7 @@ class RequestScreen extends StatelessWidget {
   const RequestScreen({super.key});
 // Sample list of button titles
 
+
   static const List<Map<String, String>> requests = [
     {'title': 'Request 1', 'status': 'Accepted'},
     {'title': 'Request 2', 'status': 'Pending'},
@@ -27,9 +28,13 @@ class RequestScreen extends StatelessWidget {
         title: Text(
           'Requests',
           style: TextStyle(
+        title: Text(
+          'Requests',
+          style: TextStyle(
             color: Colors.green[900],
             fontWeight: FontWeight.bold, // Set the AppBar title color to green
           ),
+        ),
         ),
       ),
       body: ListView(
@@ -43,4 +48,6 @@ class RequestScreen extends StatelessWidget {
       ),
     );
   }
+}
+
 }
