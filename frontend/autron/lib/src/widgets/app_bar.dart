@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 240, 243, 241),
+        backgroundColor: const Color(0xFFF9F9F9),
         actions: [
           IconButton(
             icon: Image.asset('assets/images/autronica-logo-small.png'),
