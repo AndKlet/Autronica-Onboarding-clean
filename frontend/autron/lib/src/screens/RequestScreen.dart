@@ -1,3 +1,4 @@
+import 'package:autron/src/widgets/statusAlert.dart';
 import 'package:flutter/material.dart';
 
 class RequestScreen extends StatelessWidget {
@@ -35,45 +36,8 @@ class RequestScreen extends StatelessWidget {
         children: requests.map((request) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity, // Makes the button full width
-              height: 80, // Adjust the height of the button
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle button press
-                  print('${request['title']} pressed');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[300], // Background color
-                  foregroundColor: Colors.black, // Text color
-                  padding: EdgeInsets.symmetric(horizontal: 16), // Adjust padding
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // Rounded corners
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
-                  children: [
-                    Text(
-                      request['title']!,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold, // Make "Request X" bold
-                      ),
-                    ),
-                    SizedBox(height: 4), // Space between the two texts
-                    Text(
-                      'Status: ${request['status']}',
-                      style: TextStyle(
-                        fontSize: 14, // Smaller font for status
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+           // ignore: prefer_const_constructors
+           child: StatusAlert(title: "Request", value: "Status", count: 10, color:  Color(0xFF5AB443)),
           );
         }).toList(),
       ),
