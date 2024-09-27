@@ -1,5 +1,7 @@
 import 'package:autron/src/screens/home.dart';
 import 'package:autron/src/screens/login_screen.dart';
+import 'package:autron/src/screens/software_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -44,6 +46,11 @@ class CustomNavigationBar extends StatelessWidget {
             break;
           case 2:
             Navigator.pushNamed(context, '/left');
+            break;
+          case 3:
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const SoftwarePage();
+            }));
             break;
         }
       },
