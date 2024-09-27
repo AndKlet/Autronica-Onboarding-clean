@@ -59,19 +59,24 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          
-          
           Positioned(
             left: 46,
             top: 502,
-            child: StatusAlert(title: "Software granted", value: "Currently", count: 17, color: Color(0xFF5AB443)),
+            child: StatusAlert(
+                title: "Software granted",
+                value: "Currently",
+                count: 17,
+                color: Color(0xFF5AB443)),
           ),
-          
           Positioned(
             left: 46,
             top: 621,
-            child: StatusAlert(title: "Pending Requests", value: "Currently", count: 5, color: Color(0xFFE2CE4B)),
-            ),
+            child: StatusAlert(
+                title: "Pending Requests",
+                value: "Currently",
+                count: 5,
+                color: Color(0xFFE2CE4B)),
+          ),
         ],
       ),
     );
