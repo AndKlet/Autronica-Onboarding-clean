@@ -12,14 +12,11 @@ class StatusAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: 301,
-          height: 91,
-          child: Container(
+          Container(
             width: 301,
             height: 91,
             decoration: ShapeDecoration(
-              color: Color(0xFFF8F8F8),
+              color: const Color(0xFFF8F8F8),
               shape: RoundedRectangleBorder(
                 side: BorderSide(
                   width: 2,
@@ -40,11 +37,9 @@ class StatusAlert extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
+                  top: 55,
                   left: 30,
-                  top: 70,
                   child: SizedBox(
-                    width: 100,
-                    height: 24,
                     child: Text(
                       value,
                       style: const TextStyle(
@@ -52,14 +47,13 @@ class StatusAlert extends StatelessWidget {
                         fontSize: 20,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w400,
-                        height: 0.06,
                       ),
                     ),
                   ),
                 ),
                 Positioned(
+                  top: 55,
                   left: 132,
-                  top: 70,
                   child: Text(
                     count.toString(),
                     style: TextStyle(
@@ -67,8 +61,6 @@ class StatusAlert extends StatelessWidget {
                       fontSize: 20,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w600,
-                      height: 0.06,
-                      letterSpacing: -0.40,
                     ),
                   ),
                 ),
@@ -88,19 +80,15 @@ class StatusAlert extends StatelessWidget {
                 ),
                 Positioned(
                   left: 27,
-                  top: 38,
+                  top: 20,
                   child: SizedBox(
-                    width: 210,
-                    height: 28,
                     child: Text(
                       title,
                       style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 24,
+                        fontSize: 26,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w600,
-                        height: 0.05,
-                        letterSpacing: -0.48,
                       ),
                     ),
                   ),
@@ -108,7 +96,6 @@ class StatusAlert extends StatelessWidget {
               ],
             ),
           ),
-        ),
       ],
     );
   }
