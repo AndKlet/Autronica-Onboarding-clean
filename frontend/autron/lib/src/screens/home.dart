@@ -12,9 +12,7 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 200,
-            height: 60,
-            margin: const EdgeInsets.only(top: 30),
+            margin: const EdgeInsets.only(top: 40),
             child: Text(
               'Hi JOHN',
               style: TextStyle(
@@ -26,9 +24,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Container(
-            width: 127,
-            height: 25,
-            margin: const EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 10),
             child: Text(
               'Department',
               style: TextStyle(
