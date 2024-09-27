@@ -27,7 +27,7 @@ class Announcement extends StatelessWidget {
                 fontSize: 26,
                 fontStyle: FontStyle.italic,
                 fontFamily: 'Inter',
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w700,
               ),
             ),
             Container(
