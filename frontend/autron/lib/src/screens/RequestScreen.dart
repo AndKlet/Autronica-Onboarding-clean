@@ -1,4 +1,5 @@
 import 'package:autron/src/widgets/statusAlert.dart';
+import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class RequestScreen extends StatelessWidget {
@@ -6,7 +7,7 @@ class RequestScreen extends StatelessWidget {
 
   const RequestScreen({super.key});
 // Sample list of button titles
-  
+
   static const List<Map<String, String>> requests = [
     {'title': 'Request 1', 'status': 'Accepted'},
     {'title': 'Request 2', 'status': 'Pending'},
@@ -23,24 +24,20 @@ class RequestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Requests',
-        style: TextStyle(
-            color: Colors.green[900],
-            fontWeight: FontWeight.bold, // Set the AppBar title color to green
-          ),
-          ),
-        
-      ),
+      appBar: const CustomAppBar(title: 'Requests'),
       body: ListView(
         children: requests.map((request) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-           // ignore: prefer_const_constructors
-           child: StatusAlert(title: "Request", value: "Status", count: 10, color:  Color(0xFF5AB443)),
+          return const Padding(
+            padding: EdgeInsets.all(8.0),
+            // ignore: prefer_const_constructors
+            child: StatusAlert(
+                title: "Request",
+                value: "Status",
+                count: 10,
+                color: Color(0xFF5AB443)),
           );
         }).toList(),
       ),
     );
   }
-    }
+}
