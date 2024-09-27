@@ -16,7 +16,7 @@ class StatusAlert extends StatelessWidget {
             width: 301,
             height: 91,
             decoration: ShapeDecoration(
-              color: Color(0xFFF8F8F8),
+              color: const Color(0xFFF8F8F8),
               shape: RoundedRectangleBorder(
                 side: BorderSide(
                   width: 2,
