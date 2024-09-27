@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/dropdown_searchbar.dart';
 import 'package:autron/src/widgets/software_box.dart';
+import 'package:autron/src/widgets/app_bar.dart';
 
 class SoftwarePage extends StatefulWidget {
   const SoftwarePage({super.key});
@@ -33,15 +34,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Software',
-          style: TextStyle(
-            color: Colors.green[900],
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Software'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
