@@ -1,6 +1,5 @@
 import 'package:autron/src/services/auth_service.dart';
 import 'package:autron/src/widgets/input_text_field.dart';
-import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Login'),
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
