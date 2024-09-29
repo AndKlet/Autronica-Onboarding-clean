@@ -1,3 +1,4 @@
+import 'package:autron/globals/theme/app_colors.dart';
 import 'package:autron/src/services/auth_service.dart';
 import 'package:autron/src/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: AppColors.autronGrey,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                   _authService.login;
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF005E1D),
+                  backgroundColor: AppColors.autronGreen,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   shape: RoundedRectangleBorder(
@@ -58,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text(
                   'Login',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.autronWhite,
                     fontSize: 18,
                   ),
                 ),
