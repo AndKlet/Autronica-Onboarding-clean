@@ -1,3 +1,4 @@
+import 'package:autron/globals/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class DropdownSearchBar<T> extends StatefulWidget {
@@ -60,7 +61,7 @@ class _DropdownSearchBarState<T> extends State<DropdownSearchBar<T>> {
           enableFilter: true,
           menuStyle: MenuStyle(
             backgroundColor:
-                WidgetStateProperty.all<Color>(Colors.grey.shade200),
+                WidgetStateProperty.all<Color>(AppColors.autronGrey),
           ),
           label: const Text('Select Department'),
           onSelected: (T? item) {
@@ -78,7 +79,7 @@ class _DropdownSearchBarState<T> extends State<DropdownSearchBar<T>> {
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             child: Text(
               'No department with this name', //Error message
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: AppColors.autronDeclined),
             ),
           ),
       ],
