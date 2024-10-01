@@ -1,3 +1,4 @@
+import 'package:autron/globals/theme/app_colors.dart';
 import 'package:autron/src/widgets/statusAlert.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class RequestScreen extends StatelessWidget {
                 title: "Request",
                 value: "Status",
                 count: 10,
-                color: Color(0xFF5AB443)),
+                color: AppColors.autronAccepted),
           );
         }).toList(),
       ),
