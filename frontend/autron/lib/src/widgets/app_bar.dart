@@ -1,3 +1,4 @@
+import 'package:autron/globals/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -13,7 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           title,
           style: const TextStyle(
             fontSize: 28,
-            color: Color(0xFF005E1D),
+            color: AppColors.autronGreen,
             fontWeight: FontWeight.bold,
           ),
         ),

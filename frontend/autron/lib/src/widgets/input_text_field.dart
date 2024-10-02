@@ -1,3 +1,4 @@
+import 'package:autron/globals/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class InputTextField extends StatelessWidget {
@@ -12,7 +13,6 @@ class InputTextField extends StatelessWidget {
     this.obscureText = false,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,12 +22,12 @@ class InputTextField extends StatelessWidget {
         obscureText: obscureText,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: BorderSide(color: AppColors.autronWhite),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFF005E1D)),
+            borderSide: BorderSide(color: AppColors.autronGreen),
           ),
-          fillColor: Colors.grey.shade200,
+          fillColor: AppColors.autronGrey,
           filled: true,
           hintText: hintText,
         ),

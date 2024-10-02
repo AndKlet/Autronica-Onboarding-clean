@@ -1,3 +1,4 @@
+import 'package:autron/globals/theme/app_colors.dart';
 import 'package:autron/src/widgets/announcement.dart';
 import 'package:autron/src/widgets/statusAlert.dart';
 import 'package:autron/src/widgets/app_bar.dart';
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                     title: "Software granted",
                     value: "Currently",
                     count: 17,
-                    color: Color(0xFF5AB443)),
+                    color: AppColors.autronAccepted),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20),
@@ -60,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                     title: "Pending Requests",
                     value: "Currently",
                     count: 5,
-                    color: Color(0xFFE2CE4B)),
+                    color: AppColors.autronPending),
               ),
             ],
           ),
