@@ -1,0 +1,17 @@
+services:
+  autron:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: autron
+    command: python manage.py runserver 0.0.0.0:8000
+# maps the current directory to the /app directory in the container
+    volumes:
+      - .:/app
+# local port:container port
+    ports:
+      - "8000:8000"
+# Debug should be set to True in development and False in production and the SECRET_KEY should not be set here in production
+    environment:
+      - DEBUG="True"
+      - SECRET_KEY="django-insecure-%pt^qox5+=pvy-t-$1fnx9_*f32s&k2vy+thu-yf02!od*89#9"

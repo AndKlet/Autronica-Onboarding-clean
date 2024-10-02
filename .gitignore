@@ -1,3 +1,8 @@
+# Backend virtual environment
+.venv/
+venv/
+.env
+
 ### Flutter Generated
 
 # Miscellaneous
