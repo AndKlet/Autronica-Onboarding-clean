@@ -2,10 +2,48 @@
 
 ## Installation
 
-For local development, you can install Django using pip.
+For local development use virtual environment to install dependencies. To install venv run:
 
 ```bash
-pip install django
+sudo pip install virtualenv
+```
+
+To create a virtual environment run:
+  
+```bash
+python -m venv .venv
+```
+
+To activate the virtual environment run:
+
+On macOS and Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+On Windows (git bash):
+
+```bash
+source .venv/Scripts/activate
+```
+
+To install the dependencies run:
+
+```bash
+pip install -r requirements.txt
+```
+
+To deactivate the virtual environment run:
+
+```bash
+deactivate
+```
+
+If you use a new dependency, make sure to update the requirements.txt file by running (make sure to activate the virtual environment or else everyone will get all your glo):
+
+```bash
+pip freeze > requirements.txt
 ```
 
 ## Structure
@@ -16,17 +54,21 @@ We will be using Django mainly for the backend, for task such as authentication,
 
 Therefore the structure of the project will be as follows:
 
-```
+```bash
 autron
     ├── autron
     │   ├── asgi.py
     │   ├── __init__.py
-    │   ├── models.py - Contains the models for the application
+    │   ├── models.py
     │   ├── settings.py - Contains the settings for the project
     │   ├── urls.py - Contains the urls for the application which then point to the views
     │   ├── views.py - Contains the api views for the application
-    │   └── wsgi.py    
-    └── manage.py
+    │   └── wsgi.py
+    ├── db.sqlite3
+    ├── docker-compose.yml - file to run the project with docker
+    ├── Dockerfile - file to build the image
+    ├── manage.py
+    └── requirements.txt
 ```
 
 ## Build and run the project
@@ -36,7 +78,7 @@ We will be building and deploying Django with Docker. This will ensure it runs t
 Rebuild the image and run the container (run from root of backend directory):
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 -d flag is used to run the container in detached mode.
@@ -45,13 +87,13 @@ docker-compose up -d --build
 To stop the container:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 To see the logs of the container:
 
 ```bash
-docker-compose logs
+docker compose logs
 ```
 
 ## Usefull commands
@@ -59,25 +101,25 @@ docker-compose logs
 If you want to run a command inside the container, you can add the following to the command:
 
 ```bash
-docker-compose exec autron <command>
+docker compose exec autron <command>
 ```
 
-Othervise you can run the command from the root of the backend directory when running django on your local machine.
+Otherwise you can run the command from the root of the backend directory when running django on your local machine.
 Run server
 
 ```bash
-manage.py runserver
+python manage.py runserver
 ```
 
 When making changes to the models, run the following commands to apply the changes to the database:
 
 ```bash
-manage.py makemigrations
-manage.py migrate
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 Create superuser to access the admin panel at `localhost:8000/admin`
 
 ```bash
-manage.py createsuperuser
+python manage.py createsuperuser
 ```
