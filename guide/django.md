@@ -1,6 +1,7 @@
 # Django guide
 
 ## Installation
+
 For local development, you can install Django using pip.
 
 ```bash
@@ -55,6 +56,13 @@ docker-compose logs
 
 ## Usefull commands
 
+If you want to run a command inside the container, you can add the following to the command:
+
+```bash
+docker-compose exec autron <command>
+```
+
+Othervise you can run the command from the root of the backend directory when running django on your local machine.
 Run server
 
 ```bash
