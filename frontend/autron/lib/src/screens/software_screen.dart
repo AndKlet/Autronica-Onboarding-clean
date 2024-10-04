@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/dropdown_searchbar.dart';
 import 'package:autron/src/widgets/software_box.dart';
 import 'package:autron/src/widgets/app_bar.dart';
+import 'package:autron/src/screens/software_info_screen.dart';
 
 class SoftwarePage extends StatefulWidget {
   const SoftwarePage({super.key});
@@ -21,7 +22,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
   ];
 
   final Map<String, List<String>> departmentSoftwares = {
-    'Cyber Security': ['Okta', 'KnownBet64'],
+    'Cyber Security': ['Okta', 'KnownBet64', 'miro', 'SLACK', 'git'],
     'Data Science': ['Jupyter', 'Pandas'],
     'Software Engineering': ['Git', 'Docker'],
     'UI/UX Design': ['Figma', 'Adobe XD'],
@@ -63,12 +64,20 @@ class _SoftwarePageState extends State<SoftwarePage> {
             if (selectedDepartment != null &&
                 departmentSoftwares.containsKey(selectedDepartment))
               Wrap(
+                spacing: 8.0,
+                runSpacing: 8.0,
                 children:
                     departmentSoftwares[selectedDepartment]!.map((software) {
                   return SoftwareBox(
                     softwareName: software,
                     onPressed: () {
-                      print('$software selected');
+                      // Navigate to the SoftwareInfoPage when a software is clicked
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SoftwareInfoPage(),
+                        ),
+                      );
                     },
                   );
                 }).toList(),
