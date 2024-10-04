@@ -60,6 +60,7 @@ autron
     │   ├── asgi.py
     │   ├── __init__.py
     │   ├── models.py
+    │   ├── serializers.py - Contains the serializers for the models
     │   ├── settings.py - Contains the settings for the project
     │   ├── urls.py - Contains the urls for the application which then point to the views
     │   ├── views.py - Contains the api views for the application
