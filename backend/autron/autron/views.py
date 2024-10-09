@@ -17,9 +17,6 @@ from .serializers import DepartmentSerializer, SoftwareSerializer
     method="GET",
     responses={200: SoftwareSerializer(many=True)},
     operation_description="Gets all software",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-    ),
 )
 @api_view(["GET"])
 def software_list(request):
@@ -34,9 +31,6 @@ def software_list(request):
     method="GET",
     responses={200: SoftwareSerializer(many=True)},
     operation_description="Gets all departments",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-    ),
 )
 @api_view(["GET"])
 def department_list(request):
