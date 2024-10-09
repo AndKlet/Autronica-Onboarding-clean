@@ -29,29 +29,36 @@ class HomeScreen extends StatelessWidget {
             appBar: const CustomAppBar(title: 'Home'),
             body: Center(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+              
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 40),
-                    child: Text(
-                      'Hi ${user['name']}!',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 48,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 40, left: 16),
+                      child: Text(
+                        'Hi ${user['name']}!',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 48,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      user['department'],
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w400,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10, left: 16),
+                      child: Text(
+                        user['department'],
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),
