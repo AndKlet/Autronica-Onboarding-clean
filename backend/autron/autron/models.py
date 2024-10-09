@@ -43,10 +43,10 @@ class APIRequestResolver(RequestResolver):
 class Software(models.Model):
     name = models.CharField(max_length=100)
     department = models.ForeignKey("Department", on_delete=models.CASCADE)
-    description = models.TextField()
-    resolver_content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    resolver_object_id = models.PositiveIntegerField()
-    resolver = GenericForeignKey("resolver_content_type", "resolver_object_id")
+    # description = None
+    # resolver_content_type = None
+    # resolver_object_id = None
+    # resolver = None
 
     def __str__(self):
         return self.name

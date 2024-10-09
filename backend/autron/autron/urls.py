@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from autron import views
 from django.contrib import admin
 from django.urls import include, path
 from drf_yasg import openapi
@@ -22,7 +23,6 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from .views import *
-from autron import views
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -52,8 +52,8 @@ urlpatterns = [
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
     ),
-        path('department_list/', views.department_list, name='department_list'),
-
+    path("department_list/", views.department_list, name="department_list"),
+    path("software_list/", views.software_list, name="software_list"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ]
