@@ -37,6 +37,7 @@ pip install -r requirements.txt
 After installing tset up pre-commit hooks by running:
 
 ```bash
+pip install pre-commit
 pre-commit install
 ```
 
