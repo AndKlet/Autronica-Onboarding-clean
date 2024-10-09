@@ -3,7 +3,6 @@ import 'package:autron/src/screens/home.dart';
 import 'package:autron/src/screens/login_screen.dart';
 import 'package:autron/src/screens/user_screen.dart';
 import 'package:autron/src/screens/software_screen.dart';
-import 'package:autron/src/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 
 /// The Widget that configures your application.
@@ -19,9 +18,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var _selectedIndex = 0;
   final _screens = [
-    const HomeScreen(),
+    HomeScreen(),
     const SoftwarePage(),
-    const RequestScreen(),
+    RequestScreen(),
     const UserScreen(),
   ];
 

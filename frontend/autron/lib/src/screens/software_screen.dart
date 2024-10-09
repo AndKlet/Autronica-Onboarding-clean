@@ -3,6 +3,7 @@ import 'package:autron/src/widgets/dropdown_searchbar.dart';
 import 'package:autron/src/widgets/software_box.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/screens/software_info_screen.dart';
+import 'package:autron/src/services/software_service.dart'; // Import SoftwareService
 
 class SoftwarePage extends StatefulWidget {
   const SoftwarePage({super.key});
@@ -12,6 +13,8 @@ class SoftwarePage extends StatefulWidget {
 }
 
 class _SoftwarePageState extends State<SoftwarePage> {
+  final SoftwareService _softwareService =
+      SoftwareService(); // Instance of SoftwareService
   final List<String> departments = [
     'Cyber Security',
     'Data Science',
@@ -21,16 +24,19 @@ class _SoftwarePageState extends State<SoftwarePage> {
     'Artificial Intelligence'
   ];
 
-  final Map<String, List<String>> departmentSoftwares = {
-    'Cyber Security': ['Okta', 'KnownBet64', 'miro', 'SLACK', 'git'],
-    'Data Science': ['Jupyter', 'Pandas'],
-    'Software Engineering': ['Git', 'Docker'],
-    'UI/UX Design': ['Figma', 'Adobe XD'],
-    'Cloud Computing': ['AWS', 'Azure'],
-    'Artificial Intelligence': ['TensorFlow', 'PyTorch'],
-  };
-
   String? selectedDepartment;
+  List<Map<String, dynamic>> departmentSoftware =
+      []; // To store software for the selected department
+
+  void _filterSoftwareByDepartment(String department) async {
+    // Fetch software from the service and filter by department
+    final allSoftware = await _softwareService.getAllSoftware();
+    setState(() {
+      departmentSoftware = allSoftware
+          .where((software) => software['departments'].contains(department))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +47,14 @@ class _SoftwarePageState extends State<SoftwarePage> {
         child: Column(
           children: [
             DropdownSearchBar<String>(
-              // The dropdown menu
               items: departments,
               hintText: 'Select a Department',
               onSelected: (String department) {
                 setState(() {
                   selectedDepartment = department;
                 });
-                print('Selected: $department');
+                _filterSoftwareByDepartment(
+                    department); // Filter software by department
               },
               getLabel: (String department) => department,
             ),
@@ -61,21 +67,23 @@ class _SoftwarePageState extends State<SoftwarePage> {
                 ),
               ),
             // Software boxes for the selected department
-            if (selectedDepartment != null &&
-                departmentSoftwares.containsKey(selectedDepartment))
+            if (departmentSoftware.isNotEmpty)
               Wrap(
                 spacing: 8.0,
                 runSpacing: 8.0,
-                children:
-                    departmentSoftwares[selectedDepartment]!.map((software) {
+                children: departmentSoftware.map((software) {
                   return SoftwareBox(
-                    softwareName: software,
+                    softwareName: software['name'],
                     onPressed: () {
                       // Navigate to the SoftwareInfoPage when a software is clicked
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SoftwareInfoPage(),
+                          builder: (context) => SoftwareInfoPage(
+                            softwareName: software['name'],
+                            softwareInfo: software['info'],
+                            softwareStatus: software['status'],
+                          ),
                         ),
                       );
                     },

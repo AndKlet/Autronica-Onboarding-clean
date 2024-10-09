@@ -1,39 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:autron/src/widgets/dropdown_searchbar.dart';
-import 'package:autron/src/widgets/software_box.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 
 class SoftwareInfoPage extends StatelessWidget {
-  const SoftwareInfoPage({super.key});
+  final String softwareName;
+  final String softwareInfo;
+  final String softwareStatus;
 
-//hardcoded page for the Okta software
+  const SoftwareInfoPage({
+    super.key,
+    required this.softwareName,
+    required this.softwareInfo,
+    required this.softwareStatus,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Okta Information'),
+      appBar: CustomAppBar(title: '$softwareName Information'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Okta',
-              style: TextStyle(
+            Text(
+              softwareName,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Okta is an identity and access management software used for securing digital environments. It provides single sign-on (SSO), multi-factor authentication (MFA), and lifecycle management for user identities.',
-              style: TextStyle(fontSize: 16),
+            Text(
+              softwareInfo,
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             RichText(
-              //RichText to make the status text is bold and the other not
-              text: const TextSpan(
+              text: TextSpan(
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Status: ',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -42,8 +47,8 @@ class SoftwareInfoPage extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: 'Accepted',
-                    style: TextStyle(
+                    text: softwareStatus,
+                    style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Colors.black,
                       fontSize: 16,
@@ -53,9 +58,11 @@ class SoftwareInfoPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const ElevatedButton(
-              onPressed: null, // request button without a functionality atm
-              child: Text('Request Access'),
+            ElevatedButton(
+              onPressed: () {
+                // request button without a functionality atm
+              },
+              child: const Text('Request Access'),
             ),
           ],
         ),
