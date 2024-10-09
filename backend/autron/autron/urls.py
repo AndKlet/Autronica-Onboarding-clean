@@ -22,6 +22,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from .views import *
+from autron import views
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -51,6 +52,8 @@ urlpatterns = [
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
     ),
+        path('department_list/', views.department_list, name='department_list'),
+
     # Our app's urls here
     # path('/', include('autron.urls')),
 ]
