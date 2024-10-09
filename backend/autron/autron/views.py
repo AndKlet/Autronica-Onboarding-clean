@@ -1,15 +1,15 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import permissions
-from rest_framework.decorators import api_view, permission_classes
 from django.http import JsonResponse
+from rest_framework import permissions, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
 
 # https://www.django-rest-framework.org/api-guide/views/
-# Generic class based API view example where ObjectSerializer is the serializer class for the ModelObject model.
+# Generic class based API view example where ObjectSerializer
+# is the serializer class for the ModelObject model.
 
 # @api_view(['GET', 'POST'])
 # @permission_classes([permissions.IsAuthenticated])
@@ -23,7 +23,7 @@ from .serializers import *
 
 #     Post method to create a new object
 #     def post(self, request) -> Response:
-#         serializer = ObjectSerializer(data=request.data) 
+#         serializer = ObjectSerializer(data=request.data)
 #         if serializer.is_valid():
 #             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)

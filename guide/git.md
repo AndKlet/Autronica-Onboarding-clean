@@ -66,7 +66,7 @@
     ```
 
 * Reset local working directory to remote (use with caution, as it will remove all local changes!)
-  
+
     ```bash
     git reset --hard origin/<branch-name>
     ```

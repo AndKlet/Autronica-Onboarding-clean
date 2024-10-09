@@ -21,7 +21,7 @@ Try to use names that are clear and consise. Long enough to be clear but not so 
 
 - Use **UpperCamelCase** for naming classes, typedefs, enums and extension names (e.g., MyClass, MyEnum)
 - Use **lowerCamelCase** for naming variables, parameters, fields and methods (e.g., myVariable, myMethod)
-- Use **snake_case** for naming source files and folders (e.g., /view_models, auth_service.dart) 
+- Use **snake_case** for naming source files and folders (e.g., /view_models, auth_service.dart)
 
 ## 2. Use of widgets
 
@@ -65,8 +65,8 @@ Using a doc comment instead of a regular comment enables dart doc to find it and
 ```dart
 /// Initiates the login process for the current platform.
 ///
-/// - On web: 
-/// - On mobile: 
+/// - On web:
+/// - On mobile:
 Future<void> login() async {
     print('Logging in...');
 }

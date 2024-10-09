@@ -9,7 +9,7 @@ sudo pip install virtualenv
 ```
 
 To create a virtual environment run:
-  
+
 ```bash
 python -m venv .venv
 ```
@@ -33,6 +33,14 @@ To install the dependencies run:
 ```bash
 pip install -r requirements.txt
 ```
+
+After installing tset up pre-commit hooks by running:
+
+```bash
+pre-commit install
+```
+
+now every time you commit, the pre-commit hooks will run and check for any errors and linting that need to be fixed.
 
 To deactivate the virtual environment run:
 
@@ -83,7 +91,14 @@ docker compose up -d --build
 ```
 
 -d flag is used to run the container in detached mode.
+
 --build flag is used to rebuild the image.
+
+The server will be running at `localhost:8000`.
+
+Additionally, the admin panel will be available at `localhost:8000/admin`.
+
+And Swagger documentation will be available at `localhost:8000/swagger`.
 
 To stop the container:
 
