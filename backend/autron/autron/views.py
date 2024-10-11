@@ -40,33 +40,33 @@ def department_list(request):
         return JsonResponse(serializer.data, safe=False)
 
 
-class CustomEndpointView(APIView):
-    """
-    Custom Endpoint Description
-    """
+# class CustomEndpointView(APIView):
+#     """
+#     Custom Endpoint Description
+#     """
 
-    @swagger_auto_schema(
-        operation_description="Endpoint Operation Description",
-        responses={
-            200: "Success",
-            400: "Bad Request",
-            401: "Unauthorized",
-        },
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                "field1": openapi.Schema(
-                    type=openapi.TYPE_STRING, description="Field 1 Description"
-                ),
-                "field2": openapi.Schema(
-                    type=openapi.TYPE_STRING, description="Field 2 Description"
-                ),
-            },
-            required=["field1"],
-        ),
-    )
-    def post(self, request):
-        """
-        Custom POST Endpoint
-        """
-        return Response("Success")
+#     @swagger_auto_schema(
+#         operation_description="Endpoint Operation Description",
+#         responses={
+#             200: "Success",
+#             400: "Bad Request",
+#             401: "Unauthorized",
+#         },
+#         request_body=openapi.Schema(
+#             type=openapi.TYPE_OBJECT,
+#             properties={
+#                 "field1": openapi.Schema(
+#                     type=openapi.TYPE_STRING, description="Field 1 Description"
+#                 ),
+#                 "field2": openapi.Schema(
+#                     type=openapi.TYPE_STRING, description="Field 2 Description"
+#                 ),
+#             },
+#             required=["field1"],
+#         ),
+#     )
+#     def post(self, request):
+#         """
+#         Custom POST Endpoint
+#         """
+#         return Response("Success")
