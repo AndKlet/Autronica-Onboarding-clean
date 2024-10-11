@@ -43,6 +43,7 @@ class APIRequestResolver(RequestResolver):
 class Software(models.Model):
     name = models.CharField(max_length=100)
     department = models.ForeignKey("Department", on_delete=models.CASCADE)
+
     # description = None
     # resolver_content_type = None
     # resolver_object_id = None
@@ -54,7 +55,6 @@ class Software(models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
-    subdepartment = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.name
