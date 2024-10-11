@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: CD to backend directory
+      run: cd backend/autron
+
+    - name: build docker image
+      run: docker build -t autron .
+
+    - name: Login to GitHub Container Registry
+      run: echo ${{ secrets.TOKEN }} | docker login ghcr.io -u ${{ secrets.USERNAME }} --password-stdin
+
+    - name: Tag docker image
+      run: docker tag autron ghcr.io/autron/autron:latest
+
+    - name: Push docker image
+      run: docker push ghcr.io/autron/autron:latest
