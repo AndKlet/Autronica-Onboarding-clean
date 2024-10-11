@@ -7,9 +7,11 @@ from .models import *
 
 
 class DepartmentSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     name = serializers.CharField(max_length=100)
 
 
 class SoftwareSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     name = serializers.CharField(max_length=100)
     department = DepartmentSerializer()
