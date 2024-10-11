@@ -5,7 +5,7 @@ class UserService {
   /// This method is a placeholder for a future API call.
   Future<Object> getUser() async {
     return {
-      'name': 'John Doe',
+      'name': 'John Johnberg',
       'department': 'Engineering',
     };
   }

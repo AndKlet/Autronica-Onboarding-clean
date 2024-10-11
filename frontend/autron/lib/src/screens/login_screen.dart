@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushReplacementNamed(context, '/home');
                   _authService.login;
                 },
                 style: ElevatedButton.styleFrom(
