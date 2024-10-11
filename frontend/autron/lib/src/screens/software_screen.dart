@@ -45,7 +45,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
         } else {
           // Convert the snapshot data names elements to a list of strings
           final departments = (snapshot.data as List)
-              .map((department) => department['name'] as String)
+              .map((department) => department.name as String)
               .toList();
 
           return Scaffold(
