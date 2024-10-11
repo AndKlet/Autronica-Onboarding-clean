@@ -48,7 +48,7 @@ class _UserScreenState extends State<UserScreen> {
                       alignment: Alignment.bottomCenter,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/login');
+                          Navigator.pushReplacementNamed(context, '/login');
                           _authService.login;
                         },
                         style: ElevatedButton.styleFrom(
