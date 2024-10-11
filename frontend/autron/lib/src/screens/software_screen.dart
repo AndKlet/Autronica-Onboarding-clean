@@ -43,63 +43,58 @@ class _SoftwarePageState extends State<SoftwarePage> {
         } else if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));
         } else {
-          // Convert the snapshot data names elements to a list of strings
           final departments = (snapshot.data as List)
               .map((department) => department.name as String)
               .toList();
 
           return Scaffold(
             appBar: const CustomAppBar(title: 'Software'),
-            body: Padding(
+            body: ListView(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  DropdownSearchBar<String>(
-                    items: departments,
-                    hintText: 'Select a Department',
-                    onSelected: (String department) {
-                      setState(() {
-                        selectedDepartment = department;
-                      });
-                      _filterSoftwareByDepartment(
-                          department); // Filter software by department
-                    },
-                    getLabel: (String department) => department,
+              children: [
+                DropdownSearchBar<String>(
+                  items: departments,
+                  hintText: 'Select a Department',
+                  onSelected: (String department) {
+                    setState(() {
+                      selectedDepartment = department;
+                    });
+                    _filterSoftwareByDepartment(
+                        department); // Filter software by department
+                  },
+                  getLabel: (String department) => department,
+                ),
+                if (selectedDepartment != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      'Software available for: $selectedDepartment',
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ),
-                  if (selectedDepartment != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Text(
-                        'Software available for: $selectedDepartment',
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                    ),
-                  // Software boxes for the selected department
-                  if (departmentSoftware.isNotEmpty)
-                    Wrap(
-                      spacing: 8.0,
-                      runSpacing: 8.0,
-                      children: departmentSoftware.map((software) {
-                        return SoftwareBox(
-                          softwareName: software['name'],
-                          onPressed: () {
-                            // Navigate to the SoftwareInfoPage when a software is clicked
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SoftwareInfoPage(
-                                  softwareName: software['name'],
-                                  softwareInfo: software['info'],
-                                  softwareStatus: software['status'],
-                                ),
+                if (departmentSoftware.isNotEmpty)
+                  Wrap(
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: departmentSoftware.map((software) {
+                      return SoftwareBox(
+                        softwareName: software['name'],
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SoftwareInfoPage(
+                                softwareName: software['name'],
+                                softwareInfo: software['info'],
+                                softwareStatus: software['status'],
                               ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    ),
-                ],
-              ),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+              ],
             ),
           );
         }
