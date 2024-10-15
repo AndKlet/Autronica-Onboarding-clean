@@ -14,17 +14,13 @@ class SoftwarePage extends StatefulWidget {
 }
 
 class _SoftwarePageState extends State<SoftwarePage> {
-  final SoftwareService _softwareService =
-      SoftwareService(); // Instance of SoftwareService
-  final DepartmentService _departmentService =
-      DepartmentService(); // Instance of DepartmentService
+  final SoftwareService _softwareService = SoftwareService();
+  final DepartmentService _departmentService = DepartmentService();
 
   String? selectedDepartment;
-  List<Map<String, dynamic>> departmentSoftware =
-      []; // To store software for the selected department
+  List<Map<String, dynamic>> departmentSoftware = [];
 
   void _filterSoftwareByDepartment(String department) async {
-    // Fetch software from the service and filter by department
     final allSoftware = await _softwareService.getAllSoftware();
     setState(() {
       departmentSoftware = allSoftware
@@ -59,8 +55,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
                     setState(() {
                       selectedDepartment = department;
                     });
-                    _filterSoftwareByDepartment(
-                        department); // Filter software by department
+                    _filterSoftwareByDepartment(department);
                   },
                   getLabel: (String department) => department,
                 ),

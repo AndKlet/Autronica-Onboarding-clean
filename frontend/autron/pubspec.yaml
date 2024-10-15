@@ -2,7 +2,7 @@ name: autron
 description: "A new Flutter project."
 
 # Prevent accidental publishing to pub.dev.
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -17,6 +17,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   http: ^1.2.2
+  flutter_svg: ^1.0.0
 
 dev_dependencies:
   flutter_test:
