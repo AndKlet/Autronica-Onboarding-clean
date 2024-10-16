@@ -11,14 +11,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/autron
 
     steps:
     - uses: actions/checkout@v4
-    - name: CD to backend directory
-      run: cd backend/autron
-
-    - name: Debug the directory
-      run: ls
 
     - name: build docker image
       run: docker build -t autron .
