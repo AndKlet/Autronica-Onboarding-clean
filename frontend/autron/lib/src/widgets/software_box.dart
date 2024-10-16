@@ -23,13 +23,21 @@ class SoftwareBox extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(3),
+          borderRadius: BorderRadius.circular(2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3), // Shadow color
+              spreadRadius: 2, // Spread radius
+              blurRadius: 5, // Blur radius
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SvgPicture.asset(
-              'assets/images/slack-new-logo.svg', // Path to logo
+              'assets/images/logo-placeholder.svg', // Path to logo
               width: 35, // Logo width
               height: 35, // Logo height
               fit: BoxFit.contain,
