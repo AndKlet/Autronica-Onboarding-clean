@@ -9,74 +9,125 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  var _selectedIndex = 0;
+class MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+  bool _showBottomNav = true; // Control whether the bottom nav bar is shown
+
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+  ];
+
   final _screens = [
     HomeScreen(),
     const SoftwarePage(),
     RequestScreen(),
     const UserScreen(),
+    const LoginPage(),
   ];
 
-  _onItemTapped(int index) {
+  // Handle tab switching and show the bottom nav
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _showBottomNav = true; // Always show bottom nav when switching tabs
     });
+  }
+
+  // Hide bottom nav on certain sub-pages
+  void hideBottomNav(bool shouldHide) {
+    setState(() {
+      _showBottomNav = !shouldHide;
+    });
+  }
+
+  // Create individual navigators for each tab
+  Widget _buildOffstageNavigator(int index) {
+    return Offstage(
+      offstage: _selectedIndex != index,
+      child: Navigator(
+        key: _navigatorKeys[index],
+        onGenerateRoute: (routeSettings) {
+          return MaterialPageRoute(
+            builder: (context) => _screens[index],
+          );
+        },
+      ),
+    );
+  }
+
+  // Handle back button presses within each tab's navigation stack
+  Future<bool> _onWillPop() async {
+    final isFirstRouteInCurrentTab =
+        !await _navigatorKeys[_selectedIndex].currentState!.maybePop();
+    if (isFirstRouteInCurrentTab) {
+      // If the user is on the first route of the tab, allow the app to exit
+      return true;
+    }
+    // Otherwise, just pop the current route
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {
-        '/home': (context) => const MyApp(),
-        '/login': (context) => const LoginPage(),
-        '/software': (context) => const SoftwarePage(),
-      },
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: _screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: const Color(0xFF005E1D),
-          backgroundColor: const Color(0xFFF9F9F9),
-          type: BottomNavigationBarType.fixed,
-          items: [
-            _buildBottomNavItem(
-              icon: Icons.home,
-              label: 'Home',
-              index: 0,
-              isSelected: _selectedIndex == 0,
-            ),
-            _buildBottomNavItem(
-              icon: Icons.my_library_add,
-              label: 'Software',
-              index: 1,
-              isSelected: _selectedIndex == 1,
-            ),
-            _buildBottomNavItem(
-              icon: Icons.assignment,
-              label: 'Requests',
-              index: 2,
-              isSelected: _selectedIndex == 2,
-            ),
-            _buildBottomNavItem(
-              icon: Icons.account_circle,
-              label: 'Profile',
-              index: 3,
-              isSelected: _selectedIndex == 3,
-            ),
-          ],
+      home: WillPopScope(
+        onWillPop: _onWillPop, // Handle back button behavior for tabs
+        child: Scaffold(
+          body: Stack(
+            children: [
+              _buildOffstageNavigator(0),
+              _buildOffstageNavigator(1),
+              _buildOffstageNavigator(2),
+              _buildOffstageNavigator(3),
+            ],
+          ),
+          bottomNavigationBar: _showBottomNav
+              ? BottomNavigationBar(
+                  currentIndex: _selectedIndex,
+                  onTap: _onItemTapped,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: const Color(0xFF005E1D),
+                  backgroundColor: const Color(0xFFF9F9F9),
+                  type: BottomNavigationBarType.fixed,
+                  items: [
+                    _buildBottomNavItem(
+                      icon: Icons.home,
+                      label: 'Home',
+                      index: 0,
+                      isSelected: _selectedIndex == 0,
+                    ),
+                    _buildBottomNavItem(
+                      icon: Icons.my_library_add,
+                      label: 'Software',
+                      index: 1,
+                      isSelected: _selectedIndex == 1,
+                    ),
+                    _buildBottomNavItem(
+                      icon: Icons.assignment,
+                      label: 'Requests',
+                      index: 2,
+                      isSelected: _selectedIndex == 2,
+                    ),
+                    _buildBottomNavItem(
+                      icon: Icons.account_circle,
+                      label: 'Profile',
+                      index: 3,
+                      isSelected: _selectedIndex == 3,
+                    ),
+                  ],
+                )
+              : null,
         ),
       ),
     );
   }
 
-  // Custom method to build BottomNavigationBarItem
   BottomNavigationBarItem _buildBottomNavItem({
     required IconData icon,
     required String label,
