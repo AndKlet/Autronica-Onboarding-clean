@@ -1,0 +1,16 @@
+name: Deployment
+
+on:
+  workflow_run:
+    workflows: ["Docker Image CI"]
+    types:
+     - completed
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+        - name: Get the Docker Image
+          run: docker pull ghcr.io/eduard-prokhorikhin/autronica-onboarding/autron:latest
+        - name: Run the Docker Image
+          run: docker run -d -p 8080:8080 ghcr.io/eduard-prokhorikhin/autronica-onboarding/autron:latest
