@@ -8,103 +8,131 @@ class SoftwareService {
   Future<List<Map<String, dynamic>>> getAllSoftware() async {
     return [
       {
-        'name': 'Adobe XD',
-        'status': 'Accepted',
-        'info':
-            'Adobe XD is a vector-based user experience design tool for web apps and mobile apps, developed and published by Adobe Inc. It is available for macOS and Windows, although there are versions for iOS and Android to help preview the result of work directly on mobile devices.',
-        'departments': ['UI/UX Design'],
+        "name": "Microsoft Office",
+        "status": "Accepted",
+        "info":
+            "Microsoft Office is a suite of productivity software, including Word, Excel, and PowerPoint, used for document creation, data analysis, and presentations.",
+        "departments": ["All Departments", "Finance", "HR", "Project"]
       },
       {
-        'name': 'TensorFlow',
-        'status': 'Pending',
-        'info':
-            'TensorFlow is an open-source software library for dataflow and differentiable programming across a range of tasks. It is a symbolic math library and is also used for machine learning applications such as neural networks.',
-        'departments': ['Artificial Intelligence', 'Data Science'],
+        "name": "Slack",
+        "status": "Not Requested",
+        "info":
+            "Slack is a messaging platform designed for team communication and collaboration across departments.",
+        "departments": ["All Departments", "Digital", "Engineering", "Sales"]
       },
       {
-        'name': 'PyTorch',
-        'status': 'Declined',
-        'info':
-            'PyTorch is an open-source machine learning library based on the Torch library, used for applications such as natural language processing. It is primarily developed by Facebook\'s AI Research lab.',
-        'departments': ['Artificial Intelligence', 'Data Science'],
+        "name": "Adobe Photoshop",
+        "status": "Pending",
+        "info":
+            "Adobe Photoshop is a popular graphics editing software used for photo editing and digital artwork.",
+        "departments": ["All Departments", "MarCom", "Digital"]
       },
       {
-        'name': 'Azure',
-        'status': 'Accepted',
-        'info':
-            'Microsoft Azure, commonly referred to as Azure, is a cloud computing service created by Microsoft for building, testing, deploying, and managing applications and services.',
-        'departments': ['Cloud Computing'],
+        "name": "Figma",
+        "status": "Accepted",
+        "info":
+            "Figma is a web-based vector graphics editor and prototyping tool used for designing user interfaces and collaboration.",
+        "departments": ["All Departments", "Digital", "MarCom"]
       },
       {
-        'name': 'Okta',
-        'status': 'Not Requested',
-        'info':
-            'Okta is an identity and access management software used for securing digital environments. It provides single sign-on (SSO), multi-factor authentication (MFA), and lifecycle management for user identities.',
-        'departments': ['Cyber Security'],
+        "name": "Asana",
+        "status": "Declined",
+        "info":
+            "Asana is a project management tool that helps teams organize, track, and manage their work.",
+        "departments": ["All Departments", "Project", "PM"]
       },
       {
-        'name': 'KnownBet64',
-        'status': 'Not Requested',
-        'info':
-            'KnownBet64 is a cybersecurity software solution for protecting digital assets.',
-        'departments': ['Cyber Security'],
+        "name": "Jira",
+        "status": "Pending",
+        "info":
+            "Jira is a project management tool commonly used for agile development and bug tracking.",
+        "departments": ["All Departments", "Engineering", "PM", "Project"]
       },
       {
-        'name': 'miro',
-        'status': 'Not Requested',
-        'info':
-            'Miro is an online collaborative whiteboard platform used for brainstorming and team collaboration.',
-        'departments': ['Cyber Security'],
+        "name": "Docker",
+        "status": "Not Requested",
+        "info":
+            "Docker is a platform that allows developers to automate the deployment of applications inside containers.",
+        "departments": [
+          "All Departments",
+          "Engineering",
+          "Operations (Factory)",
+          "Operations (Warehouse)"
+        ]
       },
       {
-        'name': 'SLACK',
-        'status': 'Not Requested',
-        'info':
-            'Slack is a messaging platform for team communication and collaboration.',
-        'departments': ['Cyber Security'],
+        "name": "Zoom",
+        "status": "Not Requested",
+        "info":
+            "Zoom is a video conferencing tool used for virtual meetings, webinars, and online collaboration.",
+        "departments": ["All Departments", "HR", "Sales", "PM"]
       },
       {
-        'name': 'Jupyter',
-        'status': 'Not Requested',
-        'info':
-            'Jupyter is an open-source web application used for creating and sharing documents that contain live code, equations, visualizations, and text.',
-        'departments': ['Data Science'],
+        "name": "Google Workspace",
+        "status": "Accepted",
+        "info":
+            "Google Workspace is a collection of cloud computing tools including Gmail, Google Docs, Sheets, and Drive for collaboration and productivity.",
+        "departments": ["All Departments", "Finance", "Sales", "HR"]
       },
       {
-        'name': 'Pandas',
-        'status': 'Not Requested',
-        'info':
-            'Pandas is a data analysis library in Python, used for data manipulation and analysis.',
-        'departments': ['Data Science'],
+        "name": "Salesforce",
+        "status": "Pending",
+        "info":
+            "Salesforce is a customer relationship management (CRM) platform used to manage sales, customer support, and marketing efforts.",
+        "departments": ["All Departments", "Sales", "S&AM"]
       },
       {
-        'name': 'Git',
-        'status': 'Not Requested',
-        'info':
-            'Git is a distributed version control system for tracking changes in source code.',
-        'departments': ['Software Engineering'],
+        "name": "GitHub",
+        "status": "Not Requested",
+        "info":
+            "GitHub is a platform for version control and collaboration, allowing multiple developers to work on projects simultaneously.",
+        "departments": ["All Departments", "Engineering"]
       },
       {
-        'name': 'Docker',
-        'status': 'Not Requested',
-        'info':
-            'Docker is a platform for developing, shipping, and running applications inside lightweight containers.',
-        'departments': ['Software Engineering'],
+        "name": "SAP",
+        "status": "Not Requested",
+        "info":
+            "SAP is an enterprise resource planning (ERP) software used to manage business operations and customer relations.",
+        "departments": [
+          "All Departments",
+          "Finance",
+          "Operations (Factory)",
+          "HR"
+        ]
       },
       {
-        'name': 'Figma',
-        'status': 'Not Requested',
-        'info':
-            'Figma is a vector graphics editor and prototyping tool used for UI/UX design.',
-        'departments': ['UI/UX Design'],
+        "name": "Adobe Acrobat",
+        "status": "Declined",
+        "info":
+            "Adobe Acrobat is a software used to create, edit, and manage PDF documents.",
+        "departments": ["All Departments", "Finance", "HR", "Project"]
       },
       {
-        'name': 'AWS',
-        'status': 'Not Requested',
-        'info':
-            'Amazon Web Services (AWS) is a cloud computing platform offering a wide range of services for computing, storage, and networking.',
-        'departments': ['Cloud Computing'],
+        "name": "Microsoft Azure",
+        "status": "Accepted",
+        "info":
+            "Microsoft Azure is a cloud computing service used for building, testing, deploying, and managing applications through Microsoft-managed data centers.",
+        "departments": [
+          "All Departments",
+          "Operations (Warehouse)",
+          "Operations (Planning)"
+        ]
       },
+      {
+        "name": "Power BI",
+        "status": "Not Requested",
+        "info":
+            "Power BI is a business analytics tool by Microsoft that provides interactive visualizations and business intelligence capabilities.",
+        "departments": ["All Departments", "Finance", "Operations (Planning)"]
+      },
+      {
+        "name": "QuickBooks",
+        "status": "Not Requested",
+        "info":
+            "QuickBooks is accounting software designed for small businesses to manage their financial operations.",
+        "departments": ["All Departments", "Finance", "HR"]
+      }
     ];
   }
 
