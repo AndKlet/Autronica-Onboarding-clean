@@ -32,4 +32,4 @@ jobs:
       run: docker tag autron autronica-onboarding/autron:latest
 
     - name: Push Docker image
-      run: docker push ghcr.io/${{ github.actor }}/autronica-onboarding/autron:latest
+      run: docker push ghcr.io/eduard-prokhorikhin/autronica-onboarding/autron:latest
