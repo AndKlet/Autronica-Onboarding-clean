@@ -22,7 +22,11 @@ jobs:
       run: docker build -t autron .
 
     - name: Login to GitHub Container Registry
-      run: echo ${{ secrets.TOKEN }} | docker login ghcr.io -u ${{ secrets.USERNAME }} --password-stdin
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.TOKEN }}
 
     - name: Tag docker image
       run: docker tag autron ghcr.io/autron/autron:latest
