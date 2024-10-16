@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:autron/src/styles/styles.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SoftwareBox extends StatelessWidget {
   final String softwareName;
@@ -18,22 +18,32 @@ class SoftwareBox extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(8.0),
         padding: const EdgeInsets.all(16.0),
-        width: 160, // Fixed width for each box
-        height: 120, // Fixed height for each box
+        width: 160, // Width for box
+        height: 120, // Height for box
         decoration: BoxDecoration(
-          color: const Color.fromARGB(70, 22, 58, 167),
-          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(3),
         ),
-        child: Center(
-          child: Text(
-            softwareName,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(
+              'assets/images/slack-new-logo.svg', // Path to logo
+              width: 35, // Logo width
+              height: 35, // Logo height
+              fit: BoxFit.contain,
             ),
-            textAlign: TextAlign.center,
-          ),
+            Text(
+              softwareName,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
