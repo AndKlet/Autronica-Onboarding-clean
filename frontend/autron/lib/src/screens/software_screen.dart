@@ -69,6 +69,8 @@ class _SoftwarePageState extends State<SoftwarePage> {
                   ),
                 if (departmentSoftware.isNotEmpty)
                   Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     spacing: 8.0,
                     runSpacing: 8.0,
                     children: departmentSoftware.map((software) {
