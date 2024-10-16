@@ -147,6 +147,17 @@ class SoftwareService {
         .toList();
   }
 
+  /// Gets software by selected status.
+  ///
+  /// Returns a list of software filtered by the selected status.
+  Future<List<Map<String, dynamic>>> getSoftwareBySelectedStatus(
+      String status) async {
+    final allSoftware = await getAllSoftware();
+    return allSoftware
+        .where((software) => software['status'] == status)
+        .toList();
+  }
+
   /// Gets the count of accepted software.
   Future<int> getAcceptedSoftwareCount() async {
     final software = await getAllSoftware();
