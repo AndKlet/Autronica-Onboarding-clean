@@ -22,7 +22,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from .views import *
+from .views import request_access_view
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -59,6 +59,7 @@ urlpatterns = [
         views.software_by_department,
         name="software_by_department",
     ),
+    path("request_access/", request_access_view, name="request_access"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ]

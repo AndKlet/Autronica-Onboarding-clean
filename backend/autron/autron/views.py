@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -49,3 +50,25 @@ def software_by_department(request, department_id):
         software = Software.objects.filter(department=department_id)
         serializer = SoftwareSerializer(software, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(["POST"])
+def request_access_view(request):
+    email = request.data.get("email")
+    recipient_email = request.data.get("recipient_email")
+    message = request.data.get("message")
+
+    if not email or not recipient_email or not message:
+        return Response({"error": "All fields are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        send_mail(
+            subject="Access Request",
+            message=message,
+            from_email=email,
+            recipient_list=[recipient_email],
+            fail_silently=False,
+        )
+        return Response({"success": "Email sent successfully."}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
