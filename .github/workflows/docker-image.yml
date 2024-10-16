@@ -29,7 +29,7 @@ jobs:
         password: ${{ secrets.TOKEN }}
 
     - name: Tag docker image
-      run: docker tag autron autronica-onboarding/autron:latest
+      run: docker tag autron ghcr.io/eduard-prokhorikhin/autronica-onboarding/autron:latest
 
     - name: Push Docker image
       run: docker push ghcr.io/eduard-prokhorikhin/autronica-onboarding/autron:latest
