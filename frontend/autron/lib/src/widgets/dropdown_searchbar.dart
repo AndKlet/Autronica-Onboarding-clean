@@ -23,6 +23,7 @@ class _DropdownSearchBarState<T> extends State<DropdownSearchBar<T>> {
   final TextEditingController _controller = TextEditingController();
   T? _selectedItem;
   List<T> filteredItems = [];
+  bool isDropdownOpen = false;
 
   @override
   void initState() {
@@ -45,7 +46,7 @@ class _DropdownSearchBarState<T> extends State<DropdownSearchBar<T>> {
         return label.contains(_controller.text.toLowerCase());
       }).toList();
     });
-  } //dispose and _filterItems are used to handle cases where no items are found with the search
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,49 +54,69 @@ class _DropdownSearchBarState<T> extends State<DropdownSearchBar<T>> {
 
     return Column(
       children: [
-        DropdownMenu<T>(
+        TextField(
           controller: _controller,
-          width: width,
-          hintText: widget.hintText,
-          requestFocusOnTap: true,
-          enableFilter: true,
-          menuStyle: MenuStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.autronGrey),
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0), // Rounded corners
+              borderSide: const BorderSide(color: Colors.grey), // Border color
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(
+                  color: Colors.grey, width: 1.0), // Enabled border
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(
+                  color: Colors.blue, width: 2.0), // Focused border
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                  isDropdownOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down),
+              onPressed: () {
+                setState(() {
+                  isDropdownOpen = !isDropdownOpen;
+                });
+              },
+            ),
           ),
-          label: const Text('Select Department'),
-          onSelected: (T? item) {
+          onTap: () {
             setState(() {
-              _selectedItem = item;
+              isDropdownOpen = true;
             });
-            if (item != null) {
-              widget.onSelected(item);
-            }
           },
-          dropdownMenuEntries: _getDropdownMenuEntries(),
         ),
+        if (isDropdownOpen)
+          Container(
+            height: 200, // Set the desired height for the dropdown
+            color: Colors.white,
+            child: ListView(
+              children: filteredItems.map<Widget>((T item) {
+                return ListTile(
+                  title: Text(widget.getLabel(item)),
+                  onTap: () {
+                    setState(() {
+                      _selectedItem = item;
+                      isDropdownOpen = false;
+                      _controller.text = widget.getLabel(item);
+                    });
+                    widget.onSelected(item);
+                  },
+                );
+              }).toList(),
+            ),
+          ),
         if (filteredItems.isEmpty)
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
             child: Text(
-              'No department with this name', //Error message
-              style: TextStyle(color: AppColors.autronDeclined),
+              'No department with this name', // Error message
+              style: TextStyle(color: Colors.red),
             ),
           ),
       ],
     );
-  }
-
-  List<DropdownMenuEntry<T>> _getDropdownMenuEntries() {
-    if (filteredItems.isEmpty) {
-      return [];
-    }
-
-    return filteredItems.map<DropdownMenuEntry<T>>((T item) {
-      return DropdownMenuEntry<T>(
-        value: item,
-        label: widget.getLabel(item),
-      );
-    }).toList();
   }
 }
