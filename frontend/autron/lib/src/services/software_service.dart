@@ -58,4 +58,12 @@ class SoftwareService {
     final software = await getAllSoftwares();
     return software.where((s) => s.status == 'Pending').length;
   }
+
+  /// Gets software by selected status.
+  ///
+  /// Returns a list of software filtered by the selected status.
+  Future<List<Software>> getSoftwareBySelectedStatus(String status) async {
+    final allSoftware = await getAllSoftwares();
+    return allSoftware.where((software) => software.status == status).toList();
+  }
 }
