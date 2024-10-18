@@ -2,9 +2,10 @@ from django.http import JsonResponse
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import Department, Software
 from .serializers import DepartmentSerializer, SoftwareSerializer
@@ -49,3 +50,20 @@ def software_by_department(request, department_id):
         software = Software.objects.filter(department=department_id)
         serializer = SoftwareSerializer(software, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+
+@swagger_auto_schema(
+    method="POST",
+    request_body=SoftwareSerializer,
+    responses={201: SoftwareSerializer()},
+    operation_description="Creates a new software entry with an image",
+)
+@api_view(["POST"])
+@parser_classes([MultiPartParser, FormParser]) 
+def create_software(request):
+    if request.method == "POST":
+        serializer = SoftwareSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

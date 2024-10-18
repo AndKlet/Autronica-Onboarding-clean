@@ -1,17 +1,15 @@
 from rest_framework import serializers
+from .models import Software, Department
 
-from .models import *
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ['id', 'name']
 
-# https://www.django-rest-framework.org/api-guide/serializers/
-# Serializer example
+class SoftwareSerializer(serializers.ModelSerializer):
+    department = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all())
+    image = serializers.ImageField(required=False)
 
-
-class DepartmentSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    name = serializers.CharField(max_length=100)
-
-
-class SoftwareSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    name = serializers.CharField(max_length=100)
-    department = DepartmentSerializer()
+    class Meta:
+        model = Software
+        fields = ['id', 'name', 'department', 'image']
