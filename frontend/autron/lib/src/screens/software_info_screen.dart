@@ -3,14 +3,12 @@ import 'package:autron/src/widgets/app_bar.dart';
 
 class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
-  final String softwareInfo;
-  final String softwareStatus;
+  final String? softwareStatus;
 
   const SoftwareInfoPage({
     super.key,
     required this.softwareName,
-    required this.softwareInfo,
-    required this.softwareStatus,
+    this.softwareStatus,
   });
 
   @override
@@ -30,10 +28,6 @@ class SoftwareInfoPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              softwareInfo,
-              style: const TextStyle(fontSize: 16),
-            ),
             const SizedBox(height: 16),
             RichText(
               text: TextSpan(
@@ -47,7 +41,7 @@ class SoftwareInfoPage extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: softwareStatus,
+                    text: softwareStatus ?? 'Not Requested',
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Colors.black,
