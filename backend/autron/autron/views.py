@@ -49,3 +49,12 @@ def software_by_department(request, department_id):
         software = Software.objects.filter(department=department_id)
         serializer = SoftwareSerializer(software, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+@swagger_auto_schema(
+    method="GET",
+    responses={200: openapi.Schema(type=openapi.TYPE_OBJECT)},
+    operation_description="Successflyy logged in",
+)
+@api_view(["GET"])
+def success(request):
+    return JsonResponse({"message": "Successfully logged in!"})

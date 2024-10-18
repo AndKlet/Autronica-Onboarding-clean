@@ -37,28 +37,14 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Swagger UI and Redoc UI
-    path(
-        "swagger<format>/",
-        schema_view.without_ui(cache_timeout=0),
-        name="schema-json",
-    ),
-    path(
-        "swagger/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
-    ),
-    path(
-        "redoc/",
-        schema_view.with_ui("redoc", cache_timeout=0),
-        name="schema-redoc",
-    ),
+    path("swagger<format>/",schema_view.without_ui(cache_timeout=0),name="schema-json",),
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0),name="schema-swagger-ui",),
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc",),
+    path('accounts/', include(("okta_oauth2.urls", "okta_oauth2"), namespace="okta_oauth2")),
     path("department_list/", views.department_list, name="department_list"),
     path("software_list/", views.software_list, name="software_list"),
-    path(
-        "software_by_department/<int:department_id>/",
-        views.software_by_department,
-        name="software_by_department",
-    ),
+    path("software_by_department/<int:department_id>/",views.software_by_department,name="software_by_department",),
+    path("success/", views.success, name="success"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ]
