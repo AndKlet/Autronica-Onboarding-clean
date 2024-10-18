@@ -1,4 +1,5 @@
 import 'package:autron/globals/theme/app_colors.dart';
+import 'package:autron/src/app.dart';
 import 'package:autron/src/services/auth_service.dart';
 import 'package:autron/src/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,8 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
+                  (context as Element).findAncestorStateOfType<MyAppState>()!
+                              .hideBottomNav(false);
                   Navigator.pushReplacementNamed(context, '/home');
                   _authService.login;
                 },
