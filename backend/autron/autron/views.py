@@ -52,12 +52,12 @@ def software_by_department(request, department_id):
         return JsonResponse(serializer.data, safe=False)
 
 
-@swagger_auto_schema(
-    method="POST",
-    request_body=SoftwareSerializer,
-    responses={201: SoftwareSerializer()},
-    operation_description="Creates a new software entry with an image",
-)
+#@swagger_auto_schema(
+  #  method="POST",
+  #  request_body=SoftwareSerializer,
+  #  responses={201: SoftwareSerializer()},
+  #  operation_description="Creates a new software entry with an image",
+#)
 @api_view(["POST"])
 @parser_classes([MultiPartParser, FormParser]) 
 def create_software(request):
