@@ -75,26 +75,28 @@ class _SoftwarePageState extends State<SoftwarePage> {
                     ),
                   ),
                 if (departmentSoftware.isNotEmpty)
-                  Wrap(
-                    spacing: 8.0,
-                    runSpacing: 8.0,
-                    children: departmentSoftware.map((software) {
-                      return SoftwareBox(
-                        softwareName: software.name,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SoftwareInfoPage(
-                                softwareName: software.name,
-                                softwareStatus:
-                                    software.status ?? 'Not Requested',
+                  Center(
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: departmentSoftware.map((software) {
+                        return SoftwareBox(
+                          softwareName: software.name,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SoftwareInfoPage(
+                                  softwareName: software.name,
+                                  softwareStatus:
+                                      software.status ?? 'Not Requested',
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
                   ),
               ],
             ),
