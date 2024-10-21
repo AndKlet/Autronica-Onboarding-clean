@@ -53,8 +53,33 @@ class Software(models.Model):
         return self.name
 
 
+# Department model
 class Department(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+
+# Request model that uses the generic foreign key to link to the resolver model.
+class Request(models.Model):
+    software = models.ForeignKey(Software, on_delete=models.CASCADE)
+    # user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    # resolver_content_type = None
+    # resolver_object_id = None
+    # resolver = None
+    request_date = models.DateTimeField(auto_now_add=True)
+    request_status = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.software.name
+
+
+# User model
+# class User(models.Model):
+#     name = models.CharField(max_length=100)
+#     email = models.EmailField()
+#     department = models.ForeignKey(Department, on_delete=models.CASCADE)
+
+#     def __str__(self):
+#         return self.name
