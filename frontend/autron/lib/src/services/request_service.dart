@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 class RequestService {
   Future<void> requestSoftware(Request request) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/request_software/${request.software.id}/'),
+      Uri.parse(
+          'http://10.0.2.2:8000/request_software/${request.software.id}/'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(request.toJson()),
     );
