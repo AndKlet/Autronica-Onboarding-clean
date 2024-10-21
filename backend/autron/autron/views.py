@@ -11,6 +11,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Department, Request, Software
 from .serializers import (DepartmentSerializer, RequestSerializer,
                           SoftwareSerializer)
+from .models import Department, Request, Software
+from .serializers import (DepartmentSerializer, RequestSerializer,
+                          SoftwareSerializer)
 
 
 @swagger_auto_schema(
