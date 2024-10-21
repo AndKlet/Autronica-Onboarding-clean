@@ -5,7 +5,6 @@ import 'package:autron/globals/urls.dart';
 
 /// A service class that handles software.
 class SoftwareService {
-
   /// Gets a list of software.
   ///
   /// Fetches software data from the server and returns a list of [Software] objects.
