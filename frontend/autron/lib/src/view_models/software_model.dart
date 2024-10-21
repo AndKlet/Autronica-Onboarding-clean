@@ -21,9 +21,8 @@ class Software {
       name: json['name'] as String,
       department: Department.fromJson(json['department']),
       image: json['image'] != null && json['image'].startsWith('/')
-        ? 'https://164.92.218.9${json['image']}'
-        : json['image'] ?? '',
-
+          ? 'https://164.92.218.9${json['image']}'
+          : json['image'] ?? '',
     );
   }
 
