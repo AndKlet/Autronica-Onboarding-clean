@@ -27,4 +27,13 @@ class Software {
 
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'status': status,
+      'department': department.toJson(),
+    };
+  }
 }
