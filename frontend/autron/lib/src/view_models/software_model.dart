@@ -21,4 +21,13 @@ class Software {
       department: Department.fromJson(json['department']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'status': status,
+      'department': department.toJson(),
+    };
+  }
 }
