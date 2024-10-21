@@ -10,14 +10,13 @@ class Software {
   String description;
   String request_method;
 
-  Software({
-    required this.id,
-    required this.name,
-    required this.department,
-    required this.image,
-    required this.description,
-    required this.request_method
-  });
+  Software(
+      {required this.id,
+      required this.name,
+      required this.department,
+      required this.image,
+      required this.description,
+      required this.request_method});
 
   // Method to convert JSON to Software object
   factory Software.fromJson(Map<String, dynamic> json) {
@@ -26,11 +25,10 @@ class Software {
       name: json['name'] as String,
       department: Department.fromJson(json['department']),
       image: json['image'] != null && json['image'].startsWith('/')
-        ? '${Urls.baseUrl}${json['image']}'
-        : json['image'] ?? '',
+          ? '${Urls.baseUrl}${json['image']}'
+          : json['image'] ?? '',
       description: json['description'] as String,
       request_method: json['requestmethod'] as String,
-
     );
   }
 
