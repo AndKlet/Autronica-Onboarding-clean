@@ -5,10 +5,6 @@ import 'package:http/http.dart' as http;
 /// A service class that handles software.
 class SoftwareService {
   /// Gets a list of software.
-  ///
-  /// This method is a placeholder for a future API call.
-  /// TODO: Implement software model
-  /// TODO: Implement software API
   Future<List<Software>> getAllSoftwares() async {
     final response =
         await http.get(Uri.parse('https://164.92.218.9/software_list/'));
