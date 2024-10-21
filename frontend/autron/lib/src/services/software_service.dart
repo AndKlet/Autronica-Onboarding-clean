@@ -28,8 +28,8 @@ class SoftwareService {
   /// Fetches software data from the server and returns a list of [Software] objects for the specified department.
   /// Throws an exception if the request fails.
   Future<List<Software>> getSoftwareByDepartment(int departmentId) async {
-    final response = await http.get(Uri.parse(
-        '${Urls.baseUrl}/software_by_department/$departmentId/'));
+    final response = await http.get(
+        Uri.parse('${Urls.baseUrl}/software_by_department/$departmentId/'));
     if (response.statusCode == 200) {
       print(response.body);
       // Split the response body into a list of maps department objects
