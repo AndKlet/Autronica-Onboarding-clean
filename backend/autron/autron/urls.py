@@ -49,6 +49,7 @@ urlpatterns = [
     path("success/", views.success, name="success"),
     path("request_access/", request_access_view, name="request_access"),
     path('software/create/', views.create_software, name="create_software"),
+    path("request_software/", views.request_software, name="request_software"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
