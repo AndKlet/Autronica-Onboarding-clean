@@ -7,10 +7,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 
-from .models import Department, Software
-from .serializers import DepartmentSerializer, SoftwareSerializer
-
-# https://www.django-rest-framework.org/api-guide/views/
+from .models import Department, Request, Software
+from .serializers import (DepartmentSerializer, RequestSerializer,
+                          SoftwareSerializer)
 
 
 @swagger_auto_schema(
@@ -49,6 +48,19 @@ def software_by_department(request, department_id):
     if request.method == "GET":
         software = Software.objects.filter(department=department_id)
         serializer = SoftwareSerializer(software, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@swagger_auto_schema(
+    method="POST",
+    responses={200: RequestSerializer(many=True)},
+    operation_description="Makes an request for a software",
+)
+@api_view(["POST"])
+def request_software(request, software_id):
+    if request.method == "POST":
+        requests = Request.objects.create(software_id=software_id, request_status="Pending")
+        serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
 
 
