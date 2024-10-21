@@ -21,3 +21,10 @@ class SoftwareSerializer(serializers.ModelSerializer):
         
     
 
+
+
+class RequestSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    software = SoftwareSerializer()
+    request_date = serializers.DateTimeField()
+    request_status = serializers.CharField(max_length=100)
