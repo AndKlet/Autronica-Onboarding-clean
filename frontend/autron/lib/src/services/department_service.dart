@@ -4,9 +4,8 @@ import 'package:http/http.dart' as http;
 
 /// A service that handles department data.
 class DepartmentService {
-
   /// Fetches all departments from the server.
-  /// 
+  ///
   /// Returns a list of [Department] objects.
   /// Throws an exception if the request fails.
   Future<List<Department>> getAllDepartments() async {
