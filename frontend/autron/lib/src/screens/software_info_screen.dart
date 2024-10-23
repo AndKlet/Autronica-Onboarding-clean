@@ -5,6 +5,7 @@ import 'package:autron/src/widgets/request_access_form.dart';
 class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
   final String? softwareStatus;
+  final String? softwareInfo = 'This is a placeholder for software information.';
 
   const SoftwareInfoPage({
     super.key,
@@ -29,10 +30,10 @@ class SoftwareInfoPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
-                softwareInfo,
-                style: const TextStyle(fontSize: 16),
-              ),
+              // Text(
+              //   softwareInfo,
+              //   style: const TextStyle(fontSize: 16),
+              // ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
