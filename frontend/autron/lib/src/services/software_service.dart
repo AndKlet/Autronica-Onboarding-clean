@@ -11,7 +11,7 @@ class SoftwareService {
   /// TODO: Implement software API
   Future<List<Software>> getAllSoftwares() async {
     final response =
-        await http.get(Uri.parse('http://164.92.218.9:8000/software_list/'));
+        await http.get(Uri.parse('https://164.92.218.9/software_list/'));
     if (response.statusCode == 200) {
       // Split the response body into a list of maps department objects
       final List<Software> softwares = (jsonDecode(response.body) as List)
@@ -25,7 +25,7 @@ class SoftwareService {
 
   Future<List<Software>> getSoftwareByDepartment(int departmentId) async {
     final response = await http.get(Uri.parse(
-        'http://164.92.218.9:8000/software_by_department/$departmentId/'));
+        'https://164.92.218.9/software_by_department/$departmentId/'));
     if (response.statusCode == 200) {
       // Split the response body into a list of maps department objects
       final List<Software> softwares = (jsonDecode(response.body) as List)
