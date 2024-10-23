@@ -5,12 +5,14 @@ class Software {
   String name;
   String? status; // Optional status
   Department department;
+  String image;
 
   Software({
     required this.id,
     required this.name,
     this.status, // Optional status
     required this.department,
+    required this.image,
   });
 
   factory Software.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,10 @@ class Software {
       name: json['name'] as String,
       status: json.containsKey('status') ? json['status'] as String? : null,
       department: Department.fromJson(json['department']),
+      image: json['image'] != null && json['image'].startsWith('/')
+        ? 'https://164.92.218.9${json['image']}'
+        : json['image'] ?? '',
+
     );
   }
 }
