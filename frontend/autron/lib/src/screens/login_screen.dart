@@ -1,8 +1,5 @@
-import 'package:autron/globals/theme/app_colors.dart';
-import 'package:autron/src/app.dart';
-import 'package:autron/src/services/auth_service.dart';
-import 'package:autron/src/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,63 +9,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final AuthService _authService = AuthService();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  late InAppWebViewController webViewController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.autronWhite,
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 100),
-              // Logo
-              Image.asset(
-                'assets/images/autronica-logo.png',
-                scale: 2,
-              ),
-              const SizedBox(height: 25),
-
-              // Username text field
-              InputTextField(
-                  controller: usernameController, hintText: 'Username'),
-
-              const SizedBox(height: 10),
-
-              // Password text field
-              InputTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true),
-
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  (context as Element).findAncestorStateOfType<MyAppState>()!
-                              .hideBottomNav(false);
-                  Navigator.pushReplacementNamed(context, '/home');
-                  _authService.login;
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            // Logo
+            Image.asset(
+              'assets/images/autronica-logo.png',
+              scale: 2,
+            ),
+            const SizedBox(height: 5),
+            Expanded(
+              child: InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri('https://164.92.218.9/accounts/login/')),
+                onWebViewCreated: (controller) {
+                  webViewController = controller;
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.autronGreen,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                    color: AppColors.autronWhite,
-                    fontSize: 18,
-                  ),
-                ),
+                onLoadStop: (controller, url) {
+                  print('Page finished loading: $url');
+                },
+                onLoadStart: (controller, url) {
+                  print('Page started loading: $url');
+                },
+                onReceivedHttpError: (controller, request, error) {
+                  print('HTTP error: $error');
+                },
+                onReceivedServerTrustAuthRequest: (controller, challenge) async {
+                  // Handle SSL bypass for development
+                  return ServerTrustAuthResponse(action: ServerTrustAuthResponseAction.PROCEED);
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
