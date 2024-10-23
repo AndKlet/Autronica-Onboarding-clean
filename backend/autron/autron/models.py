@@ -64,7 +64,7 @@ class Department(models.Model):
 
 # Request model that uses the generic foreign key to link to the resolver model.
 class Request(models.Model):
-    software = models.ForeignKey(Software, on_delete=models.CASCADE)
+    software = models.ForeignKey("Software", on_delete=models.CASCADE)
     # user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     # resolver_content_type = None
     # resolver_object_id = None
