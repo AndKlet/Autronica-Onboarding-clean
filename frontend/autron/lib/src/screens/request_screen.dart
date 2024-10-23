@@ -1,12 +1,12 @@
 import 'package:autron/globals/theme/app_colors.dart';
-import 'package:autron/src/services/software_service.dart';
-import 'package:autron/src/view_models/software_model.dart';
+import 'package:autron/src/services/request_service.dart';
+import 'package:autron/src/view_models/request_model.dart';
 import 'package:autron/src/widgets/statusAlert.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 /// The RequestScreen widget displays the software requests screen of the application.
-/// 
+///
 /// The software requests screen displays the software requests with the status 'Accepted', 'Pending', or 'Declined'.
 /// RequestScreen fetches software data from the [SoftwareService].
 class RequestScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class RequestScreen extends StatefulWidget {
 }
 
 class _RequestScreenState extends State<RequestScreen> {
-  final SoftwareService _softwareService = SoftwareService();
+  final RequestService _requestService = RequestService();
 
   // Initially set the selected status to 'Accepted'
   String selectedStatus = 'Accepted';
@@ -96,7 +96,7 @@ class _RequestScreenState extends State<RequestScreen> {
             // FutureBuilder to fetch software requests
             child: FutureBuilder(
               future:
-                  _softwareService.getSoftwareBySelectedStatus(selectedStatus),
+                  _requestService.getRequestBySelectedStatus(selectedStatus),
               builder: (context, snapshot) {
                 // Check the connection state
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -105,9 +105,8 @@ class _RequestScreenState extends State<RequestScreen> {
                   return const Center(
                       child: Text('Error loading software requests'));
                 } else {
-                  // If the snapshot has data, display the software requests
-                  final List<Software> filteredRequests =
-                      snapshot.data as List<Software>;
+                  final List<Request> filteredRequests =
+                      snapshot.data as List<Request>;
 
                   return ListView.builder(
                     itemCount: filteredRequests.length,
@@ -137,8 +136,8 @@ class _RequestScreenState extends State<RequestScreen> {
                       return Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: StatusAlert(
-                          title: request.name,
-                          value: request.status!,
+                          title: request.software.name,
+                          value: request.status,
                           count: statusCode,
                           color: statusColor,
                         ),

@@ -1,3 +1,7 @@
+import 'package:autron/src/services/request_service.dart';
+import 'package:autron/src/view_models/department_model.dart';
+import 'package:autron/src/view_models/request_model.dart';
+import 'package:autron/src/view_models/software_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
@@ -6,22 +10,62 @@ import 'package:flutter_svg/flutter_svg.dart';
 /// The SoftwareInfoPage widget displays the information of a software.
 ///
 /// The software information page displays the software name and status, and allows the user to request access to the software.
-class SoftwareInfoPage extends StatelessWidget {
+class SoftwareInfoPage extends StatefulWidget {
+  final int softwareId;
   final String softwareName;
   final String? softwareStatus;
-  final String? softwareInfo = 'This is a placeholder for software information.';
+  final String? softwareInfo =
+      'This is a placeholder for software information.';
   final String softwareDescription;
   final String? softwareImage;
   final String requestMethod;
 
   const SoftwareInfoPage({
     super.key,
+    required this.softwareId,
     required this.softwareName,
-    this.softwareStatus,
-    required this.softwareDescription,
-    this.softwareImage,
-    required this.requestMethod,
+    required this.department,
   });
+
+  @override
+  _SoftwareInfoPageState createState() => _SoftwareInfoPageState();
+}
+
+class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
+  bool _isLoading = false;
+  String? _errorMessage;
+  String _requestStatus = 'Not Requested';
+
+  Future<void> _requestSoftwareAccess() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    final request = Request(
+      id: 1,
+      status: 'pending',
+      software: Software(
+          id: widget.softwareId,
+          name: widget.softwareName,
+          department: widget.department),
+    );
+
+    try {
+      await RequestService().requestSoftware(request);
+      setState(() {
+        _requestStatus = 'Requested';
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Failed to request access: $e';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +77,28 @@ class SoftwareInfoPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-              child: softwareImage != null && softwareImage!.isNotEmpty
-                ? Image.network(
-                    softwareImage!,
-                    width: 200, // Set appropriate width
-                    height: 200, // Set appropriate height
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return SvgPicture.asset(
+                child: softwareImage != null && softwareImage!.isNotEmpty
+                    ? Image.network(
+                        softwareImage!,
+                        width: 200, // Set appropriate width
+                        height: 200, // Set appropriate height
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return SvgPicture.asset(
+                            'assets/images/logo-placeholder.svg',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                    : SvgPicture.asset(
                         'assets/images/logo-placeholder.svg',
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,
-                      );
-                    },
-                  )
-                : SvgPicture.asset(
-                    'assets/images/logo-placeholder.svg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                      ),
+              ),
               Text(
                 softwareName,
                 style: const TextStyle(
@@ -64,9 +108,9 @@ class SoftwareInfoPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-              softwareDescription, // Display the description here
-              style: const TextStyle(fontSize: 16),
-            ),
+                softwareDescription, // Display the description here
+                style: const TextStyle(fontSize: 16),
+              ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
