@@ -22,7 +22,7 @@ class Software {
       status: json.containsKey('status') ? json['status'] as String? : null,
       department: Department.fromJson(json['department']),
       image: json['image'] != null && json['image'].startsWith('/')
-        ? 'http://10.0.2.2:8000${json['image']}'
+        ? '164.92.218.9${json['image']}'
         : json['image'] ?? '',
 
     );
