@@ -47,7 +47,8 @@ urlpatterns = [
         views.software_by_department,
         name="software_by_department",
     ),
-    path("request_software/", views.request_software, name="request_software"),
+    path("request_software/<int:software_id>/", views.request_software, name="request_software"),
+    path("request_list/", views.request_list, name="request_list"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ]
