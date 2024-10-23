@@ -4,6 +4,10 @@ import 'package:autron/src/services/auth_service.dart';
 import 'package:autron/src/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
 
+
+/// The LoginPage widget displays the login screen of the application.
+/// 
+/// The login screen fetches user data from the [AuthService] and allows the user to log in.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -24,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 100),
+              
               // Logo
               Image.asset(
                 'assets/images/autronica-logo.png',
