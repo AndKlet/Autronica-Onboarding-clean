@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SoftwareInfoPage extends StatefulWidget {
   final int softwareId;
   final String softwareName;
-  final String? softwareStatus;
+  final Department department;
   final String? softwareInfo =
       'This is a placeholder for software information.';
   final String softwareDescription;
@@ -22,9 +22,8 @@ class SoftwareInfoPage extends StatefulWidget {
 
   const SoftwareInfoPage({
     super.key,
-    required this.id,
-    required this.name,
-    required this.image,
+    required this.softwareId,
+    required this.softwareName,
     required this.department,
   });
 
@@ -42,6 +41,30 @@ class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
       _isLoading = true;
       _errorMessage = null;
     });
+
+    final request = Request(
+      id: 1,
+      status: 'pending',
+      software: Software(
+          id: widget.softwareId,
+          name: widget.softwareName,
+          department: widget.department),
+    );
+
+    try {
+      await RequestService().requestSoftware(request);
+      setState(() {
+        _requestStatus = 'Requested';
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Failed to request access: $e';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
