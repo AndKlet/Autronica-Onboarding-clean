@@ -24,7 +24,7 @@ from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import *
+from .views import request_access_view
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -61,6 +61,7 @@ urlpatterns = [
         views.software_by_department,
         name="software_by_department",
     ),
+    path("request_access/", request_access_view, name="request_access"),
     path('software/create/', views.create_software, name="create_software"),
     # Our app's urls here
     # path('/', include('autron.urls')),
