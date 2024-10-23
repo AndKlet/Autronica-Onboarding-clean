@@ -61,3 +61,16 @@ def request_software(request, software_id):
         requests = Request.objects.create(software_id=software_id, request_status="Pending")
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
+
+
+@swagger_auto_schema(
+    method="GET",
+    responses={200: RequestSerializer(many=True)},
+    operation_description="Get all requests",
+)
+@api_view(["GET"])
+def request_list(request):
+    if request.method == "GET":
+        request = Request.objects.all()
+        serializer = RequestSerializer(request, many=True)
+        return JsonResponse(serializer.data, safe=False)
