@@ -5,7 +5,6 @@ import 'package:autron/globals/urls.dart';
 class Software {
   int id;
   String name;
-  String? status; // Optional status
   Department department;
   String image;
   String description;
@@ -14,7 +13,6 @@ class Software {
   Software({
     required this.id,
     required this.name,
-    this.status, // Optional status
     required this.department,
     required this.image,
     required this.description,
@@ -26,7 +24,6 @@ class Software {
     return Software(
       id: json['id'] as int,
       name: json['name'] as String,
-      status: json.containsKey('status') ? json['status'] as String? : null,
       department: Department.fromJson(json['department']),
       image: json['image'] != null && json['image'].startsWith('/')
         ? '${Urls.baseUrl}${json['image']}'
@@ -41,7 +38,6 @@ class Software {
     return {
       'id': id,
       'name': name,
-      'status': status,
       'department': department.toJson(),
     };
   }
