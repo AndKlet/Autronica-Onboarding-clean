@@ -27,6 +27,7 @@ class SoftwareService {
     final response = await http.get(Uri.parse(
         'http://10.0.2.2:8000/software_by_department/$departmentId/'));
     if (response.statusCode == 200) {
+      print(response.body);
       // Split the response body into a list of maps department objects
       final List<Software> softwares = (jsonDecode(response.body) as List)
           .map((software) => Software.fromJson(software))
