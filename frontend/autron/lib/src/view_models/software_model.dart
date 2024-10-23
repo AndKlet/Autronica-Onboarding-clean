@@ -1,5 +1,6 @@
 import 'package:autron/src/view_models/department_model.dart';
 
+/// Software model
 class Software {
   int id;
   String name;
@@ -15,6 +16,7 @@ class Software {
     required this.image,
   });
 
+  // Method to convert JSON to Software object
   factory Software.fromJson(Map<String, dynamic> json) {
     return Software(
       id: json['id'] as int,
