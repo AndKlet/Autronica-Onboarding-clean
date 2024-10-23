@@ -41,22 +41,22 @@ class SoftwareBox extends StatelessWidget {
              imageUrl != null && imageUrl!.isNotEmpty
                 ? Image.network(
                     imageUrl!,
-                    width: 50,
-                    height: 50,
+                    width: 40,
+                    height: 40,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return SvgPicture.asset(
                         'assets/images/logo-placeholder.svg', // Fallback to placeholder image
-                        width: 50,
-                        height: 50,
+                        width: 40,
+                        height: 40,
                         fit: BoxFit.cover,
                       );
                     },
                   )
                 : SvgPicture.asset(
                     'assets/images/logo-placeholder.svg', // Default placeholder
-                    width: 50,
-                    height: 50,
+                    width: 40,
+                    height: 40,
                     fit: BoxFit.cover,
                   ),
             Text(
@@ -67,6 +67,8 @@ class SoftwareBox extends StatelessWidget {
                 color: Colors.black,
               ),
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
