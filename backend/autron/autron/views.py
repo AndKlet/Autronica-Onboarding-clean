@@ -54,21 +54,37 @@ def software_by_department(request, department_id):
 
 @api_view(["POST"])
 def request_access_view(request):
-    email = request.data.get("email")
-    recipient_email = request.data.get("recipient_email")
-    message = request.data.get("message")
+    if request.method == "POST":
+        # Get the form data from the POST request
+        user_email = request.data.get("email")
+        receiving_email = request.data.get("receiving_email")
+        message = request.data.get("message")
+        software = request.data.get("software")
+        subject = request.data.get("subject", "Access Request")
 
-    if not email or not recipient_email or not message:
-        return Response({"error": "All fields are required."}, status=status.HTTP_400_BAD_REQUEST)
+        email_message = f"""
+        Request Access
 
-    try:
-        send_mail(
-            subject="Access Request",
-            message=message,
-            from_email=email,
-            recipient_list=[recipient_email],
-            fail_silently=False,
-        )
-        return Response({"success": "Email sent successfully."}, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        User {user_email} is requesting access to software {software}.
+
+        Employee reasoning:
+        {message}
+
+        Click the link to start the process:
+        http://customer_request.portal.com
+        """
+
+        try:
+            # Send the email using Django's email system
+            send_mail(
+                subject,
+                email_message,
+                user_email,
+                [receiving_email],
+                fail_silently=False,
+            )
+            return JsonResponse(
+                {"message": "Request sent successfully."}, status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

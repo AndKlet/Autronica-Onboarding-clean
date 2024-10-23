@@ -64,7 +64,10 @@ class SoftwareInfoPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RequestAccessForm(),
+                      builder: (context) => RequestAccessForm(
+                        softwareName:
+                            softwareName, // Pass the software name to the request form
+                      ),
                     ),
                   );
                 },
