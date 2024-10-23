@@ -4,14 +4,12 @@ import 'package:autron/src/widgets/request_access_form.dart';
 
 class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
-  final String softwareInfo;
-  final String softwareStatus;
+  final String? softwareStatus;
 
   const SoftwareInfoPage({
     super.key,
     required this.softwareName,
-    required this.softwareInfo,
-    required this.softwareStatus,
+    this.softwareStatus,
   });
 
   @override

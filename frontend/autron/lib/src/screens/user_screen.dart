@@ -1,3 +1,5 @@
+import 'package:autron/src/app.dart';
+import 'package:autron/src/screens/login_screen.dart';
 import 'package:autron/src/services/auth_service.dart';
 import 'package:autron/src/services/user_service.dart';
 import 'package:autron/src/widgets/app_bar.dart';
@@ -48,8 +50,10 @@ class _UserScreenState extends State<UserScreen> {
                       alignment: Alignment.bottomCenter,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/login');
-                          _authService.login;
+                          (context as Element).findAncestorStateOfType<MyAppState>()!
+                              .hideBottomNav(true);
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                          _authService.logout;
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF005E1D),
