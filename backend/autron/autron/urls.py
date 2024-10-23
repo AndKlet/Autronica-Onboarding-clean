@@ -50,7 +50,8 @@ urlpatterns = [
         name="software_by_department",
     ),
     path('software/create/', views.create_software, name="create_software"),
-    path("request_software/", views.request_software, name="request_software"),
+    path("request_software/<int:software_id>/", views.request_software, name="request_software"),
+    path("request_list/", views.request_list, name="request_list"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
