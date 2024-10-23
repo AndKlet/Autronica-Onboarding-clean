@@ -19,6 +19,7 @@ class SoftwareService {
     }
   }
 
+  /// Gets software by department.
   Future<List<Software>> getSoftwareByDepartment(int departmentId) async {
     final response = await http.get(Uri.parse(
         'http://10.0.2.2:8000/software_by_department/$departmentId/'));
@@ -31,35 +32,5 @@ class SoftwareService {
     } else {
       throw Exception('Failed to load softwares');
     }
-  }
-
-  /// Gets software by status.
-
-  /// Returns a list of software with the specified statuses by calling [getAllSoftware] and filtering the results.
-  Future<List<Software>> getSoftwareByStatus(List<String> statuses) async {
-    final allSoftware = await getAllSoftwares();
-    return allSoftware
-        .where((software) => statuses.contains(software.status))
-        .toList();
-  }
-
-  /// Gets the count of accepted software.
-  Future<int> getAcceptedSoftwareCount() async {
-    final software = await getAllSoftwares();
-    return software.where((s) => s.status == 'Accepted').length;
-  }
-
-  /// Gets the count of pending software.
-  Future<int> getPendingSoftwareCount() async {
-    final software = await getAllSoftwares();
-    return software.where((s) => s.status == 'Pending').length;
-  }
-
-  /// Gets software by selected status.
-  ///
-  /// Returns a list of software filtered by the selected status.
-  Future<List<Software>> getSoftwareBySelectedStatus(String status) async {
-    final allSoftware = await getAllSoftwares();
-    return allSoftware.where((software) => software.status == status).toList();
   }
 }

@@ -81,20 +81,21 @@ class _SoftwarePageState extends State<SoftwarePage> {
                       runSpacing: 8.0,
                       children: departmentSoftware.map((software) {
                         return SoftwareBox(
-                          softwareName: software.name,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SoftwareInfoPage(
-                                  softwareName: software.name,
-                                  softwareStatus:
-                                      software.status ?? 'Not Requested',
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                            softwareName: software.name,
+                            onPressed: () {
+                              if (selectedDepartment != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SoftwareInfoPage(
+                                      softwareId: software.id,
+                                      softwareName: software.name,
+                                      department: selectedDepartment!,
+                                    ),
+                                  ),
+                                );
+                              }
+                            });
                       }).toList(),
                     ),
                   ),
