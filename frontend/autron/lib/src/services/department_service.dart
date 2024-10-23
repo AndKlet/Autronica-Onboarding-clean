@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class DepartmentService {
   Future<List<Department>> getAllDepartments() async {
     final response =
-        await http.get(Uri.parse('http://164.92.218.9/department_list/'));
+        await http.get(Uri.parse('https://164.92.218.9/department_list/'));
     if (response.statusCode == 200) {
       // Split the response body into a list of maps department objects
       final List<Department> departments = (jsonDecode(response.body) as List)
