@@ -1,9 +1,11 @@
+/// Department model
 class Department {
   int id;
   String name;
 
   Department({required this.name, required this.id});
 
+  // Method to convert JSON to Department object
   factory Department.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {

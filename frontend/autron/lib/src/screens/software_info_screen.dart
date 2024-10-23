@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
 
+/// The SoftwareInfoPage widget displays the information of a software.
+/// 
+/// The software information page displays the software name and status, and allows the user to request access to the software.
 class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
   final String? softwareStatus;

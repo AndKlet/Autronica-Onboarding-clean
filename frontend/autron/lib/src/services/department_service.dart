@@ -2,7 +2,13 @@ import 'dart:convert';
 import 'package:autron/src/view_models/department_model.dart';
 import 'package:http/http.dart' as http;
 
+/// A service that handles department data.
 class DepartmentService {
+
+  /// Fetches all departments from the server.
+  /// 
+  /// Returns a list of [Department] objects.
+  /// Throws an exception if the request fails.
   Future<List<Department>> getAllDepartments() async {
     final response =
         await http.get(Uri.parse('https://164.92.218.9/department_list/'));
