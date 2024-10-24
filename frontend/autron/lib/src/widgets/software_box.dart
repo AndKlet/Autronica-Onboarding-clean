@@ -40,7 +40,7 @@ class SoftwareBox extends StatelessWidget {
           children: [
             image != null && image!.isNotEmpty
                 ? Image.network(
-                    imageUrl!,
+                    image!,
                     width: 50,
                     height: 50,
                     fit: BoxFit.contain,

@@ -60,7 +60,7 @@ def software_by_department(request, department_id):
 @api_view(["POST"])
 def request_software(request, software_id):
     if request.method == "POST":
-        requests = Request.objects.create(software_id=software_id, request_status="Pending")
+        requests = Request.objects.create(software_id=software_id, status="Pending")
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
 

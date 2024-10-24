@@ -11,8 +11,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 ///
 /// The software information page displays the software name and status, and allows the user to request access to the software.
 class SoftwareInfoPage extends StatefulWidget {
-  final int softwareId;
-  final String softwareName;
+  final int id;
+  final String name;
+  final String image;
   final Department department;
   final String? softwareInfo =
       'This is a placeholder for software information.';
@@ -22,8 +23,9 @@ class SoftwareInfoPage extends StatefulWidget {
 
   const SoftwareInfoPage({
     super.key,
-    required this.softwareId,
-    required this.softwareName,
+    required this.id,
+    required this.name,
+    required this.image,
     required this.department,
   });
 
@@ -46,8 +48,9 @@ class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
       id: 1,
       status: 'pending',
       software: Software(
-          id: widget.softwareId,
-          name: widget.softwareName,
+          id: widget.id,
+          name: widget.name,
+          image: widget.image,
           department: widget.department),
     );
 
