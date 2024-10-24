@@ -3,11 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SoftwareBox extends StatelessWidget {
   final String softwareName;
+  final String? imageUrl;
   final VoidCallback onPressed;
 
   const SoftwareBox({
     Key? key,
     required this.softwareName,
+    this.imageUrl,
     required this.onPressed,
   }) : super(key: key);
 
@@ -36,12 +38,27 @@ class SoftwareBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset(
-              'assets/images/logo-placeholder.svg', // Path to logo
-              width: 35, // Logo width
-              height: 35, // Logo height
-              fit: BoxFit.contain,
-            ),
+             imageUrl != null && imageUrl!.isNotEmpty
+                ? Image.network(
+                    imageUrl!,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return SvgPicture.asset(
+                        'assets/images/logo-placeholder.svg', // Fallback to placeholder image
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  )
+                : SvgPicture.asset(
+                    'assets/images/logo-placeholder.svg', // Default placeholder
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                  ),
             Text(
               softwareName,
               style: const TextStyle(
@@ -50,6 +67,8 @@ class SoftwareBox extends StatelessWidget {
                 color: Colors.black,
               ),
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

@@ -1,9 +1,14 @@
 import 'package:autron/globals/theme/app_colors.dart';
 import 'package:autron/src/services/software_service.dart';
+import 'package:autron/src/view_models/software_model.dart';
 import 'package:autron/src/widgets/statusAlert.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
+/// The RequestScreen widget displays the software requests screen of the application.
+/// 
+/// The software requests screen displays the software requests with the status 'Accepted', 'Pending', or 'Declined'.
+/// RequestScreen fetches software data from the [SoftwareService].
 class RequestScreen extends StatefulWidget {
   static const routeName = '/request-screen';
 
@@ -39,6 +44,7 @@ class _RequestScreenState extends State<RequestScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
+                  // Change the status to 'Accepted' when the button is pressed
                   onPressed: () => _changeStatus('Accepted'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedStatus == 'Accepted'
@@ -53,6 +59,7 @@ class _RequestScreenState extends State<RequestScreen> {
                   child: const Text('Accepted'),
                 ),
                 ElevatedButton(
+                  // Change the status to 'Pending' when the button is pressed
                   onPressed: () => _changeStatus('Pending'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedStatus == 'Pending'
@@ -67,6 +74,7 @@ class _RequestScreenState extends State<RequestScreen> {
                   child: const Text(' Pending '),
                 ),
                 ElevatedButton(
+                  // Change the status to 'Declined' when the button is pressed
                   onPressed: () => _changeStatus('Declined'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedStatus == 'Declined'
@@ -85,18 +93,21 @@ class _RequestScreenState extends State<RequestScreen> {
           ),
           const SizedBox(height: 16.0),
           Expanded(
+            // FutureBuilder to fetch software requests
             child: FutureBuilder(
               future:
                   _softwareService.getSoftwareBySelectedStatus(selectedStatus),
               builder: (context, snapshot) {
+                // Check the connection state
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return const Center(
                       child: Text('Error loading software requests'));
                 } else {
-                  final List<Map<String, dynamic>> filteredRequests =
-                      snapshot.data as List<Map<String, dynamic>>;
+                  // If the snapshot has data, display the software requests
+                  final List<Software> filteredRequests =
+                      snapshot.data as List<Software>;
 
                   return ListView.builder(
                     itemCount: filteredRequests.length,
@@ -105,7 +116,7 @@ class _RequestScreenState extends State<RequestScreen> {
                       Color statusColor;
                       int statusCode;
 
-                      switch (request['status']) {
+                      switch (request.status) {
                         case 'Accepted':
                           statusColor = AppColors.autronAccepted;
                           statusCode = 1;
@@ -126,8 +137,8 @@ class _RequestScreenState extends State<RequestScreen> {
                       return Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: StatusAlert(
-                          title: request['name']!,
-                          value: request['status']!,
+                          title: request.name,
+                          value: request.status!,
                           count: statusCode,
                           color: statusColor,
                         ),

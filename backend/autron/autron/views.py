@@ -1,10 +1,12 @@
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import Department, Software
 from .serializers import DepartmentSerializer, SoftwareSerializer
@@ -58,3 +60,57 @@ def software_by_department(request, department_id):
 @api_view(["GET"])
 def success(request):
     return JsonResponse({"message": "Successfully logged in!"})
+
+@api_view(["POST"])
+def request_access_view(request):
+    if request.method == "POST":
+        # Get the form data from the POST request
+        user_email = request.data.get("email")
+        receiving_email = request.data.get("receiving_email")
+        message = request.data.get("message")
+        software = request.data.get("software")
+        subject = request.data.get("subject", "Access Request")
+
+        email_message = f"""
+        Request Access
+
+        User {user_email} is requesting access to software {software}.
+
+        Employee reasoning:
+        {message}
+
+        Click the link to start the process:
+        http://customer_request.portal.com
+        """
+
+        try:
+            # Send the email using Django's email system
+            send_mail(
+                subject,
+                email_message,
+                user_email,
+                [receiving_email],
+                fail_silently=False,
+            )
+            return JsonResponse(
+                {"message": "Request sent successfully."}, status=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+#@swagger_auto_schema(
+  #  method="POST",
+  #  request_body=SoftwareSerializer,
+  #  responses={201: SoftwareSerializer()},
+  #  operation_description="Creates a new software entry with an image",
+#)
+@api_view(["POST"])
+@parser_classes([MultiPartParser, FormParser]) 
+def create_software(request):
+    if request.method == "POST":
+        serializer = SoftwareSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

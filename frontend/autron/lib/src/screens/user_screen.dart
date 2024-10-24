@@ -5,6 +5,10 @@ import 'package:autron/src/services/user_service.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
+/// The UserScreen widget displays the user profile screen of the application.
+/// 
+/// The user profile screen displays the user's name and department, and allows the user to log out.
+/// UserScreen fetches user data from the [UserService].
 class UserScreen extends StatefulWidget {
   @override
   State<UserScreen> createState() => _UserScreenState();
@@ -12,22 +16,26 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  final AuthService _authService = AuthService();
-  final UserService _userService = UserService();
+  final AuthService _authService = AuthService(); // Use AuthService
+  final UserService _userService = UserService(); // Use UserService
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Profile'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
+        // FutureBuilder to fetch user data
         child: FutureBuilder(
           future: _userService.getUser(),
           builder: (context, snapshot) {
+            // Check the connection state
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error loading user data'));
             } else {
+              // If the snapshot has data, display the user profile screen
               final user = snapshot.data as Map<String, dynamic>;
               final userName = user['name'];
               final department = user['department'];
@@ -50,6 +58,7 @@ class _UserScreenState extends State<UserScreen> {
                       alignment: Alignment.bottomCenter,
                       child: ElevatedButton(
                         onPressed: () {
+                          // Log out the user
                           (context as Element).findAncestorStateOfType<MyAppState>()!
                               .hideBottomNav(true);
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));

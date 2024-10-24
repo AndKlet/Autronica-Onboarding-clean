@@ -21,8 +21,10 @@ from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+from django.conf import settings
+from django.conf.urls.static import static
 
-from .views import *
+from .views import request_access_view
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -45,6 +47,8 @@ urlpatterns = [
     path("software_list/", views.software_list, name="software_list"),
     path("software_by_department/<int:department_id>/",views.software_by_department,name="software_by_department",),
     path("success/", views.success, name="success"),
+    path("request_access/", request_access_view, name="request_access"),
+    path('software/create/', views.create_software, name="create_software"),
     # Our app's urls here
     # path('/', include('autron.urls')),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

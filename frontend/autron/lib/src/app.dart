@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:autron/src/screens/request_screen.dart';
 import 'package:autron/src/screens/home.dart';
 import 'package:autron/src/screens/login_screen.dart';
@@ -75,6 +76,10 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       home: WillPopScope(
         onWillPop: _onWillPop, // Handle back button behavior for tabs

@@ -43,6 +43,7 @@ class APIRequestResolver(RequestResolver):
 class Software(models.Model):
     name = models.CharField(max_length=100)
     department = models.ForeignKey("Department", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="software_images/", null=True, blank=True)
 
     # description = None
     # resolver_content_type = None

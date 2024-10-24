@@ -1,3 +1,4 @@
+/// A service that handles home page business logic.
 class HomeService {
   
   /// Returns a welcome message.
