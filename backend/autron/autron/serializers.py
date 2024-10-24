@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import Software, Department
+
+from .models import Department, Software, Request
+
 
 class DepartmentSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
@@ -28,3 +30,7 @@ class RequestSerializer(serializers.Serializer):
     software = SoftwareSerializer()
     # request_date = serializers.DateTimeField()
     request_status = serializers.CharField(max_length=100)
+    
+    class Meta:
+        model = Request
+        fields = "__all__"
