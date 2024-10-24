@@ -37,6 +37,9 @@ class Software {
       'id': id,
       'name': name,
       'department': department.toJson(),
+      'image': image.startsWith('https://164.92.218.9:8000')
+          ? image.replaceFirst('https://164.92.218.9:8000', '')
+          : image,
     };
   }
 }
