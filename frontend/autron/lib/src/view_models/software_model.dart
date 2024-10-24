@@ -19,9 +19,8 @@ class Software {
       name: json['name'] as String,
       department: Department.fromJson(json['department']),
       image: json['image'] != null && json['image'].startsWith('/')
-        ? 'https://164.92.218.9${json['image']}'
-        : json['image'] ?? '',
-
+          ? 'https://164.92.218.9${json['image']}'
+          : json['image'] ?? '',
     );
   }
 
@@ -30,6 +29,9 @@ class Software {
       'id': id,
       'name': name,
       'department': department.toJson(),
+      'image': image.startsWith('https://164.92.218.9:8000')
+          ? image.replaceFirst('https://164.92.218.9:8000', '')
+          : image,
     };
   }
 }
