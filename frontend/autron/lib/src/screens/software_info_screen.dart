@@ -18,8 +18,9 @@ class SoftwareInfoPage extends StatefulWidget {
 
   const SoftwareInfoPage({
     super.key,
-    required this.softwareId,
-    required this.softwareName,
+    required this.id,
+    required this.name,
+    required this.image,
     required this.department,
   });
 
@@ -42,8 +43,9 @@ class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
       id: 1,
       status: 'pending',
       software: Software(
-          id: widget.softwareId,
-          name: widget.softwareName,
+          id: widget.id,
+          name: widget.name,
+          image: widget.image,
           department: widget.department),
     );
 

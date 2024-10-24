@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SoftwareBox extends StatelessWidget {
-  final String softwareName;
-  final String? imageUrl;
+  final String name;
+  final String? image;
   final VoidCallback onPressed;
 
   const SoftwareBox({
-    Key? key,
-    required this.softwareName,
-    this.imageUrl,
+    super.key,
+    required this.name,
+    this.image,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class SoftwareBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-             imageUrl != null && imageUrl!.isNotEmpty
+            image != null && image!.isNotEmpty
                 ? Image.network(
                     imageUrl!,
                     width: 40,
@@ -60,7 +60,7 @@ class SoftwareBox extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
             Text(
-              softwareName,
+              name,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
