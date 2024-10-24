@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 
 class SoftwareInfoPage extends StatefulWidget {
-  final int softwareId;
-  final String softwareName;
+  final int id;
+  final String name;
+  final String image;
   final Department department;
 
   const SoftwareInfoPage({
     super.key,
-    required this.softwareId,
-    required this.softwareName,
+    required this.id,
+    required this.name,
+    required this.image,
     required this.department,
   });
 
@@ -36,8 +38,9 @@ class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
       id: 1,
       status: 'pending',
       software: Software(
-          id: widget.softwareId,
-          name: widget.softwareName,
+          id: widget.id,
+          name: widget.name,
+          image: widget.image,
           department: widget.department),
     );
 
@@ -60,14 +63,14 @@ class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: '$widget.softwareName Information'),
+      appBar: CustomAppBar(title: '$widget.name Information'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.softwareName,
+              widget.name,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

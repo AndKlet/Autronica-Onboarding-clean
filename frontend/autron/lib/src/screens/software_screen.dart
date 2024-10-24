@@ -81,15 +81,17 @@ class _SoftwarePageState extends State<SoftwarePage> {
                       runSpacing: 8.0,
                       children: departmentSoftware.map((software) {
                         return SoftwareBox(
-                            softwareName: software.name,
+                            name: software.name,
+                            image: software.image,
                             onPressed: () {
                               if (selectedDepartment != null) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => SoftwareInfoPage(
-                                      softwareId: software.id,
-                                      softwareName: software.name,
+                                      id: software.id,
+                                      name: software.name,
+                                      image: software.image,
                                       department: selectedDepartment!,
                                     ),
                                   ),
