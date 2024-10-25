@@ -55,7 +55,7 @@ def software_by_department(request, department_id):
 @swagger_auto_schema(
     method="GET",
     responses={200: openapi.Schema(type=openapi.TYPE_OBJECT)},
-    operation_description="Successflyy logged in",
+    operation_description="Successfully logged in",
 )
 @api_view(["GET"])
 def success(request):
