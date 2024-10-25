@@ -38,15 +38,5 @@
           }
       );
     </script>
-
-    {% comment %} 
-    testing different external api for cors errors
-    {% endcomment %}
-
-    <script>
-      fetch('https://api.api-ninjas.com/v1/quotes?category=happiness')
-        .then(response => response.json())
-        .then(data => console.log(data));
-    </script>
   </body>
 </html>
