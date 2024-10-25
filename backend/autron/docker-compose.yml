@@ -15,3 +15,16 @@ services:
     environment:
       - DEBUG="True"
       - SECRET_KEY="django-insecure-%pt^qox5+=pvy-t-$1fnx9_*f32s&k2vy+thu-yf02!od*89#9"
+
+# Nginx service for reverse proxy and SSL termination
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./certs:/etc/ssl/certs
+    depends_on:
+      - autron
