@@ -1,4 +1,6 @@
 import 'package:autron/globals/urls.dart';
+import 'package:autron/src/view_models/department_model.dart';
+import 'package:autron/src/view_models/software_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -6,11 +8,15 @@ import 'dart:convert';
 class RequestAccessForm extends StatefulWidget {
   final String softwareName;
   final int softwareId;
+  final String imageURL;
+  final Department department;
 
   const RequestAccessForm({
     super.key,
     required this.softwareName,
     required this.softwareId,
+    required this.imageURL,
+    required this.department,
   });
 
   @override
@@ -31,7 +37,12 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
       final String message = _messageController.text;
 
       final url = Uri.parse('${Urls.baseUrl}/request_access/');
-      // android emulator url
+
+      final software = Software(
+          id: widget.softwareId,
+          name: widget.softwareName,
+          image: widget.imageURL,
+          department: widget.department);
 
       try {
         final response = await http.post(
@@ -46,6 +57,7 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
             'software':
                 widget.softwareName, // Pass the software name to the backend
             'subject': 'Access Request for ${widget.softwareName}',
+            'software_data': software.toJson(),
           }),
         );
 

@@ -1,3 +1,4 @@
+import 'package:autron/src/view_models/department_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
@@ -21,6 +22,8 @@ class SoftwareInfoPage extends StatefulWidget {
     super.key,
     required this.softwareName,
     required this.softwareId,
+    required this.imageURL,
+    required this.department,
   });
 
   @override
@@ -123,6 +126,8 @@ class SoftwareInfoPage extends StatefulWidget {
                         softwareName:
                             softwareName, // Pass software name to request form
                         softwareId: softwareId,
+                        imageURL: imageURL,
+                        department: department,
                       ),
                     ),
                   );
