@@ -102,4 +102,18 @@ class RequestService {
     final allRequest = await getAllRequests();
     return allRequest.where((request) => request.status == status).toList();
   }
+
+  Future<void> requestSoftware(Request request) async {
+    final response = await http.post(
+      Uri.parse(
+          'https://164.92.218.9/request_software/${request.software.id}/'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(request.toJson()),
+    );
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Failed to request software');
+    }
+  }
 }
