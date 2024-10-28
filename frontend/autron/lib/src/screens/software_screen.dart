@@ -97,6 +97,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
                               MaterialPageRoute(
                                 builder: (context) => SoftwareInfoPage(
                                   softwareName: software.name,
+                                  softwareId: software.id,
                                 ),
                               ),
                             );

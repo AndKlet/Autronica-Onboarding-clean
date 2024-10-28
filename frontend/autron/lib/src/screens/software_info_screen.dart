@@ -7,12 +7,14 @@ import 'package:autron/src/widgets/request_access_form.dart';
 /// The software information page displays the software name and status, and allows the user to request access to the software.
 class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
+  final int softwareId;
   final String? softwareInfo =
       'This is a placeholder for software information.';
 
   const SoftwareInfoPage({
     super.key,
     required this.softwareName,
+    required this.softwareId,
   });
 
   @override
@@ -44,7 +46,8 @@ class SoftwareInfoPage extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => RequestAccessForm(
                         softwareName:
-                            softwareName, // Pass the software name to the request form
+                            softwareName, // Pass software name to request form
+                        softwareId: softwareId,
                       ),
                     ),
                   );
