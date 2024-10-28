@@ -9,7 +9,7 @@ import 'package:autron/src/services/software_service.dart';
 import 'package:autron/src/services/department_service.dart';
 
 /// The SoftwarePage widget displays the software screen of the application.
-/// 
+///
 /// The software screen displays a dropdown search bar to select a department, and a list of software available for the selected department.
 /// SoftwarePage fetches software data from the [SoftwareService] and department data from the [DepartmentService].
 class SoftwarePage extends StatefulWidget {
@@ -28,8 +28,8 @@ class _SoftwarePageState extends State<SoftwarePage> {
   // Method to fetch software for the selected department
   Future<void> _filterSoftwareByDepartment(int departmentId) async {
     try {
-      final List<Software> softwares = await _softwareService
-          .getSoftwareByDepartment(departmentId);
+      final List<Software> softwares =
+          await _softwareService.getSoftwareByDepartment(departmentId);
       setState(() {
         departmentSoftware = softwares;
       });
@@ -88,23 +88,20 @@ class _SoftwarePageState extends State<SoftwarePage> {
                       runSpacing: 8.0,
                       children: departmentSoftware.map((software) {
                         return SoftwareBox(
-                            name: software.name,
-                            image: software.image,
-                            onPressed: () {
-                              if (selectedDepartment != null) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SoftwareInfoPage(
-                                      id: software.id,
-                                      name: software.name,
-                                      image: software.image,
-                                      department: selectedDepartment!,
-                                    ),
-                                  ),
-                                );
-                              }
-                            });
+                          name: software.name,
+                          imageURL: software
+                              .image, // This can be null or empty and will be handled by the widget
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SoftwareInfoPage(
+                                  softwareName: software.name,
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       }).toList(),
                     ),
                   ),

@@ -27,7 +27,7 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
       final String receivingEmail = _receivingEmailController.text;
       final String message = _messageController.text;
 
-      final url = Uri.parse('http://10.0.2.2:8000/request_access/');
+      final url = Uri.parse('https://164.92.218.9/request_access/');
       // android emulator url
 
       try {

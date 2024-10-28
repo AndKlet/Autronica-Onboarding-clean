@@ -3,13 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SoftwareBox extends StatelessWidget {
   final String name;
-  final String? image;
+  final String? imageURL;
   final VoidCallback onPressed;
 
   const SoftwareBox({
     super.key,
     required this.name,
-    this.image,
+    this.imageURL,
     required this.onPressed,
   });
 
@@ -38,9 +38,9 @@ class SoftwareBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            image != null && image!.isNotEmpty
+            imageURL != null && imageURL!.isNotEmpty
                 ? Image.network(
-                    imageUrl!,
+                    imageURL!,
                     width: 40,
                     height: 40,
                     fit: BoxFit.cover,

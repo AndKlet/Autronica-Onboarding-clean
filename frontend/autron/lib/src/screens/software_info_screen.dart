@@ -1,7 +1,3 @@
-import 'package:autron/src/services/request_service.dart';
-import 'package:autron/src/view_models/department_model.dart';
-import 'package:autron/src/view_models/request_model.dart';
-import 'package:autron/src/view_models/software_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
@@ -9,36 +5,15 @@ import 'package:autron/src/widgets/request_access_form.dart';
 /// The SoftwareInfoPage widget displays the information of a software.
 ///
 /// The software information page displays the software name and status, and allows the user to request access to the software.
-class SoftwareInfoPage extends StatefulWidget {
-  final int softwareId;
+class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
-  final String? softwareStatus;
   final String? softwareInfo =
       'This is a placeholder for software information.';
 
   const SoftwareInfoPage({
     super.key,
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.department,
+    required this.softwareName,
   });
-
-  @override
-  _SoftwareInfoPageState createState() => _SoftwareInfoPageState();
-}
-
-class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
-  bool _isLoading = false;
-  String? _errorMessage;
-  String _requestStatus = 'Not Requested';
-
-  Future<void> _requestSoftwareAccess() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,29 +36,6 @@ class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
               //   softwareInfo,
               //   style: const TextStyle(fontSize: 16),
               // ),
-              const SizedBox(height: 16),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Status: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                    TextSpan(
-                      text: softwareStatus,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
