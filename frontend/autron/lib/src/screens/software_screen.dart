@@ -98,6 +98,8 @@ class _SoftwarePageState extends State<SoftwarePage> {
                                 builder: (context) => SoftwareInfoPage(
                                   softwareName: software.name,
                                   softwareId: software.id,
+                                  imageURL: software.image,
+                                  department: selectedDepartment!,
                                 ),
                               ),
                             );

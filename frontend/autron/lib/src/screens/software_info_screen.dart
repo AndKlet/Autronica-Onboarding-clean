@@ -1,3 +1,4 @@
+import 'package:autron/src/view_models/department_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
@@ -8,6 +9,8 @@ import 'package:autron/src/widgets/request_access_form.dart';
 class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
   final int softwareId;
+  final String imageURL;
+  final Department department;
   final String? softwareInfo =
       'This is a placeholder for software information.';
 
@@ -15,6 +18,8 @@ class SoftwareInfoPage extends StatelessWidget {
     super.key,
     required this.softwareName,
     required this.softwareId,
+    required this.imageURL,
+    required this.department,
   });
 
   @override
@@ -48,6 +53,8 @@ class SoftwareInfoPage extends StatelessWidget {
                         softwareName:
                             softwareName, // Pass software name to request form
                         softwareId: softwareId,
+                        imageURL: imageURL,
+                        department: department,
                       ),
                     ),
                   );
