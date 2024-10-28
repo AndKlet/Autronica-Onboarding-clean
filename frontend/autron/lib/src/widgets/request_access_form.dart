@@ -54,10 +54,10 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
             'email': email,
             'receiving_email': receivingEmail,
             'message': message,
-            'software':
+            'software_name':
                 widget.softwareName, // Pass the software name to the backend
             'subject': 'Access Request for ${widget.softwareName}',
-            'software_data': software.toJson(),
+            'software': software.toJson(),
           }),
         );
 

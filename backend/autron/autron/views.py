@@ -80,14 +80,14 @@ def request_access_view(request):
         user_email = request.data.get("email")
         receiving_email = request.data.get("receiving_email")
         message = request.data.get("message")
-        software = request.data.get("software")
+        software_name = request.data.get("software_name")
         subject = request.data.get("subject", "Access Request")
-        software_data = request.data.get("software_data") 
+        software = request.data.get("software") 
 
         email_message = f"""
         Request Access
 
-        User {user_email} is requesting access to software {software}.
+        User {user_email} is requesting access to software {software_name}.
 
         Employee reasoning:
         {message}
@@ -106,7 +106,7 @@ def request_access_view(request):
                 fail_silently=False,
             )
 
-            Request.objects.create(software_data = software_data, status="Pending")
+            Request.objects.create(software=software, status="Pending")
 
             return JsonResponse(
                 {"message": "Request sent successfully."}, status=status.HTTP_200_OK
