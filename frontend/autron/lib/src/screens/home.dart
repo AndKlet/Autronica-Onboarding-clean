@@ -100,12 +100,15 @@ class HomeScreen extends StatelessWidget {
                   // FutureBuilder to fetch software data
                   FutureBuilder(
                     future: _requestService.getAcceptedRequestCount(),
+                    future: _requestService.getAcceptedRequestCount(),
                     builder: (context, acceptedSnapshot) {
                       // Check the connection state
                       if (acceptedSnapshot.connectionState ==
                           ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       } else if (acceptedSnapshot.hasError) {
+                        return const Text(
+                            'Error loading accepted request count');
                         return const Text(
                             'Error loading accepted request count');
                       } else {

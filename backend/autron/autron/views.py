@@ -3,14 +3,12 @@ from django.http import JsonResponse
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status
-from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.decorators import (api_view, parser_classes,
+                                       permission_classes)
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser, FormParser
 
-from .models import Department, Request, Software
-from .serializers import (DepartmentSerializer, RequestSerializer,
-                          SoftwareSerializer)
 from .models import Department, Request, Software
 from .serializers import (DepartmentSerializer, RequestSerializer,
                           SoftwareSerializer)
@@ -54,6 +52,7 @@ def software_by_department(request, department_id):
         serializer = SoftwareSerializer(software, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+
 @swagger_auto_schema(
     method="GET",
     responses={200: openapi.Schema(type=openapi.TYPE_OBJECT)},
@@ -62,6 +61,7 @@ def software_by_department(request, department_id):
 @api_view(["GET"])
 def success(request):
     return JsonResponse({"message": "Successfully logged in!"})
+
 
 @api_view(["POST"])
 def request_access_view(request):
@@ -121,7 +121,7 @@ def request_list(request):
     operation_description="Creates a new software entry with an image",
 )
 @api_view(["POST"])
-@parser_classes([MultiPartParser, FormParser]) 
+@parser_classes([MultiPartParser, FormParser])
 def create_software(request):
     if request.method == "POST":
         serializer = SoftwareSerializer(data=request.data)
