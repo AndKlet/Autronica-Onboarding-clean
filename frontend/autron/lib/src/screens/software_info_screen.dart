@@ -33,31 +33,6 @@ class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
       _isLoading = true;
       _errorMessage = null;
     });
-
-    final request = Request(
-      id: 1,
-      status: 'pending',
-      software: Software(
-          id: widget.id,
-          name: widget.name,
-          image: widget.image,
-          department: widget.department),
-    );
-
-    try {
-      await RequestService().requestSoftware(request);
-      setState(() {
-        _requestStatus = 'Requested';
-      });
-    } catch (e) {
-      setState(() {
-        _errorMessage = 'Failed to request access: $e';
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
   }
 
   @override
