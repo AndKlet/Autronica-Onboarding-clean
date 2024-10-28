@@ -71,25 +71,7 @@ def request_access_view(request):
         receiving_email = request.data.get("receiving_email")
         message = request.data.get("message")
         subject = request.data.get("subject", "Access Request")
-        software = request.data.get("software") 
-
-        software_id = software.get("id")
-        software_name = software.get("name")
-        department = software.get("department")
-        department_id = department.get("id")
-
-        # Retrieve department
-        department = Department.objects.get(id=department_id, defaults={'name': department.get("name")})
-
-        # Retrieve software instance
-        software = Software.objects.get(
-            id=software_id,
-            defaults={
-                'name': software_name,
-                'department': department,
-                'image': software.get("image"),
-            }
-        )
+        software_name = request.data.get("software_name")
 
         email_message = f"""
         Request Access
@@ -113,8 +95,6 @@ def request_access_view(request):
                 fail_silently=False,
             )
 
-            Request.objects.create(software=software, status="Pending")
-
             return JsonResponse(
                 {"message": "Request sent successfully."}, status=status.HTTP_200_OK
             )
@@ -132,6 +112,19 @@ def request_list(request):
     if request.method == "GET":
         request = Request.objects.all()
         serializer = RequestSerializer(request, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@swagger_auto_schema(
+    method="POST",
+    responses={200: RequestSerializer(many=True)},
+    operation_description="Makes an request for a software",
+)
+@api_view(["POST"])
+def request_software(request, software_id):
+    if request.method == "POST":
+        requests = Request.objects.create(software_id=software_id, status="Pending")
+        serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
 
 
