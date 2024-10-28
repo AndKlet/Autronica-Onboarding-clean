@@ -102,19 +102,6 @@ def request_access_view(request):
 
 
 @swagger_auto_schema(
-    method="POST",
-    responses={200: RequestSerializer(many=True)},
-    operation_description="Makes an request for a software",
-)
-@api_view(["POST"])
-def request_software(request, software_id):
-    if request.method == "POST":
-        requests = Request.objects.create(software_id=software_id, status="Pending")
-        serializer = RequestSerializer(requests)
-        return JsonResponse(serializer.data, safe=False)
-
-
-@swagger_auto_schema(
     method="GET",
     responses={200: RequestSerializer(many=True)},
     operation_description="Get all requests",
