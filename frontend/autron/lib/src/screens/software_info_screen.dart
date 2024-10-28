@@ -1,7 +1,3 @@
-import 'package:autron/src/services/request_service.dart';
-import 'package:autron/src/view_models/department_model.dart';
-import 'package:autron/src/view_models/request_model.dart';
-import 'package:autron/src/view_models/software_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
@@ -23,27 +19,8 @@ class SoftwareInfoPage extends StatefulWidget {
 
   const SoftwareInfoPage({
     super.key,
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.department,
+    required this.softwareName,
   });
-
-  @override
-  _SoftwareInfoPageState createState() => _SoftwareInfoPageState();
-}
-
-class _SoftwareInfoPageState extends State<SoftwareInfoPage> {
-  bool _isLoading = false;
-  String? _errorMessage;
-  String _requestStatus = 'Not Requested';
-
-  Future<void> _requestSoftwareAccess() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
