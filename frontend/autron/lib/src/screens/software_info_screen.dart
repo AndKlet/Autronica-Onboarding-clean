@@ -20,6 +20,7 @@ class SoftwareInfoPage extends StatefulWidget {
   const SoftwareInfoPage({
     super.key,
     required this.softwareName,
+    required this.softwareId,
   });
 
   @override
@@ -120,7 +121,8 @@ class SoftwareInfoPage extends StatefulWidget {
                     MaterialPageRoute(
                       builder: (context) => RequestAccessForm(
                         softwareName:
-                            softwareName, // Pass the software name to the request form
+                            softwareName, // Pass software name to request form
+                        softwareId: softwareId,
                       ),
                     ),
                   );

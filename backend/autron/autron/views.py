@@ -81,6 +81,7 @@ def request_access_view(request):
         receiving_email = request.data.get("receiving_email")
         message = request.data.get("message")
         software = request.data.get("software")
+        softwareId = request.data.get("softwareId")
         subject = request.data.get("subject", "Access Request")
 
         email_message = f"""
@@ -104,6 +105,9 @@ def request_access_view(request):
                 [receiving_email],
                 fail_silently=False,
             )
+
+            Request.objects.create(softwareId=softwareId, status="Pending")
+
             return JsonResponse(
                 {"message": "Request sent successfully."}, status=status.HTTP_200_OK
             )

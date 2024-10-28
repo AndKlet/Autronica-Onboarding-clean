@@ -5,10 +5,12 @@ import 'dart:convert';
 
 class RequestAccessForm extends StatefulWidget {
   final String softwareName;
+  final int softwareId;
 
   const RequestAccessForm({
     super.key,
     required this.softwareName,
+    required this.softwareId,
   });
 
   @override
