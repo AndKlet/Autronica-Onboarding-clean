@@ -70,9 +70,26 @@ def request_access_view(request):
         user_email = request.data.get("email")
         receiving_email = request.data.get("receiving_email")
         message = request.data.get("message")
-        software_name = request.data.get("software_name")
         subject = request.data.get("subject", "Access Request")
         software = request.data.get("software") 
+
+        software_id = software.get("id")
+        software_name = software.get("name")
+        department = software.get("department")
+        department_id = department.get("id")
+
+        # Retrieve department
+        department = Department.objects.get(id=department_id, defaults={'name': department.get("name")})
+
+        # Retrieve software instance
+        software = Software.objects.get(
+            id=software_id,
+            defaults={
+                'name': software_name,
+                'department': department,
+                'image': software.get("image"),
+            }
+        )
 
         email_message = f"""
         Request Access
