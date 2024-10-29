@@ -9,7 +9,7 @@ import 'package:autron/src/services/software_service.dart';
 import 'package:autron/src/services/department_service.dart';
 
 /// The SoftwarePage widget displays the software screen of the application.
-/// 
+///
 /// The software screen displays a dropdown search bar to select a department, and a list of software available for the selected department.
 /// SoftwarePage fetches software data from the [SoftwareService] and department data from the [DepartmentService].
 class SoftwarePage extends StatefulWidget {
@@ -97,6 +97,9 @@ class _SoftwarePageState extends State<SoftwarePage> {
               builder: (context) => SoftwareInfoPage(
                 softwareName: software.name,
                 softwareStatus: software.status ?? 'Not Requested',
+                softwareDescription: software.description,
+                softwareImage: software.image,
+                requestMethod: software.request_method,
               ),
             ),
           );

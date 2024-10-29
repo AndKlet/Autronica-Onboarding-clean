@@ -41,9 +41,9 @@ class SoftwareBox extends StatelessWidget {
              imageUrl != null && imageUrl!.isNotEmpty
                 ? Image.network(
                     imageUrl!,
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
                       return SvgPicture.asset(
                         'assets/images/logo-placeholder.svg', // Fallback to placeholder image
@@ -55,8 +55,8 @@ class SoftwareBox extends StatelessWidget {
                   )
                 : SvgPicture.asset(
                     'assets/images/logo-placeholder.svg', // Default placeholder
-                    width: 40,
-                    height: 40,
+                    width: 50,
+                    height: 50,
                     fit: BoxFit.cover,
                   ),
             Text(

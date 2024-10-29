@@ -7,6 +7,8 @@ class Software {
   String? status; // Optional status
   Department department;
   String image;
+  String description;
+  String request_method;
 
   Software({
     required this.id,
@@ -14,6 +16,8 @@ class Software {
     this.status, // Optional status
     required this.department,
     required this.image,
+    required this.description,
+    required this.request_method
   });
 
   // Method to convert JSON to Software object
@@ -26,6 +30,8 @@ class Software {
       image: json['image'] != null && json['image'].startsWith('/')
         ? 'https://164.92.218.9${json['image']}'
         : json['image'] ?? '',
+      description: json['description'] as String,
+      request_method: json['requestmethod'] as String,
 
     );
   }
