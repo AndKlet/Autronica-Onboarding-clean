@@ -45,6 +45,7 @@ class Software(models.Model):
     department = models.ForeignKey("Department", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="software_images/", null=True, blank=True)
     description = models.CharField(max_length=500, default="No description provided")
+    requestmethod = models.CharField(max_length=50, default="No request method defined")
     # resolver_content_type = None
     # resolver_object_id = None
     # resolver = None

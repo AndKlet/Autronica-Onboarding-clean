@@ -18,6 +18,7 @@ class SoftwareSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer()
     image = serializers.ImageField(required=False)
     description = serializers.CharField(max_length=500)
+    requestmethod = serializers.CharField(max_length=50)
 
     class Meta:
         model = Software
