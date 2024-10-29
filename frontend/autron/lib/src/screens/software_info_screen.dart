@@ -12,6 +12,7 @@ class SoftwareInfoPage extends StatelessWidget {
   final String? softwareInfo = 'This is a placeholder for software information.';
   final String softwareDescription;
   final String? softwareImage;
+  final String requestMethod;
 
   const SoftwareInfoPage({
     super.key,
@@ -19,6 +20,7 @@ class SoftwareInfoPage extends StatelessWidget {
     this.softwareStatus,
     required this.softwareDescription,
     this.softwareImage,
+    required this.requestMethod,
   });
 
   @override
@@ -79,6 +81,29 @@ class SoftwareInfoPage extends StatelessWidget {
                     ),
                     TextSpan(
                       text: softwareStatus,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Request method: ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextSpan(
+                      text: requestMethod,
                       style: const TextStyle(
                         fontWeight: FontWeight.normal,
                         color: Colors.black,

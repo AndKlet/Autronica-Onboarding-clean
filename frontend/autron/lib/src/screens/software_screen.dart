@@ -99,7 +99,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
                 softwareStatus: software.status ?? 'Not Requested',
                 softwareDescription: software.description,
                 softwareImage: software.image,
-
+                requestMethod: software.request_method,
               ),
             ),
           );
