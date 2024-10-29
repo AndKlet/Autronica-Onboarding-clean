@@ -1,4 +1,5 @@
 import 'package:autron/src/view_models/department_model.dart';
+import 'package:autron/globals/urls.dart';
 
 /// Software model
 class Software {
@@ -28,7 +29,7 @@ class Software {
       status: json.containsKey('status') ? json['status'] as String? : null,
       department: Department.fromJson(json['department']),
       image: json['image'] != null && json['image'].startsWith('/')
-        ? 'https://164.92.218.9${json['image']}'
+        ? '${Urls.baseUrl}${json['image']}'
         : json['image'] ?? '',
       description: json['description'] as String,
       request_method: json['requestmethod'] as String,
