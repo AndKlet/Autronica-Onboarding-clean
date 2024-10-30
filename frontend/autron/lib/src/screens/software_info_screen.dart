@@ -1,8 +1,8 @@
+import 'package:autron/src/widgets/request_access_webview.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:autron/src/widgets/request_access_iframe.dart';
 
 /// The SoftwareInfoPage widget displays the information of a software.
 ///
@@ -122,8 +122,9 @@ class SoftwareInfoPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RequestAccessIFrame(
+                        builder: (context) => RequestAccessWebview(
                           softwareName: softwareName,
+                          url: "https://vg.no",
                         ),
                       ),
                     );
