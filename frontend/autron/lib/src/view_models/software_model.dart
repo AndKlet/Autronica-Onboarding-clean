@@ -6,7 +6,7 @@ class Software {
   int id;
   String name;
   Department department;
-  String image;
+  String? image;
   String description;
   String request_method;
 
@@ -14,7 +14,7 @@ class Software {
       {required this.id,
       required this.name,
       required this.department,
-      required this.image,
+      this.image,
       required this.description,
       required this.request_method});
 
@@ -37,8 +37,8 @@ class Software {
       'id': id,
       'name': name,
       'department': department.toJson(),
-      'image': image.startsWith('https://164.92.218.9:8000')
-          ? image.replaceFirst('https://164.92.218.9:8000', '')
+      'image': image!.startsWith(Urls.baseUrl)
+          ? image!.replaceFirst(Urls.baseUrl, '')
           : image,
     };
   }

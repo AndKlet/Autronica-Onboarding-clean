@@ -7,10 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 /// The SoftwareInfoPage widget displays the information of a software.
 ///
 /// The software information page displays the software name and status, and allows the user to request access to the software.
-class SoftwareInfoPage extends StatefulWidget {
+class SoftwareInfoPage extends StatelessWidget {
   final int id;
   final String name;
-  final String image;
   final Department department;
   final String? softwareInfo =
       'This is a placeholder for software information.';
@@ -20,16 +19,18 @@ class SoftwareInfoPage extends StatefulWidget {
 
   const SoftwareInfoPage({
     super.key,
-    required this.softwareName,
-    required this.softwareId,
-    required this.imageURL,
+    required this.name,
+    required this.id,
     required this.department,
+    required this.softwareDescription,
+    this.softwareImage,
+    required this.requestMethod,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(title: '$softwareName Information'),
+        appBar: CustomAppBar(title: '$name Information'),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -59,7 +60,7 @@ class SoftwareInfoPage extends StatefulWidget {
                       ),
               ),
               Text(
-                softwareName,
+                name,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -70,29 +71,29 @@ class SoftwareInfoPage extends StatefulWidget {
                 softwareDescription, // Display the description here
                 style: const TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 16),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Status: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                    TextSpan(
-                      text: softwareStatus,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // const SizedBox(height: 16),
+              // RichText(
+              //   text: TextSpan(
+              //     children: [
+              //       const TextSpan(
+              //         text: 'Status: ',
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           color: Colors.black,
+              //           fontSize: 16,
+              //         ),
+              //       ),
+              //       TextSpan(
+              //         text: softwareStatus,
+              //         style: const TextStyle(
+              //           fontWeight: FontWeight.normal,
+              //           color: Colors.black,
+              //           fontSize: 16,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
@@ -124,9 +125,9 @@ class SoftwareInfoPage extends StatefulWidget {
                     MaterialPageRoute(
                       builder: (context) => RequestAccessForm(
                         softwareName:
-                            softwareName, // Pass software name to request form
-                        softwareId: softwareId,
-                        imageURL: imageURL,
+                            name, // Pass software name to request form
+                        softwareId: id,
+                        imageURL: softwareImage,
                         department: department,
                       ),
                     ),

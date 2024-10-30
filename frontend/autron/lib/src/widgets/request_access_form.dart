@@ -10,14 +10,14 @@ import 'dart:convert';
 class RequestAccessForm extends StatefulWidget {
   final String softwareName;
   final int softwareId;
-  final String imageURL;
+  final String? imageURL;
   final Department department;
 
   const RequestAccessForm({
     super.key,
     required this.softwareName,
     required this.softwareId,
-    required this.imageURL,
+    this.imageURL,
     required this.department,
   });
 
@@ -48,14 +48,16 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
       final url = Uri.parse('${Urls.baseUrl}/request_access/');
 
       final request = Request(
-        id: 1,
-        status: 'pending',
-        software: Software(
+          id: 1,
+          status: 'pending',
+          software: Software(
             id: widget.softwareId,
             name: widget.softwareName,
             image: widget.imageURL,
-            department: widget.department),
-      );
+            department: widget.department,
+            description: 'This is a placeholder for software information.',
+            request_method: 'email',
+          ));
 
       try {
         final response = await http.post(

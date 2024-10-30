@@ -89,7 +89,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
                       children: departmentSoftware.map((software) {
                         return SoftwareBox(
                             name: software.name,
-                            image: software.image,
+                            imageURL: software.image,
                             onPressed: () {
                               if (selectedDepartment != null) {
                                 Navigator.push(
@@ -98,10 +98,9 @@ class _SoftwarePageState extends State<SoftwarePage> {
                                     builder: (context) => SoftwareInfoPage(
                                       id: software.id,
                                       name: software.name,
-                                      image: software.image,
+                                      softwareImage: software.image,
                                       department: selectedDepartment!,
                                       softwareDescription: software.description,
-                                      softwareImage: software.image,
                                       requestMethod: software.request_method,
                                     ),
                                   ),

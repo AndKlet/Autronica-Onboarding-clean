@@ -1,12 +1,12 @@
 import 'dart:convert';
+import 'package:autron/globals/urls.dart';
 import 'package:autron/src/view_models/request_model.dart';
 import 'package:http/http.dart' as http;
 
 class RequestService {
   /// Gets a list of requests.
   Future<List<Request>> getAllRequests() async {
-    final response =
-        await http.get(Uri.parse('https://164.92.218.9/request_list/'));
+    final response = await http.get(Uri.parse('${Urls.baseUrl}/request_list/'));
     if (response.statusCode == 200) {
       // Split the response body into a list of maps department objects
       final List<Request> requests = (jsonDecode(response.body) as List)
@@ -46,8 +46,7 @@ class RequestService {
 
   Future<void> requestSoftware(Request request) async {
     final response = await http.post(
-      Uri.parse(
-          'https://164.92.218.9/request_software/${request.software.id}/'),
+      Uri.parse('${Urls.baseUrl}/request_software/${request.software.id}/'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(request.toJson()),
     );
