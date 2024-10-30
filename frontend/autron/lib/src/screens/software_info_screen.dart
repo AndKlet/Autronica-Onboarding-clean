@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:autron/src/widgets/request_access_iframe.dart';
 
 /// The SoftwareInfoPage widget displays the information of a software.
 ///
@@ -9,7 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SoftwareInfoPage extends StatelessWidget {
   final String softwareName;
   final String? softwareStatus;
-  final String? softwareInfo = 'This is a placeholder for software information.';
+  final String? softwareInfo =
+      'This is a placeholder for software information.';
   final String softwareDescription;
   final String? softwareImage;
   final String requestMethod;
@@ -33,28 +35,28 @@ class SoftwareInfoPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-              child: softwareImage != null && softwareImage!.isNotEmpty
-                ? Image.network(
-                    softwareImage!,
-                    width: 200, // Set appropriate width
-                    height: 200, // Set appropriate height
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return SvgPicture.asset(
+                child: softwareImage != null && softwareImage!.isNotEmpty
+                    ? Image.network(
+                        softwareImage!,
+                        width: 200, // Set appropriate width
+                        height: 200, // Set appropriate height
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return SvgPicture.asset(
+                            'assets/images/logo-placeholder.svg',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                    : SvgPicture.asset(
                         'assets/images/logo-placeholder.svg',
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,
-                      );
-                    },
-                  )
-                : SvgPicture.asset(
-                    'assets/images/logo-placeholder.svg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                      ),
+              ),
               Text(
                 softwareName,
                 style: const TextStyle(
@@ -64,9 +66,9 @@ class SoftwareInfoPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-              softwareDescription, // Display the description here
-              style: const TextStyle(fontSize: 16),
-            ),
+                softwareDescription, // Display the description here
+                style: const TextStyle(fontSize: 16),
+              ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
@@ -116,15 +118,25 @@ class SoftwareInfoPage extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RequestAccessForm(
-                        softwareName:
-                            softwareName, // Pass the software name to the request form
+                  if (softwareName == 'Atlassian') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RequestAccessIFrame(
+                          softwareName: softwareName,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RequestAccessForm(
+                          softwareName: softwareName,
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: const Text('Request Access'),
               )
