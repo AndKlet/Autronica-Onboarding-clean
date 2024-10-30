@@ -126,20 +126,3 @@ def request_software(request, software_id):
         requests = Request.objects.create(software_id=software_id, status="Pending")
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
-
-
-@swagger_auto_schema(
-    method="POST",
-    request_body=SoftwareSerializer,
-    responses={201: SoftwareSerializer()},
-    operation_description="Creates a new software entry with an image",
-)
-@api_view(["POST"])
-@parser_classes([MultiPartParser, FormParser])
-def create_software(request):
-    if request.method == "POST":
-        serializer = SoftwareSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
