@@ -1,14 +1,24 @@
 import 'package:autron/globals/urls.dart';
+import 'package:autron/src/services/request_service.dart';
+import 'package:autron/src/view_models/department_model.dart';
+import 'package:autron/src/view_models/request_model.dart';
+import 'package:autron/src/view_models/software_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class RequestAccessForm extends StatefulWidget {
   final String softwareName;
+  final int softwareId;
+  final String? imageURL;
+  final Department department;
 
   const RequestAccessForm({
     super.key,
     required this.softwareName,
+    required this.softwareId,
+    this.imageURL,
+    required this.department,
   });
 
   @override
@@ -21,15 +31,33 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
   final TextEditingController _receivingEmailController =
       TextEditingController();
   final TextEditingController _messageController = TextEditingController();
+  String _requestStatus = 'Not Requested';
+  bool _isLoading = false;
+  String? _errorMessage;
 
   Future<void> _submitRequest() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
     if (_formKey.currentState!.validate()) {
       final String email = _emailController.text;
       final String receivingEmail = _receivingEmailController.text;
       final String message = _messageController.text;
 
       final url = Uri.parse('${Urls.baseUrl}/request_access/');
-      // android emulator url
+
+      final request = Request(
+          id: 1,
+          status: 'pending',
+          software: Software(
+            id: widget.softwareId,
+            name: widget.softwareName,
+            image: widget.imageURL,
+            department: widget.department,
+            description: 'This is a placeholder for software information.',
+            request_method: 'email',
+          ));
 
       try {
         final response = await http.post(
@@ -41,7 +69,7 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
             'email': email,
             'receiving_email': receivingEmail,
             'message': message,
-            'software':
+            'software_name':
                 widget.softwareName, // Pass the software name to the backend
             'subject': 'Access Request for ${widget.softwareName}',
           }),
@@ -63,6 +91,21 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
         );
+      }
+
+      try {
+        await RequestService().requestSoftware(request);
+        setState(() {
+          _requestStatus = 'Requested';
+        });
+      } catch (e) {
+        setState(() {
+          _errorMessage = 'Failed to request access: $e';
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

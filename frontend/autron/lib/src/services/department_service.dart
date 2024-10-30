@@ -5,7 +5,6 @@ import 'package:autron/globals/urls.dart';
 
 /// A service that handles department data.
 class DepartmentService {
-
   /// Fetches all departments from the server.
   ///
   /// Returns a list of [Department] objects.

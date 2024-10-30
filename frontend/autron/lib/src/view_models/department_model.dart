@@ -19,4 +19,11 @@ class Department {
       _ => throw const FormatException('Failed to load department.'),
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
+  }
 }

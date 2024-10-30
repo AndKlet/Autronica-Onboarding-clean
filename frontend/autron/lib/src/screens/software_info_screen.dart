@@ -1,3 +1,4 @@
+import 'package:autron/src/view_models/department_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:autron/src/widgets/request_access_form.dart';
@@ -7,17 +8,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 ///
 /// The software information page displays the software name and status, and allows the user to request access to the software.
 class SoftwareInfoPage extends StatelessWidget {
-  final String softwareName;
-  final String? softwareStatus;
-  final String? softwareInfo = 'This is a placeholder for software information.';
+  final int id;
+  final String name;
+  final Department department;
+  final String? softwareInfo =
+      'This is a placeholder for software information.';
   final String softwareDescription;
   final String? softwareImage;
   final String requestMethod;
 
   const SoftwareInfoPage({
     super.key,
-    required this.softwareName,
-    this.softwareStatus,
+    required this.name,
+    required this.id,
+    required this.department,
     required this.softwareDescription,
     this.softwareImage,
     required this.requestMethod,
@@ -26,37 +30,37 @@ class SoftwareInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(title: '$softwareName Information'),
+        appBar: CustomAppBar(title: '$name Information'),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-              child: softwareImage != null && softwareImage!.isNotEmpty
-                ? Image.network(
-                    softwareImage!,
-                    width: 200, // Set appropriate width
-                    height: 200, // Set appropriate height
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) {
-                      return SvgPicture.asset(
+                child: softwareImage != null && softwareImage!.isNotEmpty
+                    ? Image.network(
+                        softwareImage!,
+                        width: 200, // Set appropriate width
+                        height: 200, // Set appropriate height
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return SvgPicture.asset(
+                            'assets/images/logo-placeholder.svg',
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      )
+                    : SvgPicture.asset(
                         'assets/images/logo-placeholder.svg',
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,
-                      );
-                    },
-                  )
-                : SvgPicture.asset(
-                    'assets/images/logo-placeholder.svg',
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                      ),
+              ),
               Text(
-                softwareName,
+                name,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -64,32 +68,32 @@ class SoftwareInfoPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-              softwareDescription, // Display the description here
-              style: const TextStyle(fontSize: 16),
-            ),
-              const SizedBox(height: 16),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Status: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                    TextSpan(
-                      text: softwareStatus,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
+                softwareDescription, // Display the description here
+                style: const TextStyle(fontSize: 16),
               ),
+              // const SizedBox(height: 16),
+              // RichText(
+              //   text: TextSpan(
+              //     children: [
+              //       const TextSpan(
+              //         text: 'Status: ',
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           color: Colors.black,
+              //           fontSize: 16,
+              //         ),
+              //       ),
+              //       TextSpan(
+              //         text: softwareStatus,
+              //         style: const TextStyle(
+              //           fontWeight: FontWeight.normal,
+              //           color: Colors.black,
+              //           fontSize: 16,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
@@ -121,7 +125,10 @@ class SoftwareInfoPage extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => RequestAccessForm(
                         softwareName:
-                            softwareName, // Pass the software name to the request form
+                            name, // Pass software name to request form
+                        softwareId: id,
+                        imageURL: softwareImage,
+                        department: department,
                       ),
                     ),
                   );
