@@ -156,4 +156,6 @@ def request_software(request, software_id):
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
     
+def okta_callback(request):
+    pass
 
