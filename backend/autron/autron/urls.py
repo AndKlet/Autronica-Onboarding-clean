@@ -54,6 +54,7 @@ urlpatterns = [
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
     ),
+    path("accounts/oauth2/callback", okta_callback, name="okta_callback"),
     path("accounts/", include(("okta_oauth2.urls", "okta_oauth2"), namespace="okta_oauth2")),
     path("department_list/", views.department_list, name="department_list"),
     path("software_list/", views.software_list, name="software_list"),
@@ -66,7 +67,6 @@ urlpatterns = [
     path("request_access/", request_access_view, name="request_access"),
     path("request_software/<int:software_id>/", views.request_software, name="request_software"),
     path("request_list/", views.request_list, name="request_list"),
-    path("accounts/oauth2/callback", okta_callback, name="okta_callback"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
