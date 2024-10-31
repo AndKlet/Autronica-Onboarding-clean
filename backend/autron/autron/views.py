@@ -65,9 +65,14 @@ def software_by_department(request, department_id):
 @login_required
 @api_view(["GET"])
 def success(request):
-    user_info = {field: getattr(request.user, field) for field in dir(request.user) if not field.startswith('_') and not callable(getattr(request.user, field))}
+    # Retrieve user information from the request
+    user_info = {
+        "username": request.user.username,
+        "email": request.user.email,
+        "first_name": request.user.firstName,
+        "last_name": request.user.lastName,
+    }
     return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
-
 
 
 @api_view(["POST"])
