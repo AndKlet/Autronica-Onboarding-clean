@@ -16,6 +16,12 @@ from .serializers import (DepartmentSerializer, RequestSerializer,
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
+import requests
+from django.conf import settings
+from django.shortcuts import redirect
+from django.contrib.auth import login
+from django.http import JsonResponse
+
 
 @swagger_auto_schema(
     method="GET",
@@ -69,8 +75,6 @@ def success(request):
     user_info = {
         "username": request.user.username,
         "email": request.user.email,
-        "first_name": request.user.firstName,
-        "last_name": request.user.lastName,
     }
     return JsonResponse({"message": "Successfully logged in!", "user_info": user_info, "access_token": request.session.access_token})
 
@@ -139,4 +143,24 @@ def request_software(request, software_id):
         return JsonResponse(serializer.data, safe=False)
     
 def okta_callback(request):
-    pass
+    # Fetch access_token from request (adjust based on your specific Okta integration)
+    access_token = request.session.get('access_token')  # Assuming you store it in session
+
+    if not access_token:
+        return JsonResponse({"error": "Access token not found"}, status=401)
+
+    # Define Okta user info endpoint URL
+    url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        user_info = response.json()
+        # Optionally store user_info in the session or database
+        # Redirect to success page or directly show user info
+        return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
+    else:
+        return JsonResponse({"error": "Failed to fetch user info from Okta"}, status=response.status_code)
