@@ -13,6 +13,9 @@ from .models import Department, Request, Software
 from .serializers import (DepartmentSerializer, RequestSerializer,
                           SoftwareSerializer)
 
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
 
 @swagger_auto_schema(
     method="GET",
@@ -58,9 +61,18 @@ def software_by_department(request, department_id):
     responses={200: openapi.Schema(type=openapi.TYPE_OBJECT)},
     operation_description="Successfully logged in",
 )
+
+@login_required
 @api_view(["GET"])
 def success(request):
-    return JsonResponse({"message": "Successfully logged in!"})
+    # Retrieve user information from the request
+    user_info = {
+        "username": request.user.username,
+        "email": request.user.email,
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name,
+    }
+    return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
 
 
 @api_view(["POST"])
