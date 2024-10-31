@@ -167,7 +167,7 @@ def okta_callback(request):
         return JsonResponse({"error": "Authorization code not found"}, status=401)
 
     # Exchange the authorization code for an access token
-    token_url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/token"
+    token_url = f"{settings.OKTA_AUTH['ORG_URL']}/oauth2/default/v1/token"
     redirect_uri = settings.OKTA_AUTH["REDIRECT_URI"]
     client_id = settings.OKTA_AUTH["CLIENT_ID"]
     client_secret = settings.OKTA_AUTH["CLIENT_SECRET"]
