@@ -71,12 +71,24 @@ def software_by_department(request, department_id):
 @login_required
 @api_view(["GET"])
 def success(request):
-    # Retrieve user information from the request
-    user_info = {
-        "username": request.user.username,
-        "email": request.user.email,
+    # Retrieve the access token from the session
+    access_token = request.session.get("access_token")
+    if not access_token:
+        return JsonResponse({"error": "Access token not found"}, status=401)
+
+    # Okta user info endpoint URL
+    url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
     }
-    return JsonResponse({"message": "Successfully logged in!", "user_info": user_info, "access_token": request.session.access_token})
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        user_info = response.json()
+        return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
+    else:
+        return JsonResponse({"error": "Failed to fetch user info from Okta"}, status=response.status_code)
 
 @api_view(["POST"])
 def request_access_view(request):
