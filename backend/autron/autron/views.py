@@ -72,8 +72,7 @@ def success(request):
         "first_name": request.user.firstName,
         "last_name": request.user.lastName,
     }
-    return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
-
+    return JsonResponse({"message": "Successfully logged in!", "user_info": user_info, "access_token": request.session.access_token})
 
 @api_view(["POST"])
 def request_access_view(request):
