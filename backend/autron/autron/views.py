@@ -156,11 +156,14 @@ def request_software(request, software_id):
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
     
+    
 def okta_callback(request):
     authorization_code = request.GET.get("code")
+    print("Authorization code received:", authorization_code)
     if not authorization_code:
         return JsonResponse({"error": "Authorization code not found"}, status=401)
 
+    # Set up token exchange parameters
     token_url = f"{settings.OKTA_AUTH['ORG_URL']}/oauth2/default/v1/token"
     data = {
         "grant_type": "authorization_code",
@@ -170,12 +173,15 @@ def okta_callback(request):
         "client_secret": settings.OKTA_AUTH["CLIENT_SECRET"],
     }
 
+    # Exchange authorization code for tokens
     response = requests.post(token_url, data=data)
+    print("Token response status:", response.status_code)
     if response.status_code == 200:
         tokens = response.json()
-        request.session["access_token"] = tokens.get("access_token")
-        
-        # Redirect to success page after storing the token
+        access_token = tokens.get("access_token")
+        print("Access token received:", access_token)
+        request.session["access_token"] = access_token
         return redirect('/success')
     else:
+        print("Failed to obtain access token:", response.text)
         return JsonResponse({"error": "Failed to obtain access token"}, status=response.status_code)

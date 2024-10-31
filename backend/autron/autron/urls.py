@@ -62,7 +62,7 @@ urlpatterns = [
         views.software_by_department,
         name="software_by_department",
     ),
-    # path("accounts/oauth2/callback", okta_callback, name="okta_callback"),
+    path("accounts/oauth2/callback", okta_callback, name="okta_callback"),
     path("success/", views.success, name="success"),
     path("request_access/", request_access_view, name="request_access"),
     path("request_software/<int:software_id>/", views.request_software, name="request_software"),
