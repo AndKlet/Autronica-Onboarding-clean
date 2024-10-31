@@ -126,3 +126,6 @@ def request_software(request, software_id):
         requests = Request.objects.create(software_id=software_id, status="Pending")
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
+    
+def okta_callback(request):
+    pass
