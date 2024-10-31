@@ -78,6 +78,7 @@ def software_by_department(request, department_id):
 @api_view(["GET"])
 def success(request):
     # Retrieve the access token from the session
+    okta_callback(request)
     access_token = request.session.get("access_token")
     if not access_token:
         return JsonResponse({"error": "Access token not found"}, status=401)
