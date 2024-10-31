@@ -22,6 +22,12 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.http import JsonResponse
 
+import requests
+from django.conf import settings
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view
+
 
 @swagger_auto_schema(
     method="GET",
@@ -76,13 +82,22 @@ def success(request):
     if not access_token:
         return JsonResponse({"error": "Access token not found"}, status=401)
 
-    # Okta user info endpoint URL
+    # Define the Okta userinfo endpoint URL
     url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
     headers = {
         "Authorization": f"Bearer {access_token}",
     }
 
+    # Print the request details
+    print("Request URL:", url)
+    print("Request Headers:", headers)
+
+    # Make the request to Okta's userinfo endpoint
     response = requests.get(url, headers=headers)
+
+    # Print the response status and content for debugging
+    print("Response Status Code:", response.status_code)
+    print("Response Content:", response.text)
 
     if response.status_code == 200:
         user_info = response.json()
