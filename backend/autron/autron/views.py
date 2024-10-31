@@ -84,7 +84,7 @@ def success(request):
         return JsonResponse({"error": "Access token not found"}, status=401)
 
     # Use the access token to get user info from Okta
-    userinfo_url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
+    userinfo_url = f"{settings.OKTA_AUTH['ORG_URL']}/oauth2/default/v1/userinfo"
     headers = {"Authorization": f"Bearer {access_token}"}
 
     response = requests.get(userinfo_url, headers=headers)
