@@ -79,7 +79,7 @@ def software_by_department(request, department_id):
 def success(request):
     access_token = request.session.get("access_token")
     if not access_token:
-        return JsonResponse({"error": "Access token not found"}, status=401)
+        return JsonResponse({"error": request.session.items()}, status=401)
 
     userinfo_url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
     headers = {"Authorization": f"Bearer {access_token}"}
