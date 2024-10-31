@@ -77,19 +77,8 @@ def software_by_department(request, department_id):
 @login_required
 @api_view(["GET"])
 def success(request):
-    access_token = request.session.get("access_token")
-    if not access_token:
-        return JsonResponse({"error": request.session.items()}, status=401)
-
-    userinfo_url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
-    headers = {"Authorization": f"Bearer {access_token}"}
-
-    response = requests.get(userinfo_url, headers=headers)
-    if response.status_code == 200:
-        user_info = response.json()
-        return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
-    else:
-        return JsonResponse({"error": "Failed to fetch user info from Okta"}, status=response.status_code)
+    session_data = dict(request.session.items())  # Convert session items to a dictionary
+    return JsonResponse({"message": "Successfully logged in.", "session_data": session_data}, status=200)
 
 
 @api_view(["POST"])
