@@ -24,7 +24,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from .views import request_access_view
+from .views import request_access_view, okta_callback
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -66,6 +66,7 @@ urlpatterns = [
     path("request_access/", request_access_view, name="request_access"),
     path("request_software/<int:software_id>/", views.request_software, name="request_software"),
     path("request_list/", views.request_list, name="request_list"),
+    path("accounts/oauth2/callback", okta_callback, name="okta_callback"),
     # Our app's urls here
     # path('/', include('autron.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
