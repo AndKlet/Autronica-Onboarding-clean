@@ -77,25 +77,20 @@ def software_by_department(request, department_id):
 @login_required
 @api_view(["GET"])
 def success(request):
-    # Retrieve the access token from the session
-    okta_callback(request)
     access_token = request.session.get("access_token")
     if not access_token:
         return JsonResponse({"error": "Access token not found"}, status=401)
 
-    # Okta user info endpoint
-    url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-    }
+    userinfo_url = f"{settings.OKTA_ORG_URL}/oauth2/default/v1/userinfo"
+    headers = {"Authorization": f"Bearer {access_token}"}
 
-    # Make a GET request to the userinfo endpoint
-    response = requests.get(url, headers=headers)
+    response = requests.get(userinfo_url, headers=headers)
     if response.status_code == 200:
         user_info = response.json()
         return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
     else:
         return JsonResponse({"error": "Failed to fetch user info from Okta"}, status=response.status_code)
+
 
 @api_view(["POST"])
 def request_access_view(request):
@@ -162,39 +157,25 @@ def request_software(request, software_id):
         return JsonResponse(serializer.data, safe=False)
     
 def okta_callback(request):
-    # Get the authorization code from the callback URL
     authorization_code = request.GET.get("code")
     if not authorization_code:
         return JsonResponse({"error": "Authorization code not found"}, status=401)
 
-    # Exchange the authorization code for an access token
     token_url = f"{settings.OKTA_AUTH['ORG_URL']}/oauth2/default/v1/token"
-    redirect_uri = settings.OKTA_AUTH["REDIRECT_URI"]
-    client_id = settings.OKTA_AUTH["CLIENT_ID"]
-    client_secret = settings.OKTA_AUTH["CLIENT_SECRET"]
-
-    # Prepare the data for the token request
     data = {
         "grant_type": "authorization_code",
         "code": authorization_code,
-        "redirect_uri": redirect_uri,
-        "client_id": client_id,
-        "client_secret": client_secret,
+        "redirect_uri": settings.OKTA_AUTH["REDIRECT_URI"],
+        "client_id": settings.OKTA_AUTH["CLIENT_ID"],
+        "client_secret": settings.OKTA_AUTH["CLIENT_SECRET"],
     }
 
-    # Send a POST request to Okta to exchange the code for tokens
     response = requests.post(token_url, data=data)
     if response.status_code == 200:
         tokens = response.json()
-        access_token = tokens.get("access_token")
-        id_token = tokens.get("id_token")
+        request.session["access_token"] = tokens.get("access_token")
         
-        # Store the access token in the session
-        request.session["access_token"] = access_token
-
-        # Optionally, store id_token or any other information as needed
-        # Redirect to success page or handle user login
+        # Redirect to success page after storing the token
         return redirect('/success')
     else:
-        # Handle token request failure
         return JsonResponse({"error": "Failed to obtain access token"}, status=response.status_code)
