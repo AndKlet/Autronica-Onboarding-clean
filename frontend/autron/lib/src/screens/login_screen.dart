@@ -1,3 +1,5 @@
+// login_page.dart
+
 import 'dart:convert';
 import 'package:autron/src/app.dart';
 import 'package:autron/src/screens/home.dart';
@@ -68,15 +70,14 @@ class _LoginPageState extends State<LoginPage> {
                           await storage.write(
                               key: 'access_token', value: accessToken);
 
+                          // Fetch and store user data
                           await _userService.fetchUserData(accessToken);
 
                           // Show the bottom navigation bar and navigate to the home screen
-                          // Show the bottom navigation bar
                           (context as Element)
                               .findAncestorStateOfType<MyAppState>()!
                               .hideBottomNav(true);
 
-                          // Update the selected index in MyAppState to switch to the home tab
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
