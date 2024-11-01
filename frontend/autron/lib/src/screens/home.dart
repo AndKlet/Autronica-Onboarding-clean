@@ -2,6 +2,7 @@ import 'package:autron/globals/theme/app_colors.dart';
 import 'package:autron/src/services/software_service.dart';
 import 'package:autron/src/services/user_service.dart';
 import 'package:autron/src/services/home_service.dart';
+import 'package:autron/src/view_models/user_model.dart';
 import 'package:autron/src/widgets/announcement.dart';
 import 'package:autron/src/widgets/statusAlert.dart';
 import 'package:autron/src/widgets/app_bar.dart';
@@ -16,15 +17,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _userService.getUser(),
+    return FutureBuilder<User?>(
+      future: _userService.getUserData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return const Center(child: Text('Error loading user data'));
         } else {
-          final user = snapshot.data as Map<String, dynamic>;
+          final user = snapshot.data!;
           return Scaffold(
             appBar: const CustomAppBar(title: 'Home'),
             body: Center(
@@ -37,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                     child: Container(
                       margin: const EdgeInsets.only(top: 40, left: 16),
                       child: Text(
-                        'Hi ${user['name']}!',
+                        'Hi ${user.name}!',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 48,
@@ -51,9 +52,9 @@ class HomeScreen extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Container(
                       margin: const EdgeInsets.only(top: 10, left: 16),
-                      child: Text(
-                        user['department'],
-                        style: const TextStyle(
+                      child: const Text(
+                        'Engineering',
+                        style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
                           fontFamily: 'Inter',
