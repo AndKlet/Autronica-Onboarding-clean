@@ -1,12 +1,6 @@
-// login_page.dart
-
-import 'dart:convert';
 import 'package:autron/src/app.dart';
-import 'package:autron/src/screens/home.dart';
 import 'package:autron/src/services/auth_service.dart';
-import 'package:autron/src/services/user_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,9 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late InAppWebViewController webViewController;
-  final storage = const FlutterSecureStorage();
   final AuthService _authService = AuthService();
-  final UserService _userService = UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -37,61 +29,39 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 5),
             Expanded(
               child: InAppWebView(
-                  initialUrlRequest: URLRequest(
-                      url: WebUri('https://164.92.218.9/accounts/login/')),
-                  onWebViewCreated: (controller) {
-                    webViewController = controller;
-                  },
-                  onReceivedServerTrustAuthRequest:
-                      (controller, challenge) async {
-                    // Bypass SSL for testing purposes
-                    return ServerTrustAuthResponse(
-                        action: ServerTrustAuthResponseAction.PROCEED);
-                  },
-                  onLoadStop: (controller, url) async {
+                initialUrlRequest: URLRequest(
+                    url: WebUri('https://164.92.218.9/accounts/login/')),
+                onWebViewCreated: (controller) {
+                  webViewController = controller;
+                },
+                onReceivedServerTrustAuthRequest: (controller, challenge) async {
+                  // Bypass SSL for testing purposes
+                  return ServerTrustAuthResponse(
+                      action: ServerTrustAuthResponseAction.PROCEED);
+                },
+                onLoadStop: (controller, url) async {
+                  if (url != null) {
                     print('Page finished loading: $url');
 
-                    if (url != null && url.path.contains('/success')) {
-                      // Execute JavaScript to extract the JSON response
-                      final accessTokenJson =
-                          await controller.evaluateJavascript(
-                              source: "document.body.innerText");
+                    // Use AuthService to handle login and extract access token
+                    final accessToken = await _authService.handleLogin(controller, url);
 
-                      if (accessTokenJson != null) {
-                        // Decode the JSON response and extract the access token
-                        final accessToken =
-                            jsonDecode(accessTokenJson)['access_token'];
+                    if (accessToken != null) {
+                      // Show the bottom navigation bar and navigate to the home screen
+                      (context as Element)
+                          .findAncestorStateOfType<MyAppState>()!
+                          .hideBottomNav(true);
 
-                        if (accessToken != null) {
-                          print(
-                              'Access Token Retrieved: $accessToken'); // Debug print to confirm token retrieval
-
-                          // Store the token securely
-                          await storage.write(
-                              key: 'access_token', value: accessToken);
-
-                          // Fetch and store user data
-                          await _userService.fetchUserData(accessToken);
-
-                          // Show the bottom navigation bar and navigate to the home screen
-                          (context as Element)
-                              .findAncestorStateOfType<MyAppState>()!
-                              .hideBottomNav(true);
-
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MyApp()));
-                        } else {
-                          print(
-                              'Error: Access token not found in JSON response');
-                        }
-                      } else {
-                        print(
-                            'Error: Failed to retrieve access token JSON response');
-                      }
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MyApp()));
+                    } else {
+                      print('Error: Access token not found in JSON response');
                     }
-                  }),
+                  }
+                },
+              ),
             ),
           ],
         ),
