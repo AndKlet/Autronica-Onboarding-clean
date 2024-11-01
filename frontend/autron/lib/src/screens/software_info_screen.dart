@@ -1,3 +1,4 @@
+import 'package:autron/src/widgets/request_access_webview.dart';
 import 'package:autron/src/view_models/department_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
@@ -120,18 +121,29 @@ class SoftwareInfoPage extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RequestAccessForm(
-                        softwareName:
-                            name, // Pass software name to request form
-                        softwareId: id,
-                        imageURL: softwareImage,
-                        department: department,
-                      ),
-                    ),
-                  );
+                  if (requestMethod.toLowerCase().replaceAll(' ', '') ==
+                      'servicenow') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RequestAccessWebview(
+                                  softwareName: name,
+                                  url:
+                                      "https://infosyscaruat.service-now.com/sp_v2?id=sc_cat_item&table=sc_cat_item&sys_id=8ebde842dbe5334040336385ca961901&searchTerm=hubble",
+                                )));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RequestAccessForm(
+                            softwareName:
+                                name, // Pass software name to request form
+                            softwareId: id,
+                            imageURL: softwareImage,
+                            department: department,
+                          ),
+                        ));
+                  }
                 },
                 child: const Text('Request Access'),
               )
