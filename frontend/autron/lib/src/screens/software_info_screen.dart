@@ -118,13 +118,15 @@ class SoftwareInfoPage extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  if (softwareName == 'Atlassian') {
+                  if (requestMethod.toLowerCase().replaceAll(' ', '') ==
+                      'servicenow') {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => RequestAccessWebview(
                           softwareName: softwareName,
-                          url: "https://vg.no",
+                          url:
+                              "https://infosyscaruat.service-now.com/sp_v2?id=sc_cat_item&table=sc_cat_item&sys_id=8ebde842dbe5334040336385ca961901&searchTerm=hubble",
                         ),
                       ),
                     );
