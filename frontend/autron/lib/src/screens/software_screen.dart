@@ -28,8 +28,8 @@ class _SoftwarePageState extends State<SoftwarePage> {
   // Method to fetch software for the selected department
   Future<void> _filterSoftwareByDepartment(int departmentId) async {
     try {
-      final List<Software> softwares = await _softwareService
-          .getSoftwareByDepartment(departmentId);
+      final List<Software> softwares =
+          await _softwareService.getSoftwareByDepartment(departmentId);
       setState(() {
         departmentSoftware = softwares;
       });
@@ -83,31 +83,33 @@ class _SoftwarePageState extends State<SoftwarePage> {
                   ),
                 if (departmentSoftware.isNotEmpty)
                   Center(
-  child: Wrap(
-    spacing: 8.0,
-    runSpacing: 8.0,
-    children: departmentSoftware.map((software) {
-      return SoftwareBox(
-        softwareName: software.name,
-        imageUrl: software.image, // This can be null or empty and will be handled by the widget
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SoftwareInfoPage(
-                softwareName: software.name,
-                softwareStatus: software.status ?? 'Not Requested',
-                softwareDescription: software.description,
-                softwareImage: software.image,
-                requestMethod: software.request_method,
-              ),
-            ),
-          );
-        },
-      );
-    }).toList(),
-  ),
-),
+                    child: Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: departmentSoftware.map((software) {
+                        return SoftwareBox(
+                            name: software.name,
+                            imageURL: software.image,
+                            onPressed: () {
+                              if (selectedDepartment != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SoftwareInfoPage(
+                                      id: software.id,
+                                      name: software.name,
+                                      softwareImage: software.image,
+                                      department: selectedDepartment!,
+                                      softwareDescription: software.description,
+                                      requestMethod: software.request_method,
+                                    ),
+                                  ),
+                                );
+                              }
+                            });
+                      }).toList(),
+                    ),
+                  ),
               ],
             ),
           );
