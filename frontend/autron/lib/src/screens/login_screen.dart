@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:autron/src/app.dart';
 import 'package:autron/src/screens/home.dart';
+import 'package:autron/src/services/auth_service.dart';
+import 'package:autron/src/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -15,6 +17,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late InAppWebViewController webViewController;
   final storage = const FlutterSecureStorage();
+  final AuthService _authService = AuthService();
+  final UserService _userService = UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                           // Store the token securely
                           await storage.write(
                               key: 'access_token', value: accessToken);
+
+                          await _userService.fetchUserData(accessToken);
 
                           // Show the bottom navigation bar and navigate to the home screen
                           // Show the bottom navigation bar
