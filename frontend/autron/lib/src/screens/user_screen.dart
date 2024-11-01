@@ -52,7 +52,7 @@ class _UserScreenState extends State<UserScreen> {
                           (context as Element).findAncestorStateOfType<MyAppState>()!
                               .hideBottomNav(true);
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
-                          _authService.logout;
+                          _authService.logout();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF005E1D),
