@@ -3,19 +3,15 @@ import 'package:autron/src/view_models/user_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
+/// A service class that handles user data.
 class UserService {
   final _storage = const FlutterSecureStorage();
 
-  Future<Object> getUser() async {
-    return {
-      'name': 'John Johnberg',
-      'department': 'Engineering',
-    };
-  }
-  
-  // Fetch user data from the server
+  /// Fetches user data from the server.
+  /// 
+  /// This method sends a GET request to the server with the access token in the headers.
   Future<User?> fetchUserData(String accessToken) async {
-    final url = Uri.parse('https://164.92.218.9/get_user_data/'); // Replace with actual URL
+    final url = Uri.parse('https://164.92.218.9/get_user_data/');
 
     try {
       final response = await http.get(
@@ -31,21 +27,27 @@ class UserService {
         await storeUserData(user); // Store user data securely
         return user;
       } else {
+        // Remove print statement in production
+        // TODO Error handling
         print('Failed to fetch user data: ${response.statusCode}');
       }
     } catch (e) {
+      // Remove print statement in production
+      // TODO Error handling
       print('Error fetching user data: $e');
     }
     return null;
   }
 
-  // Store user data in secure storage
+  /// Stores user data securely on the device using FlutterSecureStorage.
   Future<void> storeUserData(User user) async {
     final userJson = jsonEncode(user.toJson());
     await _storage.write(key: 'user_data', value: userJson);
   }
 
-  // Retrieve user data from secure storage
+  /// Retrieves user data from the device's storage using FlutterSecureStorage.
+  /// 
+  /// Returns `null` if no user data is found.
   Future<User?> getUserData() async {
     final userJson = await _storage.read(key: 'user_data');
     if (userJson != null) {
@@ -55,7 +57,9 @@ class UserService {
     return null;
   }
 
-  // Clear user data
+  /// Clears user data from the device's storage using FlutterSecureStorage.
+  /// 
+  /// This method is used when the user logs out.
   Future<void> clearUserData() async {
     await _storage.delete(key: 'user_data');
   }

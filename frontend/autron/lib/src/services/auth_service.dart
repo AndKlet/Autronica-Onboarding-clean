@@ -5,14 +5,18 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:autron/src/services/user_service.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+/// TODO re-authenticate user on app restart
+/// A class that handles authentication.
 class AuthService {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   final UserService _userService = UserService();
 
-  // Method to handle the login process and extract the access token
+  /// Handles the login process.
+  /// 
+  /// This method is called when the user logs in.
+  /// It extracts the access token from the response body and stores it securely on device
   Future<String?> handleLogin(InAppWebViewController controller, Uri url) async {
     if (url.path.contains('/success')) {
-      // Extract access token from the response body
       final accessTokenJson = await controller.evaluateJavascript(
           source: "document.body.innerText");
 
@@ -21,7 +25,7 @@ class AuthService {
         if (accessToken != null) {
           // print('Access Token Retrieved: $accessToken'); // Debug print
           await storeAccessToken(accessToken);
-          await _userService.fetchUserData(accessToken); // Fetch and store user data
+          await _userService.fetchUserData(accessToken);
           return accessToken;
         }
       }
@@ -29,24 +33,30 @@ class AuthService {
     return null;
   }
 
+  /// Checks if the user is logged in.
+  /// 
+  /// This method is used to determine if the user is logged in upon app start.
   Future<bool> isLoggedIn() async {
     final accessToken = await storage.read(key: 'access_token');
     return accessToken != null;
   }
 
-  // Store the access token securely
+  /// Stores the access token securely on the device.
   Future<void> storeAccessToken(String accessToken) async {
     await storage.write(key: 'access_token', value: accessToken);
   }
 
-  // Retrieve the access token from secure storage
+  /// Retrieves the access token from the device's storage.
   Future<String?> getAccessToken() async {
     return await storage.read(key: 'access_token');
   }
 
+  /// Logs the user out.
+  /// 
+  /// Logs the user out by deleting the access token and clearing user data.
   Future<void> logout() async {
     print('Logging out...');
-    await storage.delete(key: 'access_token'); // Remove the token on logout
+    await storage.delete(key: 'access_token'); // Remove access token
     await _userService.clearUserData(); // Clear stored user data
   }
 }

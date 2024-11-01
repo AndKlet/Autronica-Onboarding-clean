@@ -1,5 +1,4 @@
-// user_model.dart
-
+/// User model class
 class User {
   final String id;
   final String name;
@@ -27,7 +26,7 @@ class User {
     required this.firstName,
   });
 
-  // Factory constructor to create a User instance from JSON
+  /// Create a User instance from JSON
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['sub'],
@@ -44,7 +43,7 @@ class User {
     );
   }
 
-  // Convert a User instance to JSON
+  /// Convert the User instance to JSON
   Map<String, dynamic> toJson() {
     return {
       'sub': id,

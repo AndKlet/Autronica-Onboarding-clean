@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                   webViewController = controller;
                 },
                 onReceivedServerTrustAuthRequest: (controller, challenge) async {
-                  // Bypass SSL for testing purposes
+                  // Bypass SSL for testing purposes - should be removed in production (Have a valid SSL certificate)
                   return ServerTrustAuthResponse(
                       action: ServerTrustAuthResponseAction.PROCEED);
                 },
