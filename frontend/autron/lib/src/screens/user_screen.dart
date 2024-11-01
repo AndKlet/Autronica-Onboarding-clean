@@ -28,6 +28,18 @@ class _UserScreenState extends State<UserScreen> {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error loading user data'));
+            } else if (!snapshot.hasData) {
+              // If no user data, navigate to LoginPage
+              Future.microtask(() {
+                (context as Element)
+                    .findAncestorStateOfType<MyAppState>()!
+                    .hideBottomNav(true);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              });
+              return const SizedBox();
             } else {
               final user = snapshot.data!;
 
@@ -49,9 +61,13 @@ class _UserScreenState extends State<UserScreen> {
                       alignment: Alignment.bottomCenter,
                       child: ElevatedButton(
                         onPressed: () {
-                          (context as Element).findAncestorStateOfType<MyAppState>()!
+                          (context as Element)
+                              .findAncestorStateOfType<MyAppState>()!
                               .hideBottomNav(true);
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()));
                           _authService.logout();
                         },
                         style: ElevatedButton.styleFrom(

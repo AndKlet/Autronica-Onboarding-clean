@@ -1,4 +1,6 @@
 import 'package:autron/globals/theme/app_colors.dart';
+import 'package:autron/src/app.dart';
+import 'package:autron/src/screens/login_screen.dart';
 import 'package:autron/src/services/software_service.dart';
 import 'package:autron/src/services/user_service.dart';
 import 'package:autron/src/services/home_service.dart';
@@ -24,6 +26,18 @@ class HomeScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return const Center(child: Text('Error loading user data'));
+        } else if (!snapshot.hasData) {
+          // If no user data, navigate to LoginPage
+          Future.microtask(() {
+            (context as Element)
+                .findAncestorStateOfType<MyAppState>()!
+                .hideBottomNav(true);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          });
+          return const SizedBox();
         } else {
           final user = snapshot.data!;
           return Scaffold(
@@ -31,7 +45,6 @@ class HomeScreen extends StatelessWidget {
             body: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-              
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
@@ -63,16 +76,17 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
                   FutureBuilder(
                     future: _homeService.getAnnouncement(),
                     builder: (context, announcementSnapshot) {
-                      if (announcementSnapshot.connectionState == ConnectionState.waiting) {
+                      if (announcementSnapshot.connectionState ==
+                          ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       } else if (announcementSnapshot.hasError) {
                         return const Text('Error loading announcement');
                       } else {
-                        final announcement = announcementSnapshot.data as String;
+                        final announcement =
+                            announcementSnapshot.data as String;
                         return Container(
                           margin: const EdgeInsets.only(top: 20),
                           child: Announcement(
@@ -83,14 +97,15 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   ),
-                  
                   FutureBuilder(
                     future: _softwareService.getAcceptedSoftwareCount(),
                     builder: (context, acceptedSnapshot) {
-                      if (acceptedSnapshot.connectionState == ConnectionState.waiting) {
+                      if (acceptedSnapshot.connectionState ==
+                          ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       } else if (acceptedSnapshot.hasError) {
-                        return const Text('Error loading accepted software count');
+                        return const Text(
+                            'Error loading accepted software count');
                       } else {
                         final acceptedCount = acceptedSnapshot.data as int;
                         return Container(
@@ -104,14 +119,15 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   ),
-                  
                   FutureBuilder(
                     future: _softwareService.getPendingSoftwareCount(),
                     builder: (context, pendingSnapshot) {
-                      if (pendingSnapshot.connectionState == ConnectionState.waiting) {
+                      if (pendingSnapshot.connectionState ==
+                          ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       } else if (pendingSnapshot.hasError) {
-                        return const Text('Error loading pending software count');
+                        return const Text(
+                            'Error loading pending software count');
                       } else {
                         final pendingCount = pendingSnapshot.data as int;
                         return Container(
