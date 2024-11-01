@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late InAppWebViewController webViewController;
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -64,18 +64,17 @@ class _LoginPageState extends State<LoginPage> {
                           await storage.write(
                               key: 'access_token', value: accessToken);
 
-                          // Verify that the token is stored
-                          String? storedToken =
-                              await storage.read(key: 'access_token');
-                          print(
-                              'Stored Token: $storedToken'); // This should match the retrieved token
-
                           // Show the bottom navigation bar and navigate to the home screen
                           // Show the bottom navigation bar
-        (context as Element).findAncestorStateOfType<MyAppState>()!.hideBottomNav(false);
+                          (context as Element)
+                              .findAncestorStateOfType<MyAppState>()!
+                              .hideBottomNav(true);
 
-        // Update the selected index in MyAppState to switch to the home tab
-        (context as Element).findAncestorStateOfType<MyAppState>()!.onItemTapped(0);
+                          // Update the selected index in MyAppState to switch to the home tab
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MyApp()));
                         } else {
                           print(
                               'Error: Access token not found in JSON response');
