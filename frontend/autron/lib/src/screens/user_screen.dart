@@ -2,6 +2,7 @@ import 'package:autron/src/app.dart';
 import 'package:autron/src/screens/login_screen.dart';
 import 'package:autron/src/services/auth_service.dart';
 import 'package:autron/src/services/user_service.dart';
+import 'package:autron/src/view_models/user_model.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -20,30 +21,28 @@ class _UserScreenState extends State<UserScreen> {
       appBar: const CustomAppBar(title: 'Profile'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: FutureBuilder(
-          future: _userService.getUser(),
+        child: FutureBuilder<User?>(
+          future: _userService.getUserData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error loading user data'));
             } else {
-              final user = snapshot.data as Map<String, dynamic>;
-              final userName = user['name'];
-              final department = user['department'];
+              final user = snapshot.data!;
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Name: $userName',
+                    'Name: ${user.name}',
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    'Department: $department',
-                    style: const TextStyle(fontSize: 20),
+                  const Text(
+                    'Department: Engineering',
+                    style: TextStyle(fontSize: 20),
                   ),
                   Expanded(
                     child: Align(
