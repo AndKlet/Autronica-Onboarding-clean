@@ -151,3 +151,6 @@ def request_software(request, software_id):
 def get_user_data(request):
     pass
 
+def okta_callback(request):
+    pass
+
