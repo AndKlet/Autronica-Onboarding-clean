@@ -79,7 +79,7 @@ def software_by_department(request, department_id):
 def success(request):
     access_token = request.session.get("tokens", {}).get("access_token")
     if access_token:
-        redirect_url = f"https://164.92.218.9/token?access_token={access_token}"
+        redirect_url = f"https://164.92.218.9/success?access_token={access_token}"
         return redirect(redirect_url)
     else:
         return JsonResponse({"error": "Access token not found"}, status=401)
