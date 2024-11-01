@@ -77,13 +77,13 @@ def software_by_department(request, department_id):
 @login_required
 @api_view(["GET"])
 def success(request):
+    # Retrieve the access token from the session
     access_token = request.session.get("tokens", {}).get("access_token")
     if access_token:
-        redirect_url = f"https://164.92.218.9/success?access_token={access_token}"
-        return redirect(redirect_url)
+        # Return a JSON response with the access token directly
+        return JsonResponse({"access_token": access_token}, status=200)
     else:
         return JsonResponse({"error": "Access token not found"}, status=401)
-
 @api_view(["POST"])
 def request_access_view(request):
     if request.method == "POST":
