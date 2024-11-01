@@ -1,3 +1,4 @@
+import 'package:autron/src/services/request_service.dart';
 import 'package:autron/src/view_models/department_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
@@ -16,8 +17,9 @@ class SoftwareInfoPage extends StatelessWidget {
   final String softwareDescription;
   final String? softwareImage;
   final String requestMethod;
+  final RequestService _requestService = RequestService();
 
-  const SoftwareInfoPage({
+  SoftwareInfoPage({
     super.key,
     required this.name,
     required this.id,
@@ -71,29 +73,6 @@ class SoftwareInfoPage extends StatelessWidget {
                 softwareDescription, // Display the description here
                 style: const TextStyle(fontSize: 16),
               ),
-              // const SizedBox(height: 16),
-              // RichText(
-              //   text: TextSpan(
-              //     children: [
-              //       const TextSpan(
-              //         text: 'Status: ',
-              //         style: TextStyle(
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black,
-              //           fontSize: 16,
-              //         ),
-              //       ),
-              //       TextSpan(
-              //         text: softwareStatus,
-              //         style: const TextStyle(
-              //           fontWeight: FontWeight.normal,
-              //           color: Colors.black,
-              //           fontSize: 16,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
@@ -118,22 +97,35 @@ class SoftwareInfoPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RequestAccessForm(
-                        softwareName:
-                            name, // Pass software name to request form
-                        softwareId: id,
-                        imageURL: softwareImage,
-                        department: department,
-                      ),
-                    ),
-                  );
+              FutureBuilder(
+                future: _requestService.getRequestBySoftwareId(id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.hasData && snapshot.data != null) {
+                    return const Text('You have already requested access.');
+                  } else {
+                    return ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RequestAccessForm(
+                              softwareName:
+                                  name, // Pass software name to request form
+                              softwareId: id,
+                              imageURL: softwareImage,
+                              department: department,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text('Request Access'),
+                    );
+                  }
                 },
-                child: const Text('Request Access'),
               )
             ],
           ),
