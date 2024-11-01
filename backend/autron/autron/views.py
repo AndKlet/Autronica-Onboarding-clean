@@ -148,8 +148,43 @@ def request_software(request, software_id):
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
     
+@swagger_auto_schema(
+    method="GET",
+    operation_description="Retrieve user data from Okta with access token",
+)
+@api_view(["GET"])
+@permission_classes([permissions.AllowAny])  # Allow public access as auth is done via token
 def get_user_data(request):
-    pass
+    # Retrieve the access token from the headers
+    access_token = request.headers.get("Authorization")
+    
+    if not access_token:
+        return JsonResponse({"error": "Authorization header with access token not found"}, status=401)
+
+    # Ensure the token is in "Bearer <token>" format
+    if not access_token.startswith("Bearer "):
+        return JsonResponse({"error": "Invalid token format. Token must be prefixed with 'Bearer '."}, status=401)
+
+    # Strip "Bearer " prefix to get the actual token
+    access_token = access_token.split(" ")[1]
+
+    # Define the user info endpoint URL
+    userinfo_url = f"{settings.OKTA_AUTH['ORG_URL']}/oauth2/default/v1/userinfo"
+
+    # Send a request to the Okta user info endpoint with the access token
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = requests.get(userinfo_url, headers=headers)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        user_info = response.json()  # Parse the user info as JSON
+        return JsonResponse({"user_data": user_info}, status=200)
+    else:
+        # Handle errors from the user info endpoint
+        return JsonResponse(
+            {"error": "Failed to retrieve user data", "status_code": response.status_code},
+            status=response.status_code
+        )
 
 def okta_callback(request):
     pass
