@@ -2,38 +2,51 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class RequestAccessWebview extends StatelessWidget {
+class RequestAccessWebview extends StatefulWidget {
   final String softwareName;
   final String url;
 
-  RequestAccessWebview({required this.softwareName, required this.url});
+  const RequestAccessWebview(
+      {super.key, required this.softwareName, required this.url});
+
+  @override
+  State<RequestAccessWebview> createState() => _RequestAccessWebviewState();
+}
+
+class _RequestAccessWebviewState extends State<RequestAccessWebview> {
+  late final WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the controller
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(widget.url));
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Ensure the WebView is initialized for Android
-    if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
+    // Note: WebView.platform = SurfaceAndroidWebView(); is no longer needed in newer versions
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request Access for $softwareName'),
+        title: Text('Request Access for ${widget.softwareName}'),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              softwareName,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              widget.softwareName,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
-            child: WebView(
-              initialUrl: url,
-              javascriptMode: JavascriptMode.unrestricted,
+            child: WebViewWidget(
+              controller: controller,
             ),
-          ),
+          )
         ],
       ),
     );
