@@ -18,12 +18,16 @@ class RequestService {
     }
   }
 
-  /// Gets request by status.
-  Future<List<Request>> getRequestByStatus(List<String> statuses) async {
+  /// Gets request by software id.
+  Future<Request?> getRequestBySoftwareId(int softwareId) async {
     final allRequests = await getAllRequests();
-    return allRequests
-        .where((request) => statuses.contains(request.status))
-        .toList();
+    try {
+      return allRequests.firstWhere(
+        (request) => request.software.id == softwareId,
+      );
+    } catch (e) {
+      return null;
+    }
   }
 
   /// Gets the count of accepted request.
