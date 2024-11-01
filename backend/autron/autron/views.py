@@ -77,9 +77,11 @@ def software_by_department(request, department_id):
 @login_required
 @api_view(["GET"])
 def success(request):
-    # Retrieve the access token directly from the session
-    access_token = request.session.get("tokens", {}).get("access_token")
+    # Retrieve all tokens from the session
+    tokens = request.session.get("tokens", {})
     
+    # Check if access token is available
+    access_token = tokens.get("access_token")
     if not access_token:
         return JsonResponse({"error": "Access token not found"}, status=401)
 
@@ -90,10 +92,16 @@ def success(request):
     response = requests.get(userinfo_url, headers=headers)
     if response.status_code == 200:
         user_info = response.json()
-        return JsonResponse({"message": "Successfully logged in!", "user_info": user_info})
+        return JsonResponse({
+            "message": "Successfully logged in!",
+            "user_info": user_info,
+            "tokens": tokens  # Include all tokens here
+        })
     else:
-        return JsonResponse({"error": "Failed to fetch user info from Okta"}, status=response.status_code)
-
+        return JsonResponse({
+            "error": "Failed to fetch user info from Okta",
+            "tokens": tokens  # Include tokens for troubleshooting
+        }, status=response.status_code)
 
 @api_view(["POST"])
 def request_access_view(request):
