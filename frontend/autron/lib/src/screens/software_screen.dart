@@ -8,6 +8,10 @@ import 'package:autron/src/screens/software_info_screen.dart';
 import 'package:autron/src/services/software_service.dart';
 import 'package:autron/src/services/department_service.dart';
 
+/// The SoftwarePage widget displays the software screen of the application.
+///
+/// The software screen displays a dropdown search bar to select a department, and a list of software available for the selected department.
+/// SoftwarePage fetches software data from the [SoftwareService] and department data from the [DepartmentService].
 class SoftwarePage extends StatefulWidget {
   const SoftwarePage({super.key});
 
@@ -16,25 +20,45 @@ class SoftwarePage extends StatefulWidget {
 }
 
 class _SoftwarePageState extends State<SoftwarePage> {
-  final _softwareService = SoftwareService(); // Use SoftwareService
-  final _departmentService = DepartmentService(); // Assuming this still exists
-  List<Software> departmentSoftware = [];
+  final _softwareService = SoftwareService();
+  final _departmentService = DepartmentService();
+  final TextEditingController _softwareSearchController =
+      TextEditingController();
+  ValueNotifier<List<Software>> filteredDepartmentSoftware = ValueNotifier([]);
+  List<Software> allDepartmentSoftware = [];
   Department? selectedDepartment;
 
-  // Method to fetch software for the selected department
+  // Fetch software for the selected department
   Future<void> _filterSoftwareByDepartment(int departmentId) async {
     try {
-      final List<Software> softwares = await _softwareService
-          .getSoftwareByDepartment(departmentId); // Call from SoftwareService
-      setState(() {
-        departmentSoftware = softwares; // Update state with the software list
-      });
+      final List<Software> softwares =
+          await _softwareService.getSoftwareByDepartment(departmentId);
+      allDepartmentSoftware = softwares;
+      filteredDepartmentSoftware.value = softwares;
     } catch (e) {
-      setState(() {
-        departmentSoftware = [];
-      });
+      allDepartmentSoftware = [];
+      filteredDepartmentSoftware.value = [];
       print('Error fetching software: $e');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to software search changes and update the filtered software
+    _softwareSearchController.addListener(() {
+      final query = _softwareSearchController.text.toLowerCase();
+      filteredDepartmentSoftware.value = allDepartmentSoftware
+          .where((software) => software.name.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _softwareSearchController.dispose();
+    filteredDepartmentSoftware.dispose();
+    super.dispose();
   }
 
   @override
@@ -61,42 +85,66 @@ class _SoftwarePageState extends State<SoftwarePage> {
                     setState(() {
                       selectedDepartment = department;
                     });
-                    _filterSoftwareByDepartment(
-                        department.id); // Filter software by department
+                    _filterSoftwareByDepartment(department.id);
                   },
                   getLabel: (Department department) => department.name,
                 ),
                 if (selectedDepartment != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      'Software available for: ${selectedDepartment!.name}',
-                      style: const TextStyle(fontSize: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Software available for: ${selectedDepartment!.name}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _softwareSearchController,
+                          decoration: const InputDecoration(
+                            hintText: 'Search Software',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                if (departmentSoftware.isNotEmpty)
-                  Center(
-                    child: Wrap(
-                      spacing: 8.0,
-                      runSpacing: 8.0,
-                      children: departmentSoftware.map((software) {
-                        return SoftwareBox(
-                          softwareName: software.name,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SoftwareInfoPage(
-                                  softwareName: software.name,
-                                  softwareStatus:
-                                      software.status ?? 'Not Requested',
-                                ),
-                              ),
+                if (selectedDepartment != null)
+                  ValueListenableBuilder<List<Software>>(
+                    valueListenable: filteredDepartmentSoftware,
+                    builder: (context, softwareList, _) {
+                      return Center(
+                        child: Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: softwareList.map((software) {
+                            return SoftwareBox(
+                              name: software.name,
+                              imageURL: software.image,
+                              onPressed: () {
+                                if (selectedDepartment != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SoftwareInfoPage(
+                                        id: software.id,
+                                        name: software.name,
+                                        softwareImage: software.image,
+                                        department: selectedDepartment!,
+                                        softwareDescription:
+                                            software.description,
+                                        requestMethod: software.request_method,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
                             );
-                          },
-                        );
-                      }).toList(),
-                    ),
+                          }).toList(),
+                        ),
+                      );
+                    },
                   ),
               ],
             ),

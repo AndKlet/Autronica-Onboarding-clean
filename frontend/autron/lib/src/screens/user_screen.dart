@@ -6,6 +6,10 @@ import 'package:autron/src/view_models/user_model.dart';
 import 'package:autron/src/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
+/// The UserScreen widget displays the user profile screen of the application.
+/// 
+/// The user profile screen displays the user's name and department, and allows the user to log out.
+/// UserScreen fetches user data from the [UserService].
 class UserScreen extends StatefulWidget {
   @override
   State<UserScreen> createState() => _UserScreenState();
@@ -13,8 +17,9 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  final AuthService _authService = AuthService();
-  final UserService _userService = UserService();
+  final AuthService _authService = AuthService(); // Use AuthService
+  final UserService _userService = UserService(); // Use UserService
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +29,7 @@ class _UserScreenState extends State<UserScreen> {
         child: FutureBuilder<User?>(
           future: _userService.getUserData(),
           builder: (context, snapshot) {
+            // Check the connection state
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {

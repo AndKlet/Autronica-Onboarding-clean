@@ -125,7 +125,7 @@ Otherwise you can run the command from the root of the backend directory when ru
 Run server
 
 ```bash
-python manage.py runserver
+python manage.py runserver --settings=autron.settings_dev
 ```
 
 When making changes to the models, run the following commands to apply the changes to the database:

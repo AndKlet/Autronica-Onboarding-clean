@@ -3,6 +3,10 @@ import 'package:autron/src/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+
+/// The LoginPage widget displays the login screen of the application.
+/// 
+/// The login screen fetches user data from the [AuthService] and allows the user to log in.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 

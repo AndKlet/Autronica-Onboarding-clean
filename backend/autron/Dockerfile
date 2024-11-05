@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:8000 --settings=autron.settings_${DJANGO_ENV}"]

@@ -16,13 +16,15 @@ Including another URLconf
 """
 
 from autron import views
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from .views import *
+from .views import request_access_view
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -52,6 +54,7 @@ urlpatterns = [
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
     ),
+    path("accounts/", include(("okta_oauth2.urls", "okta_oauth2"), namespace="okta_oauth2")),
     path("department_list/", views.department_list, name="department_list"),
     path("software_list/", views.software_list, name="software_list"),
     path(
@@ -59,6 +62,10 @@ urlpatterns = [
         views.software_by_department,
         name="software_by_department",
     ),
+    path("success/", views.success, name="success"),
+    path("request_access/", request_access_view, name="request_access"),
+    path("request_software/<int:software_id>/", views.request_software, name="request_software"),
+    path("request_list/", views.request_list, name="request_list"),
     # Our app's urls here
     # path('/', include('autron.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
