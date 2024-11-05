@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://global.oktacdn.com/okta-signin-widget/5.0.1/js/okta-sign-in.min.js"
+      type="text/javascript"
+    ></script>
+    <link
+      href="https://global.oktacdn.com/okta-signin-widget/5.0.1/css/okta-sign-in.min.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <style>
+      #okta-sign-in.auth-container .button-primary {
+      color: #fff;
+      background-color: #fff;
+      background: -o-linear-gradient(top, #0d6420 0, #007dc1 100%);
+      background: -ms-linear-gradient(top, #0d6420 0, #007dc1 100%);
+      background: -webkit-gradient(linear, left top, left bottom, from(#007dc1), to(#0073b2));
+      background: -webkit-linear-gradient(#0d6420, #0d6420);
+      background: linear-gradient(#0d6420, #0d6420);
+      border-color: #0000 0 #004b75 #00456a;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 hsla(0, 0%, 100%, 0.1);
+    }
+    #okta-sign-in.auth-container .button-primary:hover {
+      color: #fff;
+      background-color: #fff;
+      background: -o-linear-gradient(top, #006607 0, #006607 100%);
+      background: -ms-linear-gradient(top, #006607 0, #006607 100%);
+      background: -webkit-gradient(linear, left top, left bottom, from(#006607), to(#006607));
+      background: -webkit-linear-gradient(#006607, #006607);
+      background: linear-gradient(#0d6420, #0d6420);
+      border-color: #0000 0 #004b75 #00456a;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 1px 0 hsla(0, 0%, 100%, 0.1);
+    }
+    </style>
+  </head>
+  <body>
+    <div id="okta-login-container"></div>
+
+    <script type="text/javascript">
+      var oktaSignIn = new OktaSignIn({
+          baseUrl: '{{config.url}}',
+          clientId: '{{config.clientId}}',
+          redirectUri: '{{config.redirectUri}}',
+          authParams: {
+              issuer: '{{config.issuer}}',
+              responseType: ['code'],
+              scopes: "{{config.scope}}".split(" "),
+              pkce: false,
+          },
+      });
+      oktaSignIn.renderEl(
+          {el: '#okta-login-container'},
+          function (res) {
+              console.log(res);
+          },
+          function (err) {
+              console.error(err);
+          }
+      );
+    </script>
+  </body>
+</html>
