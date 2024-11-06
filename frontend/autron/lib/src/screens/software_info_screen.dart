@@ -1,3 +1,4 @@
+import 'package:autron/src/widgets/request_access_webview.dart';
 import 'package:autron/src/view_models/department_model.dart';
 import 'package:flutter/material.dart';
 import 'package:autron/src/widgets/app_bar.dart';
@@ -16,6 +17,7 @@ class SoftwareInfoPage extends StatelessWidget {
   final String softwareDescription;
   final String? softwareImage;
   final String requestMethod;
+  final String servicenow_link;
 
   const SoftwareInfoPage({
     super.key,
@@ -25,6 +27,7 @@ class SoftwareInfoPage extends StatelessWidget {
     required this.softwareDescription,
     this.softwareImage,
     required this.requestMethod,
+    required this.servicenow_link,
   });
 
   @override
@@ -120,18 +123,29 @@ class SoftwareInfoPage extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RequestAccessForm(
-                        softwareName:
-                            name, // Pass software name to request form
-                        softwareId: id,
-                        imageURL: softwareImage,
-                        department: department,
-                      ),
-                    ),
-                  );
+                  if (requestMethod.toLowerCase().replaceAll(' ', '') ==
+                      'servicenow') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RequestAccessWebview(
+                                  softwareName: name,
+                                  url:
+                                      servicenow_link,
+                                )));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RequestAccessForm(
+                            softwareName:
+                                name, // Pass software name to request form
+                            softwareId: id,
+                            imageURL: softwareImage,
+                            department: department,
+                          ),
+                        ));
+                  }
                 },
                 child: const Text('Request Access'),
               )

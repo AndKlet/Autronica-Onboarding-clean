@@ -9,6 +9,7 @@ class Software {
   String? image;
   String description;
   String request_method;
+  String servicenow_link;
 
   Software(
       {required this.id,
@@ -16,7 +17,8 @@ class Software {
       required this.department,
       this.image,
       required this.description,
-      required this.request_method});
+      required this.request_method,
+      required this.servicenow_link});
 
   // Method to convert JSON to Software object
   factory Software.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class Software {
           : json['image'] ?? '',
       description: json['description'] as String,
       request_method: json['requestmethod'] as String,
+      servicenow_link: json['servicenow_link'] as String
     );
   }
 

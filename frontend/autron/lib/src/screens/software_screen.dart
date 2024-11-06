@@ -20,40 +20,57 @@ class SoftwarePage extends StatefulWidget {
 }
 
 class _SoftwarePageState extends State<SoftwarePage> {
-  final _softwareService = SoftwareService(); // Use SoftwareService
-  final _departmentService = DepartmentService(); // Use DepartmentService
-  List<Software> departmentSoftware = [];
+  final _softwareService = SoftwareService();
+  final _departmentService = DepartmentService();
+  final TextEditingController _softwareSearchController =
+      TextEditingController();
+  ValueNotifier<List<Software>> filteredDepartmentSoftware = ValueNotifier([]);
+  List<Software> allDepartmentSoftware = [];
   Department? selectedDepartment;
 
-  // Method to fetch software for the selected department
+  // Fetch software for the selected department
   Future<void> _filterSoftwareByDepartment(int departmentId) async {
     try {
       final List<Software> softwares =
           await _softwareService.getSoftwareByDepartment(departmentId);
-      setState(() {
-        departmentSoftware = softwares;
-      });
+      allDepartmentSoftware = softwares;
+      filteredDepartmentSoftware.value = softwares;
     } catch (e) {
-      setState(() {
-        departmentSoftware = [];
-      });
+      allDepartmentSoftware = [];
+      filteredDepartmentSoftware.value = [];
       print('Error fetching software: $e');
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Listen to software search changes and update the filtered software
+    _softwareSearchController.addListener(() {
+      final query = _softwareSearchController.text.toLowerCase();
+      filteredDepartmentSoftware.value = allDepartmentSoftware
+          .where((software) => software.name.toLowerCase().contains(query))
+          .toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _softwareSearchController.dispose();
+    filteredDepartmentSoftware.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // FutureBuilder to fetch department data
     return FutureBuilder(
       future: _departmentService.getAllDepartments(),
       builder: (context, snapshot) {
-        // Check the connection state
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));
         } else {
-          // If the snapshot has data, display the software screen
           final departments = snapshot.data as List<Department>;
 
           return Scaffold(
@@ -68,47 +85,67 @@ class _SoftwarePageState extends State<SoftwarePage> {
                     setState(() {
                       selectedDepartment = department;
                     });
-                    _filterSoftwareByDepartment(
-                        department.id); // Filter software by department
+                    _filterSoftwareByDepartment(department.id);
                   },
                   getLabel: (Department department) => department.name,
                 ),
                 if (selectedDepartment != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      'Software available for: ${selectedDepartment!.name}',
-                      style: const TextStyle(fontSize: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Software available for: ${selectedDepartment!.name}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _softwareSearchController,
+                          decoration: const InputDecoration(
+                            hintText: 'Search Software',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                if (departmentSoftware.isNotEmpty)
-                  Center(
-                    child: Wrap(
-                      spacing: 8.0,
-                      runSpacing: 8.0,
-                      children: departmentSoftware.map((software) {
-                        return SoftwareBox(
-                            name: software.name,
-                            imageURL: software.image,
-                            onPressed: () {
-                              if (selectedDepartment != null) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SoftwareInfoPage(
-                                      id: software.id,
-                                      name: software.name,
-                                      softwareImage: software.image,
-                                      department: selectedDepartment!,
-                                      softwareDescription: software.description,
-                                      requestMethod: software.request_method,
+                if (selectedDepartment != null)
+                  ValueListenableBuilder<List<Software>>(
+                    valueListenable: filteredDepartmentSoftware,
+                    builder: (context, softwareList, _) {
+                      return Center(
+                        child: Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: softwareList.map((software) {
+                            return SoftwareBox(
+                              name: software.name,
+                              imageURL: software.image,
+                              onPressed: () {
+                                if (selectedDepartment != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SoftwareInfoPage(
+                                        id: software.id,
+                                        name: software.name,
+                                        softwareImage: software.image,
+                                        department: selectedDepartment!,
+                                        softwareDescription:
+                                            software.description,
+                                        requestMethod: software.request_method,
+                                        servicenow_link: software.servicenow_link,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }
-                            });
-                      }).toList(),
-                    ),
+                                  );
+                                }
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    },
                   ),
               ],
             ),
