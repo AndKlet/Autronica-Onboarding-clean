@@ -1,7 +1,11 @@
 import 'package:autron/globals/theme/app_colors.dart';
+import 'package:autron/src/app.dart';
+import 'package:autron/src/screens/login_screen.dart';
+import 'package:autron/src/services/software_service.dart';
 import 'package:autron/src/services/request_service.dart';
 import 'package:autron/src/services/user_service.dart';
 import 'package:autron/src/services/home_service.dart';
+import 'package:autron/src/view_models/user_model.dart';
 import 'package:autron/src/widgets/announcement.dart';
 import 'package:autron/src/widgets/statusAlert.dart';
 import 'package:autron/src/widgets/app_bar.dart';
@@ -20,18 +24,28 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FutureBuilder to fetch user data
-    return FutureBuilder(
-      future: _userService.getUser(),
+    return FutureBuilder<User?>(
+      future: _userService.getUserData(),
       builder: (context, snapshot) {
         // Check the connection state
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return const Center(child: Text('Error loading user data'));
+        } else if (!snapshot.hasData) {
+          // If no user data, navigate to LoginPage
+          Future.microtask(() {
+            (context as Element)
+                .findAncestorStateOfType<MyAppState>()!
+                .hideBottomNav(true);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          });
+          return const SizedBox();
         } else {
-          // If the snapshot has data, display the home screen
-          final user = snapshot.data as Map<String, dynamic>;
+          final user = snapshot.data!;
           return Scaffold(
             appBar: const CustomAppBar(title: 'Home'),
             body: Center(
@@ -44,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                     child: Container(
                       margin: const EdgeInsets.only(top: 40, left: 16),
                       child: Text(
-                        'Hi ${user['name']}!',
+                        'Hi ${user.name}!',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 48,
@@ -60,9 +74,9 @@ class HomeScreen extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Container(
                       margin: const EdgeInsets.only(top: 10, left: 16),
-                      child: Text(
-                        user['department'],
-                        style: const TextStyle(
+                      child: const Text(
+                        'Engineering',
+                        style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
                           fontFamily: 'Inter',
@@ -71,19 +85,15 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  // FutureBuilder to fetch announcement data
                   FutureBuilder(
                     future: _homeService.getAnnouncement(),
                     builder: (context, announcementSnapshot) {
-                      // Check the connection state
                       if (announcementSnapshot.connectionState ==
                           ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       } else if (announcementSnapshot.hasError) {
                         return const Text('Error loading announcement');
                       } else {
-                        // If the snapshot has data, display the announcement
                         final announcement =
                             announcementSnapshot.data as String;
                         return Container(
@@ -96,18 +106,15 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   ),
-
-                  // FutureBuilder to fetch software data
                   FutureBuilder(
                     future: _requestService.getAcceptedRequestCount(),
                     builder: (context, acceptedSnapshot) {
-                      // Check the connection state
                       if (acceptedSnapshot.connectionState ==
                           ConnectionState.waiting) {
                         return const CircularProgressIndicator();
                       } else if (acceptedSnapshot.hasError) {
                         return const Text(
-                            'Error loading accepted request count');
+                            'Error loading accepted software count');
                       } else {
                         // If the snapshot has data, display the accepted software count
                         final acceptedCount = acceptedSnapshot.data as int;
@@ -122,12 +129,9 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   ),
-
-                  // FutureBuilder to fetch pending software data
                   FutureBuilder(
                     future: _requestService.getPendingRequestCount(),
                     builder: (context, pendingSnapshot) {
-                      // Check the connection state
                       if (pendingSnapshot.connectionState ==
                           ConnectionState.waiting) {
                         return const CircularProgressIndicator();
