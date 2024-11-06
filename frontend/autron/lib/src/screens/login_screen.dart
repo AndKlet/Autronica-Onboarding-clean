@@ -1,8 +1,7 @@
-import 'package:autron/globals/theme/app_colors.dart';
 import 'package:autron/src/app.dart';
 import 'package:autron/src/services/auth_service.dart';
-import 'package:autron/src/widgets/input_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 
 /// The LoginPage widget displays the login screen of the application.
@@ -16,64 +15,59 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late InAppWebViewController webViewController;
   final AuthService _authService = AuthService();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.autronWhite,
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 100),
-              
-              // Logo
-              Image.asset(
-                'assets/images/autronica-logo.png',
-                scale: 2,
-              ),
-              const SizedBox(height: 25),
-
-              // Username text field
-              InputTextField(
-                  controller: usernameController, hintText: 'Username'),
-
-              const SizedBox(height: 10),
-
-              // Password text field
-              InputTextField(
-                  controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true),
-
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  (context as Element).findAncestorStateOfType<MyAppState>()!
-                              .hideBottomNav(false);
-                  Navigator.pushReplacementNamed(context, '/home');
-                  _authService.login;
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            Image.asset(
+              'assets/images/autronica-logo.png',
+              scale: 2,
+            ),
+            const SizedBox(height: 5),
+            Expanded(
+              child: InAppWebView(
+                initialUrlRequest: URLRequest(
+                    url: WebUri('https://164.92.218.9/accounts/login/')),
+                onWebViewCreated: (controller) {
+                  webViewController = controller;
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.autronGreen,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                    color: AppColors.autronWhite,
-                    fontSize: 18,
-                  ),
-                ),
+                onReceivedServerTrustAuthRequest: (controller, challenge) async {
+                  // Bypass SSL for testing purposes - should be removed in production (Have a valid SSL certificate)
+                  return ServerTrustAuthResponse(
+                      action: ServerTrustAuthResponseAction.PROCEED);
+                },
+                onLoadStop: (controller, url) async {
+                  if (url != null) {
+                    print('Page finished loading: $url');
+
+                    // Use AuthService to handle login and extract access token
+                    final accessToken = await _authService.handleLogin(controller, url);
+
+                    if (accessToken != null) {
+                      // Show the bottom navigation bar and navigate to the home screen
+                      (context as Element)
+                          .findAncestorStateOfType<MyAppState>()!
+                          .hideBottomNav(true);
+
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MyApp()));
+                    } else {
+                      print('Error: Access token not found in JSON response');
+                    }
+                  }
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
