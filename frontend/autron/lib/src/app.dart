@@ -35,6 +35,10 @@ class MyAppState extends State<MyApp> {
   // Handle tab switching and show the bottom nav
   void _onItemTapped(int index) {
     setState(() {
+      // Reset the Software tab by recreating its Navigator key
+      if (index == 1) {
+        _navigatorKeys[1] = GlobalKey<NavigatorState>();
+      }
       _selectedIndex = index;
       _showBottomNav = true; // Always show bottom nav when switching tabs
     });
