@@ -4,6 +4,7 @@ import 'package:autron/src/view_models/department_model.dart';
 import 'package:autron/src/view_models/request_model.dart';
 import 'package:autron/src/view_models/software_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -29,11 +30,28 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _receivingEmailController =
-      TextEditingController();
+      TextEditingController(text: 'sigurdness.thorvaldsen@carrier.com');
   final TextEditingController _messageController = TextEditingController();
+  final _storage = const FlutterSecureStorage();
   String _requestStatus = 'Not Requested';
   bool _isLoading = false;
   String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserEmail();
+  }
+
+  Future<void> _loadUserEmail() async {
+    // Load email from secure storage and set it in the email field
+    final userEmail = await _storage.read(key: 'user_email');
+    if (userEmail != null) {
+      setState(() {
+        _emailController.text = userEmail;
+      });
+    }
+  }
 
   Future<void> _submitRequest() async {
     setState(() {
@@ -48,17 +66,19 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
       final url = Uri.parse('${Urls.baseUrl}/request_access/');
 
       final request = Request(
-          id: 1,
-          status: 'pending',
-          software: Software(
-            id: widget.softwareId,
-            name: widget.softwareName,
-            image: widget.imageURL,
-            department: widget.department,
-            description: 'This is a placeholder for software information.',
-            request_method: 'email',
-            servicenow_link: 'This is a placeholder for the servicenow request ticket link.',
-          ));
+        id: 1,
+        status: 'pending',
+        software: Software(
+          id: widget.softwareId,
+          name: widget.softwareName,
+          image: widget.imageURL,
+          department: widget.department,
+          description: 'This is a placeholder for software information.',
+          request_method: 'email',
+          servicenow_link:
+              'This is a placeholder for the servicenow request ticket link.',
+        ),
+      );
 
       try {
         final response = await http.post(
@@ -70,39 +90,24 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
             'email': email,
             'receiving_email': receivingEmail,
             'message': message,
-            'software_name':
-                widget.softwareName, // Pass the software name to the backend
+            'software_name': widget.softwareName,
             'subject': 'Access Request for ${widget.softwareName}',
           }),
         );
 
         if (response.statusCode == 200) {
-          // Handle success
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Request sent successfully')),
           );
         } else {
-          // Handle error
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Failed to send request: ${response.body}')),
           );
         }
       } catch (e) {
-        // Handle any error that occurs during the request
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
         );
-      }
-
-      try {
-        await RequestService().requestSoftware(request);
-        setState(() {
-          _requestStatus = 'Requested';
-        });
-      } catch (e) {
-        setState(() {
-          _errorMessage = 'Failed to request access: $e';
-        });
       } finally {
         setState(() {
           _isLoading = false;
@@ -154,7 +159,7 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
               TextFormField(
                 controller: _messageController,
                 decoration: const InputDecoration(
-                  labelText: 'Message',
+                  labelText: 'Reasoning for request',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.multiline,
