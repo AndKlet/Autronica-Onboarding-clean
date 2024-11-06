@@ -121,10 +121,7 @@ class HomeScreen extends StatelessWidget {
                         return Container(
                           margin: const EdgeInsets.only(top: 30),
                           child: StatusAlert(
-                              title: "Software granted",
-                              value: "Currently",
-                              count: acceptedCount,
-                              color: AppColors.autronAccepted),
+                              title: "Software granted"),
                         );
                       }
                     },
@@ -144,10 +141,7 @@ class HomeScreen extends StatelessWidget {
                         return Container(
                           margin: const EdgeInsets.only(top: 20),
                           child: StatusAlert(
-                              title: "Pending Requests",
-                              value: "Currently",
-                              count: pendingCount,
-                              color: AppColors.autronPending),
+                              title: "Pending Requests",)
                         );
                       }
                     },
