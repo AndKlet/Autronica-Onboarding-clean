@@ -57,6 +57,7 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
             department: widget.department,
             description: 'This is a placeholder for software information.',
             request_method: 'email',
+            servicenow_link: 'This is a placeholder for the servicenow request ticket link.',
           ));
 
       try {

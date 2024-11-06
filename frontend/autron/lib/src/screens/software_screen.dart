@@ -102,6 +102,7 @@ class _SoftwarePageState extends State<SoftwarePage> {
                                       department: selectedDepartment!,
                                       softwareDescription: software.description,
                                       requestMethod: software.request_method,
+                                      servicenow_link: software.servicenow_link,
                                     ),
                                   ),
                                 );
