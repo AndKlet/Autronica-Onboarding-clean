@@ -74,6 +74,7 @@ def software_by_department(request, department_id):
     operation_description="Successfully logged in",
 )
 
+
 @login_required
 @api_view(["GET"])
 def success(request):
@@ -81,6 +82,7 @@ def success(request):
     access_token = request.session.get("tokens", {}).get("access_token")
     if access_token:
         # Return a JSON response with the access token directly
+        # TODO try to not display the access token in the response
         return JsonResponse({"access_token": access_token}, status=200)
     else:
         return JsonResponse({"error": "Access token not found"}, status=401)
