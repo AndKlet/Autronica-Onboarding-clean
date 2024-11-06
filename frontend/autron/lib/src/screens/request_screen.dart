@@ -22,7 +22,7 @@ class _RequestScreenState extends State<RequestScreen> {
   final RequestService _requestService = RequestService();
 
   // Initially set the selected status to 'Accepted'
-  String selectedStatus = 'Accepted';
+  String selectedStatus = 'Pending';
 
   // Function to change the selected status
   void _changeStatus(String newStatus) {
@@ -44,12 +44,27 @@ class _RequestScreenState extends State<RequestScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
+                  // Change the status to 'Pending' when the button is pressed
+                  onPressed: () => _changeStatus('Pending'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: selectedStatus == 'Pending'
+                        ? const Color.fromARGB(255, 151, 155, 156)
+                        : const Color.fromARGB(255, 205, 203, 203), // Change color if not selected
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 20),
+                  ),
+                  child: const Text(' Sent '),
+                ),
+                ElevatedButton(
                   // Change the status to 'Accepted' when the button is pressed
                   onPressed: () => _changeStatus('Accepted'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedStatus == 'Accepted'
                         ? AppColors.autronAccepted
-                        : Colors.grey,
+                        : const Color.fromARGB(255, 205, 203, 203),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -58,28 +73,14 @@ class _RequestScreenState extends State<RequestScreen> {
                   ),
                   child: const Text('Accepted'),
                 ),
-                ElevatedButton(
-                  // Change the status to 'Pending' when the button is pressed
-                  onPressed: () => _changeStatus('Pending'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: selectedStatus == 'Pending'
-                        ? AppColors.autronPending
-                        : Colors.grey, // Change color if not selected
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 20),
-                  ),
-                  child: const Text(' Pending '),
-                ),
+
                 ElevatedButton(
                   // Change the status to 'Declined' when the button is pressed
                   onPressed: () => _changeStatus('Declined'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedStatus == 'Declined'
                         ? AppColors.autronDeclined
-                        : Colors.grey, // Change color if not selected
+                        : const Color.fromARGB(255, 205, 203, 203), // Change color if not selected
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -88,6 +89,7 @@ class _RequestScreenState extends State<RequestScreen> {
                   ),
                   child: const Text('Declined'),
                 ),
+
               ],
             ),
           ),
@@ -109,41 +111,18 @@ class _RequestScreenState extends State<RequestScreen> {
                       snapshot.data as List<Request>;
 
                   return ListView.builder(
-                    itemCount: filteredRequests.length,
-                    itemBuilder: (context, index) {
-                      final request = filteredRequests[index];
-                      Color statusColor;
-                      int statusCode;
+  itemCount: filteredRequests.length,
+  itemBuilder: (context, index) {
+    final request = filteredRequests[index];
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: StatusAlert(
+        title: request.software.name,
+      ),
+    );
+  },
+);
 
-                      switch (request.status) {
-                        case 'Accepted':
-                          statusColor = AppColors.autronAccepted;
-                          statusCode = 1;
-                          break;
-                        case 'Pending':
-                          statusColor = AppColors.autronPending;
-                          statusCode = 2;
-                          break;
-                        case 'Declined':
-                          statusColor = AppColors.autronDeclined;
-                          statusCode = 0;
-                          break;
-                        default:
-                          statusColor = Colors.grey;
-                          statusCode = 0;
-                      }
-
-                      return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: StatusAlert(
-                          title: request.software.name,
-                          value: request.status,
-                          count: statusCode,
-                          color: statusColor,
-                        ),
-                      );
-                    },
-                  );
                 }
               },
             ),
