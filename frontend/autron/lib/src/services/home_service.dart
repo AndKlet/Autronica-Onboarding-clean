@@ -7,7 +7,4 @@ class HomeService {
   Future<String> getAnnouncement() async {
     return 'Your one-stop shop for all software needs.\nGet started by requesting access to software.';
   }
-
-
-  
 }

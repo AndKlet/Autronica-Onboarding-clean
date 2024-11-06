@@ -58,10 +58,10 @@ class _UserScreenState extends State<UserScreen> {
                         fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    'Department: Engineering',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                  // const Text(
+                  //   'Department: Engineering',
+                  //   style: TextStyle(fontSize: 20),
+                  // ),
                   Expanded(
                     child: Align(
                       alignment: Alignment.bottomCenter,
