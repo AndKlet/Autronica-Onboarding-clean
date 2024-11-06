@@ -1,3 +1,4 @@
+import 'package:autron/src/widgets/example_form.dart';
 import 'package:autron/src/widgets/request_access_webview.dart';
 import 'package:autron/src/services/request_service.dart';
 import 'package:autron/src/view_models/department_model.dart';
@@ -99,7 +100,22 @@ class SoftwareInfoPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              if (requestMethod.toLowerCase().replaceAll(' ', '') ==
+                  'servicenow')
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExampleFormWidget(
+                          softwareName: name,
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('  Example form  '),
+                ),
+              const SizedBox(height: 8),
               FutureBuilder(
                 future: _requestService.getRequestBySoftwareId(id),
                 builder: (context, snapshot) {
@@ -139,7 +155,7 @@ class SoftwareInfoPage extends StatelessWidget {
                     );
                   }
                 },
-              )
+              ),
             ],
           ),
         ));
