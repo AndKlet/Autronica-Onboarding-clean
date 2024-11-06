@@ -35,13 +35,6 @@ class _RequestAccessWebviewState extends State<RequestAccessWebview> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              widget.softwareName,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ),
           Expanded(
             child: WebViewWidget(
               controller: controller,

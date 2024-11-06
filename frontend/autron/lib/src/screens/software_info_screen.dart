@@ -17,6 +17,7 @@ class SoftwareInfoPage extends StatelessWidget {
   final String softwareDescription;
   final String? softwareImage;
   final String requestMethod;
+  final String servicenow_link;
 
   const SoftwareInfoPage({
     super.key,
@@ -26,6 +27,7 @@ class SoftwareInfoPage extends StatelessWidget {
     required this.softwareDescription,
     this.softwareImage,
     required this.requestMethod,
+    required this.servicenow_link,
   });
 
   @override
@@ -129,7 +131,7 @@ class SoftwareInfoPage extends StatelessWidget {
                             builder: (context) => RequestAccessWebview(
                                   softwareName: name,
                                   url:
-                                      "https://infosyscaruat.service-now.com/sp_v2?id=sc_cat_item&table=sc_cat_item&sys_id=8ebde842dbe5334040336385ca961901&searchTerm=hubble",
+                                      servicenow_link,
                                 )));
                   } else {
                     Navigator.push(
