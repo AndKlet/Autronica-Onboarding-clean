@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                         return Container(
                           margin: const EdgeInsets.only(top: 20),
                           child: Announcement(
-                            title: 'Announcement',
+                            title: 'Welcome to AutrOn!',
                             description: announcement,
                           ),
                         );
