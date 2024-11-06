@@ -2,6 +2,7 @@ import 'package:autron/src/app.dart';
 import 'package:autron/src/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:autron/globals/urls.dart';
 
 
 /// The LoginPage widget displays the login screen of the application.
@@ -28,13 +29,13 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 50),
             Image.asset(
               'assets/images/autronica-logo.png',
-              scale: 2,
+              scale: 3,
             ),
             const SizedBox(height: 5),
             Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                    url: WebUri('https://164.92.218.9/accounts/login/')),
+                    url: WebUri('${Urls.baseUrl}/accounts/login/')),
                 onWebViewCreated: (controller) {
                   webViewController = controller;
                 },
