@@ -70,21 +70,21 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   // Display the user's department
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10, left: 16),
-                      child: const Text(
-                        'Engineering',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Container(
+                  //     margin: const EdgeInsets.only(top: 10, left: 16),
+                  //     child: const Text(
+                  //       'Engineering',
+                  //       style: TextStyle(
+                  //         color: Colors.black,
+                  //         fontSize: 20,
+                  //         fontFamily: 'Inter',
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   FutureBuilder(
                     future: _homeService.getAnnouncement(),
                     builder: (context, announcementSnapshot) {
@@ -106,46 +106,46 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   ),
-                  FutureBuilder(
-                    future: _requestService.getAcceptedRequestCount(),
-                    builder: (context, acceptedSnapshot) {
-                      if (acceptedSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else if (acceptedSnapshot.hasError) {
-                        return const Text(
-                            'Error loading accepted software count');
-                      } else {
-                        // If the snapshot has data, display the accepted software count
-                        final acceptedCount = acceptedSnapshot.data as int;
-                        return Container(
-                          margin: const EdgeInsets.only(top: 30),
-                          child: StatusAlert(
-                              title: "Software granted"),
-                        );
-                      }
-                    },
-                  ),
-                  FutureBuilder(
-                    future: _requestService.getPendingRequestCount(),
-                    builder: (context, pendingSnapshot) {
-                      if (pendingSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else if (pendingSnapshot.hasError) {
-                        return const Text(
-                            'Error loading pending software count');
-                      } else {
-                        // If the snapshot has data, display the pending software count
-                        final pendingCount = pendingSnapshot.data as int;
-                        return Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          child: StatusAlert(
-                              title: "Pending Requests",)
-                        );
-                      }
-                    },
-                  ),
+                  // FutureBuilder(
+                  //   future: _requestService.getAcceptedRequestCount(),
+                  //   builder: (context, acceptedSnapshot) {
+                  //     if (acceptedSnapshot.connectionState ==
+                  //         ConnectionState.waiting) {
+                  //       return const CircularProgressIndicator();
+                  //     } else if (acceptedSnapshot.hasError) {
+                  //       return const Text(
+                  //           'Error loading accepted software count');
+                  //     } else {
+                  //       // If the snapshot has data, display the accepted software count
+                  //       final acceptedCount = acceptedSnapshot.data as int;
+                  //       return Container(
+                  //         margin: const EdgeInsets.only(top: 30),
+                  //         child: StatusAlert(
+                  //             title: "Software granted"),
+                  //       );
+                  //     }
+                  //   },
+                  // ),
+                  // FutureBuilder(
+                  //   future: _requestService.getPendingRequestCount(),
+                  //   builder: (context, pendingSnapshot) {
+                  //     if (pendingSnapshot.connectionState ==
+                  //         ConnectionState.waiting) {
+                  //       return const CircularProgressIndicator();
+                  //     } else if (pendingSnapshot.hasError) {
+                  //       return const Text(
+                  //           'Error loading pending software count');
+                  //     } else {
+                  //       // If the snapshot has data, display the pending software count
+                  //       final pendingCount = pendingSnapshot.data as int;
+                  //       return Container(
+                  //         margin: const EdgeInsets.only(top: 20),
+                  //         child: StatusAlert(
+                  //             title: "Pending Requests",)
+                  //       );
+                  //     }
+                  //   },
+                  // ),
                 ],
               ),
             ),
