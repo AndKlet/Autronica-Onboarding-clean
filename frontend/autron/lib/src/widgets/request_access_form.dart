@@ -107,6 +107,10 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Request sent successfully')),
           );
+
+          // Go back to the software screen
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pop(true);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Failed to send request: ${response.body}')),
