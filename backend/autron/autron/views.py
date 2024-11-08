@@ -132,11 +132,14 @@ def request_access_view(request):
 )
 @api_view(["GET"])
 def request_list(request):
+    uid = request.headers.get("uid")
+    if not uid:
+        return JsonResponse({"error": "UID not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
     if request.method == "GET":
-        request = Request.objects.all()
+        request = Request.objects.filter(uid=uid)
         serializer = RequestSerializer(request, many=True)
         return JsonResponse(serializer.data, safe=False)
-
 
 @swagger_auto_schema(
     method="POST",
@@ -144,9 +147,9 @@ def request_list(request):
     operation_description="Makes an request for a software",
 )
 @api_view(["POST"])
-def request_software(request, software_id):
+def request_software(request, software_id, uid):
     if request.method == "POST":
-        requests = Request.objects.create(software_id=software_id, status="Pending")
+        requests = Request.objects.create(software_id=software_id, status="Pending", uid=uid)
         serializer = RequestSerializer(requests)
         return JsonResponse(serializer.data, safe=False)
     
