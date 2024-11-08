@@ -31,6 +31,7 @@ class RequestSerializer(serializers.Serializer):
     software = SoftwareSerializer()
     # request_date = serializers.DateTimeField()
     status = serializers.CharField(max_length=100)
+    uid = serializers.CharField(max_length=100)
 
     class Meta:
         model = Request
