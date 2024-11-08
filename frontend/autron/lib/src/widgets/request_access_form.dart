@@ -36,6 +36,7 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
   String _requestStatus = 'Not Requested';
   bool _isLoading = false;
   String? _errorMessage;
+  final RequestService _requestService = RequestService();
 
   @override
   void initState() {
@@ -96,6 +97,13 @@ class _RequestAccessFormState extends State<RequestAccessForm> {
         );
 
         if (response.statusCode == 200) {
+          try {
+            await _requestService.requestSoftware(request);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to request software: $e')),
+            );
+          }
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Request sent successfully')),
           );
