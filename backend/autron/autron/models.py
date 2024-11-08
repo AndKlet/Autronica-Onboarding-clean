@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Q, UniqueConstraint
 
 
 # Generic request resolver model for fields that are common to all request resolvers.
@@ -74,6 +75,16 @@ class Request(models.Model):
     # resolver = None
     # request_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=100)
+    uid = models.CharField(max_length=100, default="No UID provided")
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=['software', 'uid'],
+                condition=~Q(status='Declined'),
+                name='unique_software_uid_except_declined'
+            ),
+        ]
 
     def __str__(self):
         return self.software.name
