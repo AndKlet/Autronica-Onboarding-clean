@@ -64,7 +64,7 @@ urlpatterns = [
     ),
     path("success/", views.success, name="success"),
     path("request_access/", request_access_view, name="request_access"),
-    path("request_software/<int:software_id>/<int:uid>/", views.request_software, name="request_software"),
+    path("request_software/<int:software_id>/<str:uid>/", views.request_software, name="request_software"),
     path("request_list/", views.request_list, name="request_list"),
     path("get_user_data/", views.get_user_data, name="get_user_data"),
     # Our app's urls here
