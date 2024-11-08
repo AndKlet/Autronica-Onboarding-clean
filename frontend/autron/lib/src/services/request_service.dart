@@ -1,20 +1,37 @@
 import 'dart:convert';
 import 'package:autron/globals/urls.dart';
+import 'package:autron/src/services/user_service.dart';
 import 'package:autron/src/view_models/request_model.dart';
+import 'package:autron/src/view_models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class RequestService {
+  final UserService _userService = UserService();
+  
   /// Gets a list of requests.
   Future<List<Request>> getAllRequests() async {
-    final response = await http.get(Uri.parse('${Urls.baseUrl}/request_list/'));
+    // Fetch user data from secure storage
+    final User? user = await _userService.getUserData();
+
+    if (user == null) {
+      throw Exception('User data not found');
+    }
+
+   final response = await http.get(
+      Uri.parse('${Urls.baseUrl}/request_list/'),
+      headers: {
+        'uid': user.id,
+      },
+    );
     if (response.statusCode == 200) {
       // Split the response body into a list of maps department objects
+      print('Requests loaded');
       final List<Request> requests = (jsonDecode(response.body) as List)
           .map((request) => Request.fromJson(request))
           .toList();
       return requests;
     } else {
-      throw Exception('Failed to load requests');
+      throw Exception('Failed to load requests with status ${response.statusCode}');
     }
   }
 
@@ -49,12 +66,17 @@ class RequestService {
   }
 
   Future<void> requestSoftware(Request request) async {
+    final User? user = await _userService.getUserData();
+    if (user == null) {
+      throw Exception('User data not found');
+    }
     final response = await http.post(
-      Uri.parse('${Urls.baseUrl}/request_software/${request.software.id}/'),
+      Uri.parse('${Urls.baseUrl}/request_software/${request.software.id}/${user.id}/'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(request.toJson()),
     );
     if (response.statusCode == 200) {
+      print('Software requested');
       return;
     } else {
       throw Exception('Failed to request software');
