@@ -2,10 +2,9 @@
 
 <div align="center">
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/CogitoNTNU/TetrisAI/ci.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/CogitoNTNU/TetrisAI)
-![GitHub language count](https://img.shields.io/github/languages/count/CogitoNTNU/TetrisAI)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Eduard-Prokhorikhin/Autronica-Onboarding/actions/workflows/docker-image.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/Eduard-Prokhorikhin/Autronica-Onboarding)
+![GitHub language count](https://img.shields.io/github/languages/count/Eduard-Prokhorikhin/Autronica-Onboarding)
 [![Project Version](https://img.shields.io/badge/version-1.0.0-blue)](https://img.shields.io/badge/version-1.0.0-blue)
 
 </div>
