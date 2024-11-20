@@ -19,6 +19,8 @@ If you simply want to try out the application, recommended course of action is t
 
 Our backend will be hosted on a server until end of 2024, at which point you will have to recompile application either with reference to you own instance of our service locally or on a cloud provider.
 
+Slight caveat is that to get past the login screen, you will need a valid Okta user registered in Autronica's Okta instance. If you are an Autronica employee, you can use your existing credentials. **If you are the sensor for our group and wish to test the application kindly await the demo on the 27th of november, as we cannot share our user credentials with you, nor does our user have the required accesses  for parts of the app.**
+
 ### Development
 
 If you want to make changes or develop the application furter, you can follow the steps below to set up the development environment.
