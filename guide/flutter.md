@@ -4,14 +4,14 @@
 
 ### 1.1 Folder structure
 
-The application separates folders by type/domain:
+Source code for our flutter code is located in ```frontend/autron/lib/```. The application separates folders by type/domain:
 
 - **screens** - All pages should be put here. This is the "heart" of the UI. Keep seperate from business logic.
 - **services** - Should handle all business logic such as API calls, data storage and complex calculations
 - **view_models** - Data models and blueprints, defined as dart classes
 - **widgets** - Small, reusable UI components
 
-When creating a new screen, its route can be defined in the app.dart class in root.
+When creating a new screen, its route can be defined in the app.dart class at root of ```lib/src``` directory.
 
 ### 1.2 Code structure
 

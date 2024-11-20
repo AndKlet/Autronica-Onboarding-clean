@@ -5,7 +5,7 @@
 For local development use virtual environment to install dependencies. To install venv run:
 
 ```bash
-sudo pip install virtualenv
+pip install virtualenv
 ```
 
 To create a virtual environment run:
@@ -68,24 +68,25 @@ autron
     ├── autron
     │   ├── asgi.py
     │   ├── __init__.py
-    │   ├── models.py
+    │   ├── models.py - Contains the models for the application
     │   ├── serializers.py - Contains the serializers for the models
-    │   ├── settings.py - Contains the settings for the project
+    │   ├── settings_dev.py - Contains the settings for local development
+    │   ├── settings_prod.py - Contains the settings for production
     │   ├── urls.py - Contains the urls for the application which then point to the views
     │   ├── views.py - Contains the api views for the application
     │   └── wsgi.py
-    ├── db.sqlite3
+    ├── db.sqlite3 - The database file
     ├── docker-compose.yml - file to run the project with docker
     ├── Dockerfile - file to build the image
     ├── manage.py
-    └── requirements.txt
+    └── requirements.txt - Contains the dependencies for the project
 ```
 
 ## Build and run the project
 
 We will be building and deploying Django with Docker. This will ensure it runs the same on all machines and will make it easier to deploy. For instructions on how to install Docker, see [here](https://docs.docker.com/get-docker/).
 
-Rebuild the image and run the container (run from root of backend directory):
+To run the backend locally you need to change the DJANGO_ENV variable to dev (set to prod by default) in docker-compose.yml. Rebuild the image and run the container (run from root of ```backend/autron``` directory):
 
 ```bash
 docker compose up -d --build

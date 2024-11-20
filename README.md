@@ -15,7 +15,7 @@ This project is part of TDT4290 Customer Driven Project, a course at the Norwegi
 
 ## How to run and install
 
-If you simply want to try out the application, recommended course of action is to download the latest APK file from the [releases page](TODO)) and install it on your Android device or emulator. To install an APK file on the emulator, simply drag the APK onto the emulator screen. An APK Installer dialog will appear, and once the installation is finished, you'll find the app in your list of installed apps. On a physical Android device, you can open the APK file and it will install the file for you.  
+If you simply want to try out the application, recommended course of action is to download the latest APK file from the [releases page](https://github.com/Eduard-Prokhorikhin/Autronica-Onboarding/releases) and install it on your Android device or emulator. To install an APK file on the emulator, simply drag the APK onto the emulator screen. An APK Installer dialog will appear, and once the installation is finished, you'll find the app in your list of installed apps. On a physical Android device, you can open the APK file and it will install the file for you.  
 
 Our backend will be hosted on a server until end of 2024, at which point you will have to recompile application either with reference to you own instance of our service locally or on a cloud provider.
 
